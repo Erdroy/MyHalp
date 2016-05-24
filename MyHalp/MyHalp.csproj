@@ -43,6 +43,8 @@
   <ItemGroup>
     <Compile Include="MyColor.cs" />
     <Compile Include="MyComponent.cs" />
+    <Compile Include="MyJobQueue.cs" />
+    <Compile Include="MyJob.cs" />
     <Compile Include="MySettings.cs" />
     <Compile Include="MyLogger.cs" />
     <Compile Include="MyUnityExtensions - Math.cs" />
