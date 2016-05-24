@@ -7,7 +7,7 @@ Features that are under development:
  - MyJob - Threaded jobs.
  - MyJobQueue - Queued jobs with progress.
  
- Planned features:
+Planned features:
  - MyVector2, MyVector3... MyMatrix4x4 - BEPU physics math.
  - MyDispatcher - Call any method from any thread(1 frame of delay).
  - MyEvent - custom delegate handlers.
