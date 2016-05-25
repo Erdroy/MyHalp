@@ -53,16 +53,13 @@ namespace MyHalp
             MyJob.Run(delegate
             {
                 var queuedItems = _queuedCallbacks.Count;
-
-                var sum = 0;
-
+                
                 // TODO: Maybe multi-threading? - Just use MyJob.Run instead of .Invoke...?
                 for (var i = 0; i < queuedItems; i ++)
                 {
                     var item = _queuedCallbacks[i];
                     item.Invoke(null);
-                    sum ++;
-                    _progress = sum / (float)queuedItems;
+                    _progress = Math.Max(i, 1) / (float)queuedItems;
                 }
 
                 _queuedCallbacks.Clear();
