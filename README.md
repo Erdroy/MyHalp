@@ -7,6 +7,10 @@ Features:
  - MyJob - Threaded jobs.
  - MyJobQueue - Queued jobs with progress.
  - MyDispatcher - Call any method from any thread(1 frame of delay).
+ - MyColor - Simple color structure, can be serialized cuz it's a struct.
+ - MyComponent - Custom Unity behaviour class.
+ - MyLogger - Log file creating helper, MyLogger.Add("Wouw, LOGS!");
+ - Some extensions for math and other classes.
 
 Features that are under development:
  - MyVector2, MyVector3... MyMatrix4x4 - BEPU physics math.
