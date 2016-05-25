@@ -59,7 +59,7 @@ namespace MyHalp
                 {
                     var item = _queuedCallbacks[i];
                     item.Invoke(null);
-                    _progress = Math.Max(i, 1) / (float)queuedItems;
+                    _progress = i / (float)queuedItems;
                 }
 
                 _queuedCallbacks.Clear();
