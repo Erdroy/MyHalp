@@ -15,5 +15,15 @@ namespace MyHalp
             // TODO: Create own thread instead of using this.
             ThreadPool.QueueUserWorkItem(callback);
         }
+
+        /// <summary>
+        /// Waits for state = false. 
+        /// This will lock the current thread until state will be false.
+        /// </summary>
+        /// <param name="state">The state</param>
+        public static void Wait(ref bool state)
+        {
+            while (state) { }
+        }
     }
 }
