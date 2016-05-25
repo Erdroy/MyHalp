@@ -18,10 +18,14 @@ namespace MyHalp
                 if (_dispatchQueue.Count <= 0)
                     return;
 
+                // Dispatch all queued callbacks.
                 foreach (var dispatchItem in _dispatchQueue)
                 {
                     dispatchItem.Invoke(null);
                 }
+
+                // Clear dispatched callbacks.
+                _dispatchQueue.Clear();
             }
         }
         
