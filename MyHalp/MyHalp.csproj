@@ -43,6 +43,7 @@
   <ItemGroup>
     <Compile Include="MyColor.cs" />
     <Compile Include="MyComponent.cs" />
+    <Compile Include="MyDispatcher.cs" />
     <Compile Include="MyJobQueue.cs" />
     <Compile Include="MyJob.cs" />
     <Compile Include="MySettings.cs" />
