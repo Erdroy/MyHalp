@@ -1,5 +1,6 @@
 ﻿// MyHalp © 2016 Damian 'Erdroy' Korczowski, Mateusz 'Maturas' Zawistowski and contibutors.
 
+using System;
 using System.Threading;
 
 namespace MyHalp
@@ -24,6 +25,21 @@ namespace MyHalp
         public static void Wait(ref bool state)
         {
             while (state) { }
+        }
+        
+        // TODO: WaitMiliseconds
+
+        public static void WaitSeconds(float seconds)
+        {
+            var start = DateTime.Now;
+            while (true)
+            {
+                var diff = DateTime.Now - start;
+                if (diff.Seconds >= seconds)
+                    return;
+
+                Thread.Sleep(250);
+            }
         }
     }
 }
