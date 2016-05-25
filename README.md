@@ -12,7 +12,8 @@ Planned features:
  - MyDispatcher - Call any method from any thread(1 frame of delay).
  - MyEvent - custom delegate handlers.
 
-Checkout this repo with some sample code: --TODO--
+Checkout this repo with some example source code: 
+https://github.com/Erdroy/MyHalp-Examples
 
 Contact, you want to talk with us? Join our discord server:
 https://discordapp.com/invite/0kfQL9KtL4XfOK7G
