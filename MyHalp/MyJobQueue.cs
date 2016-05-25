@@ -14,15 +14,15 @@ namespace MyHalp
         /// </summary>
         /// <param name="onDone">Called when the queue execution is done.</param>
         /// <returns>Your new MyJobQueue.</returns>
-        public static MyJobQueue Create(Action onDone)
+        public static MyJobQueue Create(Action onDone = null)
         {
             return new MyJobQueue
             {
-                //_onDone = onDone
+                _onDone = onDone
             };
         }
         
-        //private Action _onDone;
+        private Action _onDone;
         private bool _executing;
         private volatile float _progress;
         private readonly List<WaitCallback> _queuedCallbacks = new List<WaitCallback>();
@@ -64,7 +64,11 @@ namespace MyHalp
 
                 _queuedCallbacks.Clear();
 
-                // TODO: Call on done when MyDispatcher will be done.
+                // Dispatch OnDone callback if there is one.
+                if (MyDispatcher.IsInitialized && _onDone != null)
+                {
+                    MyDispatcher.Dispatch(x => _onDone());
+                }
             });
         }
 
