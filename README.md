@@ -13,7 +13,7 @@ Features:
  - Some extensions for math and other classes.
 
 Features that are under development:
- - MyVector2, MyVector3... MyMatrix4x4 - BEPU physics math.
+ - Math - MyVector2/3/4, MyQuaternion, MyMatrix/3x3/4x4 and some more.
  
 Planned features:
  - MyEvent - custom delegate handlers.
