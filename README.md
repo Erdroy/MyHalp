@@ -18,6 +18,8 @@ Features that are under development:
 Planned features:
  - MyEvent - custom delegate handlers.
  - Mor, Mor, MOR MOR AND MOOOOR! :D
+ 
+For building, check the BUILDING.md file.
 
 Checkout this repo with some example source code: 
 https://github.com/Erdroy/MyHalp-Examples
