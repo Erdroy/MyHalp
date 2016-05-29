@@ -26,7 +26,7 @@
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
     <DebugType>pdbonly</DebugType>
     <Optimize>true</Optimize>
-    <OutputPath>..\_Build\</OutputPath>
+    <OutputPath>..\..\MyHalp - Examples\Assets\Plugins\</OutputPath>
     <DefineConstants>TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
@@ -46,6 +46,12 @@
     <Compile Include="MyDispatcher.cs" />
     <Compile Include="MyJobQueue.cs" />
     <Compile Include="MyJob.cs" />
+    <Compile Include="MyMath\MyMatrix.cs" />
+    <Compile Include="MyMath\MyScalar.cs" />
+    <Compile Include="MyMath\MyVector2.cs" />
+    <Compile Include="MyMath\MyVector3.cs" />
+    <Compile Include="MyMath\MyQuaternion.cs" />
+    <Compile Include="MyMath\MyVector4.cs" />
     <Compile Include="MySettings.cs" />
     <Compile Include="MyLogger.cs" />
     <Compile Include="MyUnityExtensions - Math.cs" />
