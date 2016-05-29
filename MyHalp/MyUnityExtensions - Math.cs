@@ -90,7 +90,7 @@ namespace MyHalp
             trasform.localScale = scale;
         }
 
-        // Vector/Quaternion extensions
+        // Vector/MyQuaternion extensions
         public static Vector2 Mul(this Vector2 vecA, Vector2 vecB)
         {
             return new Vector2(vecA.x * vecB.x, vecA.y * vecB.y);
