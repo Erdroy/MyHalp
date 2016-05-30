@@ -6,7 +6,7 @@ Initialy it was created to be used with our game, MurderShadow, but we decided t
 Features:
  - MyJob - Threaded jobs.
  - MyJobQueue - Queued jobs with progress.
- - MyDispatcher - Call any method from any thread(1 frame of delay).
+ - MyDispatcher - Call any method/deleate from any thread in the main thread - Wow! What a great thing.
  - MyColor - Simple color structure, can be serialized cuz it's a struct.
  - MyComponent - Custom Unity behaviour class.
  - MyLogger - Log file creating helper, MyLogger.Add("Wouw, LOGS!");
