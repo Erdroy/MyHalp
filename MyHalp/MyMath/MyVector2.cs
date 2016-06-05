@@ -73,7 +73,7 @@ namespace MyHalp.MyMath
         }
 
         /// <summary>
-        /// Computes the dot product of the two vectors.
+        /// Computes the dot product of the vectors.
         /// </summary>
         /// <param name="a">First vector of the dot product.</param>
         /// <param name="b">Second vector of the dot product.</param>
@@ -84,7 +84,7 @@ namespace MyHalp.MyMath
         }
         
         /// <summary>
-        /// Computes the distance between two two vectors.
+        /// Computes the distance between two vectors.
         /// </summary>
         /// <param name="a">First vector.</param>
         /// <param name="b">Second vector.</param>

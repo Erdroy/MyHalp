@@ -98,7 +98,7 @@ namespace MyHalp.MyMath
         }
 
         /// <summary>
-        /// Computes the distance between two two vectors.
+        /// Computes the distance between two vectors.
         /// </summary>
         /// <param name="a">First vector.</param>
         /// <param name="b">Second vector.</param>
@@ -109,7 +109,7 @@ namespace MyHalp.MyMath
         }
 
         /// <summary>
-        /// Computes the squared distance between two two vectors.
+        /// Computes the squared distance between two vectors.
         /// </summary>
         /// <param name="a">First vector.</param>
         /// <param name="b">Second vector.</param>
