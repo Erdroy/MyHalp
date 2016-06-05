@@ -17,6 +17,11 @@ namespace MyHalp
         public static string LogFile = "log.txt";
 
         /// <summary>
+        /// The MyLogger backup folder.
+        /// </summary>
+        public static string BackupFolder = "logs";
+
+        /// <summary>
         /// The point separator,
         /// Used like: MyNamespace::MyClass::MyMethod
         /// </summary>

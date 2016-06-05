@@ -51,10 +51,10 @@ namespace MyHalp
                 if (!File.Exists(MySettings.LogFile))
                     return;
 
-                if (!Directory.Exists("logs"))
-                    Directory.CreateDirectory("logs");
+                if (!Directory.Exists(MySettings.BackupFolder))
+                    Directory.CreateDirectory(MySettings.BackupFolder);
 
-                File.Move(MySettings.LogFile, "logs/" + MySettings.LogFile.Split('.')[0] + DateTime.Now.ToString("HH-mm-ss") + ".txt");
+                File.Move(MySettings.LogFile, MySettings.BackupFolder +"/" + MySettings.LogFile.Split('.')[0] + DateTime.Now.ToString("HH-mm-ss") + ".txt");
             }
             else
             {
