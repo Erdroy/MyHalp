@@ -42,6 +42,15 @@ namespace MyHalp.MyMath
         }
 
         /// <summary>
+        /// Returns the squared length of this vector.
+        /// </summary>
+        /// <returns></returns>
+        public MyScalar LengthSquared()
+        {
+            return X * X + Y * Y + Z * Z;
+        }
+
+        /// <summary>
         /// Normalize the vector.
         /// </summary>
         public void Normalize()
@@ -61,7 +70,68 @@ namespace MyHalp.MyMath
             return new MyVector3(X, Y, Z) * Length();
         }
 
-#region OPERATORS
+        /// <summary>
+        /// Creates a string representation of the MyVector3.
+        /// </summary>
+        /// <returns>A string representation of the MyVector3.</returns>
+        public override string ToString()
+        {
+            return "{ X:" + X + " Y: " + Y + " Z: " + Z + " }";
+        }
+
+        /// <summary>
+        /// Computes the dot product of two vectors.
+        /// </summary>
+        /// <param name="a">First vector in the product.</param>
+        /// <param name="b">Second vector in the product.</param>
+        /// <returns>Resulting dot product.</returns>
+        public static float Dot(MyVector3 a, MyVector3 b)
+        {
+            return a.X * b.X + a.Y * b.Y + a.Z * b.Z;
+        }
+
+        /// <summary>
+        /// Computes the distance between two two vectors.
+        /// </summary>
+        /// <param name="a">First vector.</param>
+        /// <param name="b">Second vector.</param>
+        public static float Distance(MyVector3 a, MyVector3 b)
+        {
+            var vec = b - a;
+            return vec.Length();
+        }
+
+        /// <summary>
+        /// Computes the squared distance between two two vectors.
+        /// </summary>
+        /// <param name="a">First vector.</param>
+        /// <param name="b">Second vector.</param>
+        public static float DistanceSquared(MyVector3 a, MyVector3 b)
+        {
+            var vec = b - a;
+            return vec.LengthSquared();
+        }
+
+        /// <summary>
+        /// Computes an interpolated state between two vectors.
+        /// </summary>
+        /// <param name="start">Starting location of the interpolation.</param>
+        /// <param name="end">Ending location of the interpolation.</param>
+        /// <param name="interpolationAmount">Amount of the end location to use.</param>
+        /// <returns>Interpolated intermediate state.</returns>
+        public static MyVector3 Lerp(MyVector3 start, MyVector3 end, MyScalar interpolationAmount)
+        {
+            MyScalar startAmount = 1 - interpolationAmount;
+
+            return new MyVector3
+            {
+                X = start.X*startAmount + end.X*interpolationAmount,
+                Y = start.Y*startAmount + end.Y*interpolationAmount,
+                Z = start.Z*startAmount + end.Z*interpolationAmount
+            };
+        }
+
+        #region OPERATORS
 
         // ------ VEC X VEC ------ 
         public static MyVector3 operator +(MyVector3 vec1, MyVector3 vec2)
