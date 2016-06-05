@@ -1,5 +1,7 @@
 ﻿// MyHalp © 2016 Damian 'Erdroy' Korczowski, Mateusz 'Maturas' Zawistowski and contibutors.
 
+using System.Threading;
+
 namespace MyHalp
 {
     public static class MySettings
@@ -36,5 +38,20 @@ namespace MyHalp
         /// Can MyLogger produce log file?
         /// </summary>
         public static bool ProduceLogFile = true;
+
+        /// <summary>
+        /// Gets or sets the maximum number of threads used by MyJob.
+        /// </summary>
+        public static int MaxThreads
+        {
+            get
+            {
+                int count0;
+                int count1;
+                ThreadPool.GetMaxThreads(out count0, out count1);
+                return count0;
+            }
+            set { ThreadPool.SetMaxThreads(value, value); }
+        }
     }
 }

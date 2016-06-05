@@ -13,7 +13,6 @@ namespace MyHalp
         /// <param name="callback">Delegate or something. x => SomeMethod() or delegate{ some; code; }</param>
         public static void Run(WaitCallback callback)
         {
-            // TODO: Create own thread instead of using this.
             ThreadPool.QueueUserWorkItem(callback);
         }
 
