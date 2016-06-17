@@ -4,6 +4,7 @@ Feel free to contribute, it's all free, do anything you want with this code, but
 Initialy it was created to be used with our game, MurderShadow, but we decided to share some code.
 
 Features:
+ - MyInput - Custom Input class that supports binding, FixedUpdate(via .FixedGet) and more.
  - MyJob - Threaded jobs.
  - MyJobQueue - Queued jobs with progress.
  - MyDispatcher - Call any method/deleate from any thread in the main thread - Wow! What a great thing.
