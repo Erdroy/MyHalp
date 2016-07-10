@@ -17,6 +17,8 @@ namespace MyHalp
     {
         private static bool _initialized;
 
+        public static event MyMessageHandler OnMessage;
+
         private static void UnityHandle(string condition, string stackTrace, LogType type)
         {
             if (!MySettings.ProduceLogFile || !_initialized)
@@ -109,6 +111,9 @@ namespace MyHalp
             msg = msg.Replace("\n", "") + "\n";
 
             File.AppendAllText(MySettings.LogFile, msg);
+
+            if (OnMessage != null)
+                OnMessage(msg);
         }
 
         /// <summary>
