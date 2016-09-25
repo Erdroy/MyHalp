@@ -4,7 +4,9 @@ To build MyHalp library you need:
 
 Build steps:
  - Open MyHalp.sln wih Visual Studio.
- - Solution Window > PPM on MyHalp project > Properties > [Build] > and change the Output path to something else, eg.: X:\Your\Projet\Path\Assets\Plugins
+ - Solution Window > PPM on MyHalp project > Properties > [Build] > and change the Output path to something else, eg.: X:\Your\Project\Path\Assets\Plugins
  - Now, we need to reference UnityEngine.dll, In the solution window go to References > delete the UnityEngine, click PPM on Refrences > Add Reference > 
  [Browse] > click browse and go to the unity install dir then Editor\Data\Managed and click on the UnityEngine.dll. Eg.: X:\_Apps\Unity 5.4\Editor\Data\Managed\UnityEngine.dll
  - It is done! Now click (re)build solution, and voila!
+ 
+MyHalp (c) 2016 Damian 'Erdroy' Korczowski and contibutors. TODO: Some license.
