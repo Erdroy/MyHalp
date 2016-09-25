@@ -53,6 +53,7 @@
     <Compile Include="MyMath\MyVector3.cs" />
     <Compile Include="MyMath\MyQuaternion.cs" />
     <Compile Include="MyMath\MyVector4.cs" />
+    <Compile Include="MyObjectPool.cs" />
     <Compile Include="MySettings.cs" />
     <Compile Include="MyLogger.cs" />
     <Compile Include="MyUnityExtensions - Math.cs" />
