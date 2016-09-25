@@ -1,8 +1,10 @@
 ﻿// MyHalp © 2016 Damian 'Erdroy' Korczowski, Mateusz 'Maturas' Zawistowski and contibutors.
 
 using System;
+using System.Collections.Generic;
 using System.Diagnostics;
 using System.IO;
+using System.Threading;
 using UnityEngine;
 
 namespace MyHalp
@@ -16,6 +18,8 @@ namespace MyHalp
     public static class MyLogger
     {
         private static bool _initialized;
+        private static Thread _loggerThread;
+        private static readonly List<string> QueuedLogs = new List<string>();
 
         public static event MyMessageHandler OnMessage;
 
@@ -44,6 +48,12 @@ namespace MyHalp
 
             // Add the unity3d log message handle
             Application.logMessageReceived += UnityHandle;
+
+            if (MySettings.LoggerThread)
+            {
+                _loggerThread = new Thread(ThreadRunner);
+                _loggerThread.Start();
+            }
 
             // Remove old file or backup it
             if (MySettings.BackupOldLogs)
@@ -110,7 +120,10 @@ namespace MyHalp
             var msg = string.Format("{0} {1}: {2}", DateTime.Now.ToString(MySettings.TimeFormat), sender, message);
             msg = msg.Replace("\n", "") + "\n";
 
-            File.AppendAllText(MySettings.LogFile, msg);
+            if(MySettings.LoggerThread)
+                QueuedLogs.Add(msg);
+            else
+                File.AppendAllText(MySettings.LogFile, msg);
 
             if (OnMessage != null)
                 OnMessage(msg);
@@ -124,6 +137,20 @@ namespace MyHalp
             // Remove the unity3d log message handle
             Application.logMessageReceived -= UnityHandle;
             _initialized = false;
+        }
+
+        private static void ThreadRunner()
+        {
+            while (true)
+            {
+                foreach (var msg in QueuedLogs)
+                {
+                    File.AppendAllText(MySettings.LogFile, msg);
+                }
+
+                QueuedLogs.Clear();
+                Thread.Sleep(MySettings.LoggerThreadFrequency);
+            }
         }
     }
 }
