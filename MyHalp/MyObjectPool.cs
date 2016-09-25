@@ -65,7 +65,9 @@ namespace MyHalp
             lock (_objectPool)
             {
                 _objectPool[index].Allocated = false;
-                CleanObject(_objectPool[index].Object);
+
+                if(_objectPool[index].Object)
+                    CleanObject(_objectPool[index].Object);
             }
         }
 
