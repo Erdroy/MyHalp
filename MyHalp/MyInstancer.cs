@@ -24,6 +24,7 @@ namespace MyHalp
             if (_handle == null)
             {
                 _handle = new GameObject("MyInstancer");
+                Object.DontDestroyOnLoad(_handle);
             }
             
             return _handle.AddComponent<T>();
