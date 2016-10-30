@@ -34,7 +34,18 @@ namespace MyHalp
         /// <summary>
         /// Begins new MyLogger session.
         /// </summary>
+        [Obsolete("Begin has been deprecated, please use Init instead. " +
+                  "This was made to hold the same style in every component, " +
+                  "now it is easier to remember etc.")]
         public static void Begin()
+        {
+            Init();
+        }
+
+        /// <summary>
+        /// Initializes new MyLogger session.
+        /// </summary>
+        public static void Init()
         {
             if (_initialized)
             {
@@ -66,7 +77,7 @@ namespace MyHalp
                 if (!Directory.Exists(MySettings.BackupFolder))
                     Directory.CreateDirectory(MySettings.BackupFolder);
 
-                File.Move(MySettings.LogFile, MySettings.BackupFolder +"/" + MySettings.LogFile.Split('.')[0] + DateTime.Now.ToString("HH-mm-ss") + ".txt");
+                File.Move(MySettings.LogFile, MySettings.BackupFolder + "/" + MySettings.LogFile.Split('.')[0] + DateTime.Now.ToString("HH-mm-ss") + ".txt");
             }
             else
             {

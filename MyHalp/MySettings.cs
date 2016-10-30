@@ -64,5 +64,26 @@ namespace MyHalp
             }
             set { ThreadPool.SetMaxThreads(value, value); }
         }
+
+        /// <summary>
+        /// LoggerSaveMethod - Methods which are used to save logs.
+        /// </summary>
+        public enum LoggerSaveMethod // TODO: Implement sequential and manual saving
+        {
+            /// <summary>
+            /// Logs are being saved just when the 'Add' is called.
+            /// </summary>
+            Forced,
+
+            /// <summary>
+            /// Logs are saved after some time, this helps to reduce lags.
+            /// </summary>
+            Sequential,
+
+            /// <summary>
+            /// Logs are saved when 'Flush' is called.
+            /// </summary>
+            Manual
+        }
     }
 }
