@@ -16,9 +16,12 @@ Features:
 
 Features that 'are' under development:
  - Math - MyVector2/3/4, MyQuaternion, MyMatrix/3x3/4x4 and some more.
+ - MyAudio - Allows to play loooots of audio clips at the same time.
  
 Planned features:
  - MyEvent - custom delegate handlers.
+ - MyConsole - class for handling Windows console window.
+ - MyRCon - Remote control, command line(server + GUI client).
  - More, Mor, MOR MOR AND MOOOOR! :D
  
 For building, check the BUILDING.md file.
