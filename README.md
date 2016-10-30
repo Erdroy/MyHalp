@@ -12,6 +12,7 @@ Features:
  - MyColor - Simple color structure, can be serialized cuz it's a struct.
  - MyComponent - Custom Unity behaviour class.
  - MyLogger - Log file creating helper, MyLogger.Add("Wouw, LOGS!");
+ - MyInstancer - Creates new instance of given component, and assings it to a gameobject.
  - Some extensions for math and other classes.
 
 Features that 'are' under development:
