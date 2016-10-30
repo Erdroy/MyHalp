@@ -8,24 +8,28 @@ namespace MyHalp
 {
     public class MyDispatcher
     {
-        private static volatile List<WaitCallback> _dispatchQueue = new List<WaitCallback>();
-        private static GameObject _handle;
+        private static readonly List<WaitCallback> DispatchQueue = new List<WaitCallback>();
+        private static MyDispatcherHandle _handle;
         
+        // ReSharper disable once ClassNeverInstantiated.Local
         private class MyDispatcherHandle : MyComponent
         {
             protected override void OnTick()
             {
-                if (_dispatchQueue.Count <= 0)
-                    return;
-
-                // Dispatch all queued callbacks.
-                foreach (var dispatchItem in _dispatchQueue)
+                lock (DispatchQueue)
                 {
-                    dispatchItem.Invoke(null);
-                }
+                    if (DispatchQueue.Count <= 0)
+                        return;
 
-                // Clear dispatched callbacks.
-                _dispatchQueue.Clear();
+                    // Dispatch all queued callbacks.
+                    foreach (var dispatchItem in DispatchQueue)
+                    {
+                        dispatchItem.Invoke(null);
+                    }
+
+                    // Clear dispatched callbacks.
+                    DispatchQueue.Clear();
+                }
             }
         }
         
@@ -48,22 +52,9 @@ namespace MyHalp
             if(_handle)
                 throw new UnityException("Cannot initialize new dispatcher! There is actually initialised one.");
 
-            _handle = new GameObject("MyDispatcher - handle");
-            _handle.AddComponent<MyDispatcherHandle>();
-            Object.DontDestroyOnLoad(_handle);
+            _handle = MyInstancer.Create<MyDispatcherHandle>();
         }
-
-        /// <summary>
-        /// Dispose the dispatcher.
-        /// </summary>
-        public static void Dispose()
-        {
-            if (!_handle)
-                throw new UnityException("Cannot dispose dispatcher, because there is no any initialised dispatcher.");
-
-            Object.DestroyImmediate(_handle);
-        }
-
+        
         /// <summary>
         /// Dispatch a message.
         /// Message/Callback will be run in the main-thread.
@@ -71,8 +62,10 @@ namespace MyHalp
         /// <param name="callback">The callback</param>
         public static void Dispatch(WaitCallback callback)
         {
-            _dispatchQueue.Add(callback);
+            lock (DispatchQueue)
+            {
+                DispatchQueue.Add(callback);
+            }
         }
     }
 }
-
