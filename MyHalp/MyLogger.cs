@@ -139,17 +139,7 @@ namespace MyHalp
             if (OnMessage != null)
                 OnMessage(msg);
         }
-
-        /// <summary>
-        /// Close the current session.
-        /// </summary>
-        public static void End()
-        {
-            // Remove the unity3d log message handle
-            Application.logMessageReceived -= UnityHandle;
-            _initialized = false;
-        }
-
+        
         private static void ThreadRunner()
         {
             while (true)
