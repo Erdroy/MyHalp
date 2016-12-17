@@ -41,6 +41,7 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="MyMath\MyAngleSingle.cs" />
     <Compile Include="MyColor.cs" />
     <Compile Include="MyComponent.cs" />
     <Compile Include="MyDispatcher.cs" />
@@ -48,12 +49,37 @@
     <Compile Include="MyInstancer.cs" />
     <Compile Include="MyJobQueue.cs" />
     <Compile Include="MyJob.cs" />
+    <Compile Include="MyMath\MyBoundingBox.cs" />
+    <Compile Include="MyMath\MyBoundingFrustum.cs" />
+    <Compile Include="MyMath\MyBoundingSphere.cs" />
+    <Compile Include="MyMath\MyCollision.cs" />
+    <Compile Include="MyMath\MyColor.cs" />
+    <Compile Include="MyMath\MyColor.Palette.cs" />
+    <Compile Include="MyMath\MyColor3.cs" />
+    <Compile Include="MyMath\MyColor4.cs" />
+    <Compile Include="MyMath\MyColorBGRA.cs" />
+    <Compile Include="MyMath\MyEnums.cs" />
+    <Compile Include="MyMath\MyFrustumCameraParams.cs" />
+    <Compile Include="MyMath\MyMathf.cs" />
     <Compile Include="MyMath\MyMatrix.cs" />
-    <Compile Include="MyMath\MyScalar.cs" />
+    <Compile Include="MyMath\MyMatrix3x2.cs" />
+    <Compile Include="MyMath\MyMatrix3x3.cs" />
+    <Compile Include="MyMath\MyMatrix5x4.cs" />
+    <Compile Include="MyMath\MyOrientedBoundingBox.cs" />
+    <Compile Include="MyMath\MyPlane.cs" />
+    <Compile Include="MyMath\MyPoint.cs" />
+    <Compile Include="MyMath\MyQuaternion.cs" />
+    <Compile Include="MyMath\MyRandomUtil.cs" />
+    <Compile Include="MyMath\MyRay.cs" />
+    <Compile Include="MyMath\MyRectangle.cs" />
+    <Compile Include="MyMath\MyRectangleF.cs" />
+    <Compile Include="MyMath\MySize2.cs" />
+    <Compile Include="MyMath\MySize2F.cs" />
     <Compile Include="MyMath\MyVector2.cs" />
     <Compile Include="MyMath\MyVector3.cs" />
-    <Compile Include="MyMath\MyQuaternion.cs" />
     <Compile Include="MyMath\MyVector4.cs" />
+    <Compile Include="MyMath\MyViewport.cs" />
+    <Compile Include="MyMath\MyViewportF.cs" />
     <Compile Include="MyObjectPool.cs" />
     <Compile Include="MySettings.cs" />
     <Compile Include="MyLogger.cs" />
