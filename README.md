@@ -14,9 +14,9 @@ Features:
  - MyLogger - Log file creating helper, MyLogger.Add("Wouw, LOGS!");
  - MyInstancer - Creates new instance of given component, and assings it to a gameobject.
  - Some extensions for math and other classes.
+ - Math - MyVector2/3/4, MyQuaternion, MyMatrix/3x3/4x4 and much more(using SharpDX.Mathematics).
 
 Features that 'are' under development:
- - Math - MyVector2/3/4, MyQuaternion, MyMatrix/3x3/4x4 and some more.
  - MyAudio - Allows to play loooots of audio clips at the same time.
  
 Planned features:
