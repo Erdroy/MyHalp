@@ -1,4 +1,4 @@
-﻿// MyHalp © 2016 Damian 'Erdroy' Korczowski, Mateusz 'Maturas' Zawistowski and contibutors.
+﻿// MyHalp © 2016-2017 Damian 'Erdroy' Korczowski
 
 using System.Threading;
 
