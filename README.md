@@ -33,4 +33,4 @@ https://github.com/Erdroy/MyHalp-Examples
 Contact, you want to talk with us? Join our discord server:
 https://discordapp.com/invite/0kfQL9KtL4XfOK7G
 
-MyHalp (c) 2016 Damian 'Erdroy' Korczowski and contibutors. TODO: Some license.
+MyHalp (c) 2016-2017 Damian 'Erdroy' Korczowski and contibutors. TODO: Some license.
