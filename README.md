@@ -17,6 +17,7 @@ Features:
  - Math - MyVector2/3/4, MyQuaternion, MyMatrix/3x3/4x4 and much more(using SharpDX.Mathematics).
 
 Features that 'are' under development:
+ - MyFade - Allows to fade in/out cameras
  - MyAudio - Allows to play loooots of audio clips at the same time.
  
 Planned features:
