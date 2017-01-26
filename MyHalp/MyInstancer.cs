@@ -8,7 +8,7 @@ namespace MyHalp
     /// MyInstancer - Helps with instancing handles, etc.
     /// Mainly created for internal use in MyHalp.
     /// </summary>
-    public class MyInstancer
+    public sealed class MyInstancer
     {
         private static GameObject _handle;
 

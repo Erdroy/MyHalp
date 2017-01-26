@@ -6,13 +6,13 @@ using UnityEngine;
 
 namespace MyHalp
 {
-    public class MyDispatcher
+    public sealed class MyDispatcher
     {
         private static readonly List<WaitCallback> DispatchQueue = new List<WaitCallback>();
         private static MyDispatcherHandle _handle;
         
         // ReSharper disable once ClassNeverInstantiated.Local
-        private class MyDispatcherHandle : MyComponent
+        private sealed class MyDispatcherHandle : MyComponent
         {
             protected override void OnTick()
             {

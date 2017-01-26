@@ -5,7 +5,7 @@ using System.Threading;
 
 namespace MyHalp
 {
-    public class MyJob
+    public sealed class MyJob
     {
         /// <summary>
         /// Run new job.

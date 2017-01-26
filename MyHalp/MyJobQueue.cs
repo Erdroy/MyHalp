@@ -7,7 +7,7 @@ using UnityEngine;
 
 namespace MyHalp
 {
-    public class MyJobQueue
+    public sealed class MyJobQueue
     {
         /// <summary>
         /// Create new queue.
