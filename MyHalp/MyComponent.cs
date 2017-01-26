@@ -61,6 +61,13 @@ namespace MyHalp
         {
         }
 
+        protected virtual void OnEnable()
+        {
+        }
+
+        protected virtual void OnDisable()
+        {
+        }
         #endregion
 
         /// <summary>
