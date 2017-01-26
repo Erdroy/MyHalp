@@ -42,7 +42,6 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="MyMath\MyAngleSingle.cs" />
-    <Compile Include="MyColor.cs" />
     <Compile Include="MyComponent.cs" />
     <Compile Include="MyDispatcher.cs" />
     <Compile Include="MyInput.cs" />
