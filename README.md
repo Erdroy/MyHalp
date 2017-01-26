@@ -9,7 +9,6 @@ Features:
  - MyJobQueue - Queued jobs with progress.
  - MyObjectPool - Pooled objects, request 'new' gameobject without performace hit at any time.
  - MyDispatcher - Call any method/deleate from any thread in the main thread - Wow! What a great thing.
- - MyColor - Simple color structure, can be serialized cuz it's a struct.
  - MyComponent - Custom Unity behaviour class.
  - MyLogger - Log file creating helper, MyLogger.Add("Wouw, LOGS!");
  - MyInstancer - Creates new instance of given component, and assings it to a gameobject.
