@@ -30,13 +30,7 @@ namespace MyHalp
         {
             OnPhysicsTick();
         }
-
-        // ReSharper disable once InconsistentNaming
-        private void OnGUI()
-        {
-            OnDrawInterface();
-        }
-
+        
         #endregion
 
         #region Overrides
@@ -52,11 +46,7 @@ namespace MyHalp
         protected virtual void OnPhysicsTick()
         {
         }
-
-        protected virtual void OnDrawInterface()
-        {
-        }
-
+        
         protected virtual void OnDestroy()
         {
         }
