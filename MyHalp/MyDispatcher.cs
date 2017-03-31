@@ -1,11 +1,14 @@
 ﻿// MyHalp © 2016-2017 Damian 'Erdroy' Korczowski
 
+using System;
 using System.Collections.Generic;
 using System.Threading;
-using UnityEngine;
 
 namespace MyHalp
 {
+    /// <summary>
+    /// MyDispatcher class, allows to dispatch calls from any thead on to the main thead.
+    /// </summary>
     public sealed class MyDispatcher
     {
         private static readonly List<WaitCallback> DispatchQueue = new List<WaitCallback>();
@@ -43,17 +46,9 @@ namespace MyHalp
                 return _handle != null;
             }
         }
-
-        /// <summary>
-        /// Initialize the dispatcher.
-        /// </summary>
-        public static void Init()
-        {
-            if(_handle)
-                throw new UnityException("Cannot initialize new dispatcher! There is actually initialised one.");
-
-            _handle = MyInstancer.Create<MyDispatcherHandle>();
-        }
+        
+        [Obsolete("This is not needed anymore, will be removed in future release.")]
+        public static void Init() { }
         
         /// <summary>
         /// Dispatch a message.
@@ -62,6 +57,9 @@ namespace MyHalp
         /// <param name="callback">The callback</param>
         public static void Dispatch(WaitCallback callback)
         {
+            if (_handle == null)
+                _handle = MyInstancer.Create<MyDispatcherHandle>();
+
             lock (DispatchQueue)
             {
                 DispatchQueue.Add(callback);
