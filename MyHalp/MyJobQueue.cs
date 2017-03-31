@@ -7,21 +7,11 @@ using UnityEngine;
 
 namespace MyHalp
 {
+    /// <summary>
+    /// MyJobQueue class, allows to execute jobs in order, eg. game loading.
+    /// </summary>
     public sealed class MyJobQueue
     {
-        /// <summary>
-        /// Create new queue.
-        /// </summary>
-        /// <param name="onDone">Called when the queue execution is done.</param>
-        /// <returns>Your new MyJobQueue.</returns>
-        public static MyJobQueue Create(Action onDone = null)
-        {
-            return new MyJobQueue
-            {
-                _onDone = onDone
-            };
-        }
-        
         private Action _onDone;
         private bool _executing;
         private volatile float _progress;
@@ -79,6 +69,19 @@ namespace MyHalp
         public float GetProgress()
         {
             return _progress;
+        }
+
+        /// <summary>
+        /// Create new queue.
+        /// </summary>
+        /// <param name="onDone">Called when the queue execution is done.</param>
+        /// <returns>Your new MyJobQueue.</returns>
+        public static MyJobQueue Create(Action onDone = null)
+        {
+            return new MyJobQueue
+            {
+                _onDone = onDone
+            };
         }
     }
 }
