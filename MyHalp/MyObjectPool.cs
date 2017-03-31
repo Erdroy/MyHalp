@@ -6,6 +6,9 @@ using Object = UnityEngine.Object;
 
 namespace MyHalp
 {
+    /// <summary>
+    /// MyObjectPool class, allows to really fast acquire gameobject for temporary use.
+    /// </summary>
     public static class MyObjectPool
     {
         private struct ObjectEntry
@@ -17,12 +20,20 @@ namespace MyHalp
         private static GameObject _head;
         private static ObjectEntry[] _objectPool;
 
+        /// <summary>
+        /// Initialize the object pool with given object count in the pool.
+        /// </summary>
+        /// <param name="objectCount">The amout of object to be created for the pooling.</param>
         public static void Init(uint objectCount = 2000)
         {
             if(_objectPool != null || _head != null)
                 throw new Exception("Can not initialize the MyObjectPool module second time! This can be done only once.");
             
-            _head = new GameObject("MyObjectPool HEAD");
+            _head = new GameObject("MyObjectPool");
+
+            // do not destroy on scene change
+            Object.DontDestroyOnLoad(_head);
+
             _objectPool = new ObjectEntry[objectCount];
 
             lock (_objectPool)
@@ -35,12 +46,20 @@ namespace MyHalp
                         Object = new GameObject("pooledGameObject")
                     };
 
+                    // do not destroy on scene change
+                    Object.DontDestroyOnLoad(_objectPool[i].Object);
+
                     CleanObject(_objectPool[i].Object);
                     _objectPool[i].Object.transform.parent = _head.transform;
                 }
             }
         }
 
+        /// <summary>
+        /// Require gameobject.
+        /// </summary>
+        /// <param name="index">The output index which will be required to release the object.</param>
+        /// <returns>The acquired gameobject.</returns>
         public static GameObject Request(out int index)
         {
             lock (_objectPool)
@@ -62,6 +81,10 @@ namespace MyHalp
             return null;
         }
 
+        /// <summary>
+        /// Release gameobject with given index.
+        /// </summary>
+        /// <param name="index"></param>
         public static void Release(int index)
         {
             lock (_objectPool)
@@ -73,6 +96,7 @@ namespace MyHalp
             }
         }
 
+        // private
         private static void CleanObject(GameObject go)
         {
             var got = go.transform;
