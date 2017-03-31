@@ -83,7 +83,7 @@
     <Compile Include="MyObjectPool.cs" />
     <Compile Include="MySettings.cs" />
     <Compile Include="MyLogger.cs" />
-    <Compile Include="MyUnityExtensions - Math.cs" />
+    <Compile Include="MyUnityExtensions.Math.cs" />
     <Compile Include="MyUnityExtensions.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>

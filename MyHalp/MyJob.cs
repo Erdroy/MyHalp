@@ -5,6 +5,9 @@ using System.Threading;
 
 namespace MyHalp
 {
+    /// <summary>
+    /// MyJob class, allows to execute threaded jobs.
+    /// </summary>
     public sealed class MyJob
     {
         /// <summary>
@@ -20,25 +23,41 @@ namespace MyHalp
         /// Waits for state = false. 
         /// This will lock the current thread until state will be false.
         /// </summary>
-        /// <param name="state">The state</param>
-        public static void Wait(ref bool state)
+        /// <param name="state">The state, set to false, when wan't to break.</param>
+        /// <param name="precision">
+        /// The precision in miliseconds, 
+        /// how much time this can be late 
+        /// - this is need for optimization of the method.
+        /// </param>
+        public static void Wait(ref bool state, int precision = 5)
         {
-            while (state) { }
-        }
-        
-        // TODO: WaitMiliseconds
-
-        public static void WaitSeconds(float seconds)
-        {
-            var start = DateTime.Now;
-            while (true)
+            while (state) // loop while the state is true
             {
-                var diff = DateTime.Now - start;
-                if (diff.Seconds >= seconds)
-                    return;
-
-                Thread.Sleep(250);
+                // sleep
+                Thread.Sleep(precision);
             }
         }
+
+        /// <summary>
+        /// Sleep for given amout of miliseconds.
+        /// </summary>
+        /// <param name="miliseconds">The amount of miliseconds to sleep.</param>
+        public static void Wait(int miliseconds)
+        {
+            Thread.Sleep(miliseconds);
+        }
+
+        /// <summary>
+        /// Sleep for given amount of seconds.
+        /// </summary>
+        /// <param name="seconds">The amount of seconds to sleep.</param>
+        public static void Wait(float seconds)
+        {
+            var miliseconds = (int)(seconds * 1000.0f);
+            Thread.Sleep(miliseconds);
+        }
+
+        [Obsolete("Obslete, use Wait(float) instead.")]
+        public static void WaitSeconds() { }
     }
 }
