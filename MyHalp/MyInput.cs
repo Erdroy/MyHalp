@@ -19,16 +19,18 @@ namespace MyHalp
     /// <summary>
     /// Custom Input class.
     /// Supports FixedUpdate with FixedGet().
-    /// See: MyHalp-Examples repository.
     /// </summary>
     /// <typeparam name="TMyInputKeys">Enumerator that holds all types of keys which you need.</typeparam>
     public class MyInput<TMyInputKeys>
     {
-        private static readonly Dictionary<TMyInputKeys, List<KeyCode>> BindedKeys = new Dictionary<TMyInputKeys, List<KeyCode>>();
+        /// <summary>
+        /// Contains all binded keys, for adding new binds use MyInput.Bind(...) method.
+        /// </summary>
+        public static readonly Dictionary<TMyInputKeys, List<KeyCode>> BindedKeys = new Dictionary<TMyInputKeys, List<KeyCode>>();
 
+        // private
         private static readonly List<TMyInputKeys> StateList = new List<TMyInputKeys>();
         private static readonly List<TMyInputKeys> LastStateList = new List<TMyInputKeys>();
-
         private static readonly List<TMyInputKeys> FixedStateList = new List<TMyInputKeys>();
         private static readonly List<TMyInputKeys> FixedLastStateList = new List<TMyInputKeys>();
         
@@ -41,17 +43,14 @@ namespace MyHalp
         {
             var flag1 = StateList.Contains(key);
             var flag2 = LastStateList.Contains(key);
+            
+            if (flag1 && flag2)
+                return MyInputState.Held;
 
             if (!flag1 && flag2)
                 return MyInputState.Up;
 
-            if (flag1 && !flag2)
-                return MyInputState.Down;
-
-            if (flag1 && flag2)
-                return MyInputState.Held;
-
-            return MyInputState.None;
+            return flag1 ? MyInputState.Down : MyInputState.None;
         }
 
         /// <summary>
@@ -64,16 +63,13 @@ namespace MyHalp
             var flag1 = FixedStateList.Contains(key);
             var flag2 = FixedLastStateList.Contains(key);
 
-            if (!flag1 && flag2)
-                return MyInputState.Up;
-
-            if (flag1 && !flag2)
-                return MyInputState.Down;
-
             if (flag1 && flag2)
                 return MyInputState.Held;
 
-            return MyInputState.None;
+            if (!flag1 && flag2)
+                return MyInputState.Up;
+
+            return flag1 ? MyInputState.Down : MyInputState.None;
         }
 
         /// <summary>
@@ -105,6 +101,9 @@ namespace MyHalp
             BindedKeys.Clear();
         }
 
+        /// <summary>
+        /// Update input frame
+        /// </summary>
         public static void Update()
         {
             LastStateList.Clear();
@@ -123,6 +122,9 @@ namespace MyHalp
             }
         }
 
+        /// <summary>
+        /// Update input fixed-timestep frame
+        /// </summary>
         public static void FixedUpdate()
         {
             FixedLastStateList.Clear();
