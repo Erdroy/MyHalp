@@ -1,36 +1,31 @@
-MyHalp - Unity3D helper library.
+MyHalp - Unity 5 helper library.
 
-Feel free to contribute, it's all free, do anything you want with this code, but do not distibute in any other form.
-Initialy it was created to be used with our game, MurderShadow, but we decided to share some code.
+Unity 5 helper library, contains some useful methods for better and smooth developement.
+Currently under reconstruction, see 'Contribution' for current progress and tasks.
 
-Features:
+# Main Features:
  - MyInput - Custom Input class that supports binding, FixedUpdate(via .FixedGet) and more.
  - MyJob - Threaded jobs.
  - MyJobQueue - Queued jobs with progress.
  - MyObjectPool - Pooled objects, request 'new' gameobject without performace hit at any time.
  - MyDispatcher - Call any method/deleate from any thread in the main thread - Wow! What a great thing.
  - MyComponent - Custom Unity behaviour class.
- - MyLogger - Log file creating helper, MyLogger.Add("Wouw, LOGS!");
+ - MyLogger - MyLogger.Add("Wouw, LOGS! MUCH logs. Love logs.");
  - MyInstancer - Creates new instance of given component, and assings it to a gameobject.
- - Some extensions for math and other classes.
  - Math - MyVector2/3/4, MyQuaternion, MyMatrix/3x3/4x4 and much more(using SharpDX.Mathematics).
 
-Features that 'are' under development:
- - MyFade - Allows to fade in/out cameras
- - MyAudio - Allows to play loooots of audio clips at the same time.
- 
-Planned features:
- - MyEvent - custom delegate handlers.
- - MyConsole - class for handling Windows console window.
- - MyRCon - Remote control, command line(server + GUI client).
- - More, Mor, MOR MOR AND MOOOOR! :D
- 
-For building, check the BUILDING.md file.
+# Building:
+Check the BUILDING.md file.
 
-Checkout this repo with some example source code: 
+# Examples
 https://github.com/Erdroy/MyHalp-Examples
 
-Contact, you want to talk with us? Join our discord server:
+# Contribution
+Feel free to ask, make some suggestins and contribute to the project, much fun(not really)!
+Trello https://trello.com/b/2FMBpoOG/myhalp
+
+# Contact
+Contact, you want to talk with me? Join my discord server:
 https://discordapp.com/invite/0kfQL9KtL4XfOK7G
 
 MyHalp (c) 2016-2017 Damian 'Erdroy' Korczowski and contibutors.
