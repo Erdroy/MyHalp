@@ -1,5 +1,6 @@
 ﻿// MyHalp © 2016-2017 Damian 'Erdroy' Korczowski
 
+using System;
 using System.Threading;
 
 namespace MyHalp
@@ -35,9 +36,19 @@ namespace MyHalp
         public static string TimeFormat = "dd/MM/yyyy HH:mm:ss";
 
         /// <summary>
-        /// How frequently the logger thread(if enabled) is saving logs.
+        /// How frequently(in miliseconds) the logger thread(if enabled) should try to flush logs.
         /// </summary>
         public static int LoggerThreadFrequency = 10;
+
+        /// <summary>
+        /// Should MyLogger call OnMessage when new log is being ::Write?
+        /// </summary>
+        public static bool UseLogCallback = true;
+
+        /// <summary>
+        /// Should OnMessage be called on main thread(this is slighty slower)?
+        /// </summary>
+        public static bool UseDispatchedLogCallback = false;
 
         /// <summary>
         /// Can MyLogger produce log file?
@@ -48,6 +59,7 @@ namespace MyHalp
         /// Use new thread for saving logs?
         /// Should be set before calling `MyLogger.Begin()`.
         /// </summary>
+        [Obsolete("Logger will use thread anyway, this setting is obslete and will be removed in future release.")]
         public static bool LoggerThread = true;
 
         /// <summary>
