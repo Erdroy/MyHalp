@@ -47,8 +47,14 @@ namespace MyHalp
             }
         }
         
-        [Obsolete("This is not needed anymore, will be removed in future release.")]
-        public static void Init() { }
+        /// <summary>
+        /// Initialize the dispatcher.
+        /// </summary>
+        public static void Init()
+        {
+            if (_handle == null)
+                _handle = MyInstancer.Create<MyDispatcherHandle>();
+        }
         
         /// <summary>
         /// Dispatch a message.
@@ -57,9 +63,6 @@ namespace MyHalp
         /// <param name="callback">The callback</param>
         public static void Dispatch(WaitCallback callback)
         {
-            if (_handle == null)
-                _handle = MyInstancer.Create<MyDispatcherHandle>();
-
             lock (DispatchQueue)
             {
                 DispatchQueue.Add(callback);
