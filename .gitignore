@@ -2,3 +2,5 @@
 MyHalp/obj/
 _Build/
 MyHalp.sln.DotSettings.user
+*.pdb
+build/MyHalp.dll
