@@ -1,6 +1,5 @@
 ﻿// MyHalp © 2016-2017 Damian 'Erdroy' Korczowski
 
-using System;
 using UnityEngine;
 using Object = UnityEngine.Object;
 
@@ -26,9 +25,12 @@ namespace MyHalp
         /// <param name="objectCount">The amout of object to be created for the pooling.</param>
         public static void Init(uint objectCount = 2000)
         {
-            if(_objectPool != null || _head != null)
-                throw new Exception("Can not initialize the MyObjectPool module second time! This can be done only once.");
-            
+            if (_objectPool != null || _head != null)
+            {
+                Debug.LogError("Can not initialize the MyObjectPool module second time! This can be done only once.");
+                return;
+            }
+
             _head = new GameObject("MyObjectPool");
 
             // do not destroy on scene change
@@ -68,15 +70,31 @@ namespace MyHalp
                 {
                     var obj = _objectPool[i];
 
+                    if (!obj.Object)
+                    {
+                        // wut the developer is doin with my childs?
+                        Debug.LogWarning("Found destroyed MyObjectPool object, this should never happen!");
+                        continue;
+                    }
+
                     if (!obj.Allocated)
                     {
+                        // allocate
+                        _objectPool[i].Allocated = true;
+
+                        // reset objects parent
                         obj.Object.transform.parent = null;
-                        obj.Allocated = true;
+
+                        // set the index
                         index = i;
+
+                        // done
                         return obj.Object;
                     }
                 }
             }
+
+            // no free objects
             index = -1;
             return null;
         }
