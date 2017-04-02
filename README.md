@@ -18,11 +18,11 @@ Currently under reconstruction, see 'Contribution' for current progress and task
 Check the BUILDING.md file.
 
 # Examples
-https://github.com/Erdroy/MyHalp-Examples
+Examples repo: [GitHub]https://github.com/Erdroy/MyHalpExamples
 
 # Contribution
 Feel free to ask, make some suggestins and contribute to the project, much fun(not really)!
-Trello https://trello.com/b/2FMBpoOG/myhalp
+Trello page: https://trello.com/b/2FMBpoOG/myhalp
 
 # Contact
 Contact, you want to talk with me? Join my discord server:
