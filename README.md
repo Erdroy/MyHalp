@@ -18,7 +18,7 @@ Currently under reconstruction, see 'Contribution' for current progress and task
 Check the BUILDING.md file.
 
 # Examples
-Examples repo: [GitHub]https://github.com/Erdroy/MyHalpExamples
+Examples repo: https://github.com/Erdroy/MyHalpExamples
 
 # Contribution
 Feel free to ask, make some suggestins and contribute to the project, much fun(not really)!
