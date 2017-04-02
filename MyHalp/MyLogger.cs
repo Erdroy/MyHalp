@@ -129,6 +129,8 @@ namespace MyHalp
                     logType = MyLoggerLevel.Info;
                     break;
                 case LogType.Assert:
+                    logType = MyLoggerLevel.Debug;
+                    break;
                 case LogType.Warning:
                     logType = MyLoggerLevel.Warning;
                     break;
