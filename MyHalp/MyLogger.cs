@@ -176,8 +176,11 @@ namespace MyHalp
                 Time = DateTime.Now
             };
 
-            // enqueue the log message
-            _logQueue.Enqueue(log);
+            lock (_logQueue)
+            {
+                // enqueue the log message
+                _logQueue.Enqueue(log);
+            }
             
             if (MySettings.UseLogCallback && MySettings.UseDispatchedLogCallback)
             {
