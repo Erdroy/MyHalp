@@ -70,7 +70,7 @@ namespace MyHalp
                 // TODO: compress file
 
                 // move the file and change it's name
-                File.Move(MySettings.LogFile, MySettings.BackupFolder + "/" + MySettings.LogFile.Split('.')[0] + DateTime.Now.ToString("HH-mm-ss") + ".txt");
+                File.Copy(MySettings.LogFile, MySettings.BackupFolder + "/" + MySettings.LogFile.Split('.')[0] + DateTime.Now.ToString("HH-mm-ss") + ".txt");
             }
             else
             {
