@@ -22,12 +22,55 @@ namespace MyHalp
             private bool _forceFocus;
             private string _currentCommand = "";
             private Vector2 _scrollPos;
+            private Texture2D _backgroundTexture;
+
+            private GUIStyle _styleBox;
+            private GUIStyle _styleField;
 
             // override `OnInit`
             protected override void OnInit()
             {
                 // TODO: gui style
 
+                _backgroundTexture = new Texture2D(16, 16, TextureFormat.RGBA32, false)
+                {
+                    filterMode = FilterMode.Point
+                };
+
+                var colors = new Color[16*16];
+                for (var i = 0; i < 16*16; i++)
+                {
+                    colors[i] = new Color(0.1f, 0.1f, 0.1f, 0.55f);
+                }
+
+                _backgroundTexture.SetPixels(colors);
+                _backgroundTexture.Apply(false, true);
+
+                _styleBox = new GUIStyle
+                {
+                    normal = new GUIStyleState
+                    {
+                        background = _backgroundTexture,
+                        textColor = Color.white
+                    },
+                    border = new RectOffset(0, 0, 0, 0),
+                    richText = true,
+                    alignment = TextAnchor.MiddleCenter
+                };
+
+                _styleField = new GUIStyle
+                {
+                    normal = new GUIStyleState
+                    {
+                        background = _backgroundTexture,
+                        textColor = Color.white
+                    },
+                    border = new RectOffset(5, 5, 0, 0),
+                    padding = new RectOffset(5, 5, 0, 0),
+                    richText = true,
+                    alignment = TextAnchor.MiddleLeft
+                };
+                
                 _scrollPos = Vector2.zero;
             }
 
@@ -47,6 +90,10 @@ namespace MyHalp
             {
                 if(_messages.Count >= MySettings.MaxConsoleMessages)
                     _messages.RemoveAt(0);
+
+                // remove new line from the end
+                if (message[message.Length - 1] == '\n')
+                    message = message.Remove(message.Length - 1, 1);
 
                 // set message color
                 switch (level)
@@ -69,6 +116,9 @@ namespace MyHalp
 
                 // add message
                 lock (_messages) _messages.Add(message);
+
+                // scroll to the down of scrollview
+                _scrollPos.y = float.MaxValue;
             }
 
             // internal
@@ -96,10 +146,10 @@ namespace MyHalp
                 // console window
                 GUILayout.BeginArea(new Rect(0.0f, 0.0f, screenW, screenH));
                 {
-                    GUILayout.BeginVertical(GUILayout.Width(800.0f), GUILayout.Height(350.0f));
+                    GUILayout.BeginVertical();
                     {
                         // message view
-                        GUILayout.BeginVertical("box", GUILayout.Width(screenW - 10.0f), GUILayout.Height(screenH - 35.0f));
+                        GUILayout.BeginVertical(_styleBox, GUILayout.Width(screenW), GUILayout.Height(screenH - 25.0f));
                         {
                             // make scroll bar
                             _scrollPos = GUILayout.BeginScrollView(_scrollPos);
@@ -116,7 +166,7 @@ namespace MyHalp
 
                                 foreach (var message in _drawmessages)
                                 {
-                                    GUILayout.Label(message, GUILayout.MaxWidth(screenW - 20.0f), GUILayout.MinHeight(20.0f));
+                                    GUILayout.Label(message, GUILayout.MaxWidth(screenW));
                                 }
                             }
                             GUILayout.EndScrollView();
@@ -127,17 +177,29 @@ namespace MyHalp
                         // only when commands are initialized
                         if (MyCommands.Instance != null)
                         {
-                            GUILayout.BeginHorizontal("box");
+                            GUILayout.BeginHorizontal(_styleBox, GUILayout.Height(25.0f));
                             {
-                                GUI.SetNextControlName("command_input");
-                                _currentCommand = GUILayout.TextField(_currentCommand, GUILayout.Width(screenW - 110.0f));
+                                GUILayout.Space(5.0f);
 
-                                if (GUILayout.Button("ok", GUILayout.Width(90.0f)) ||
-                                    (Event.current.isKey && Event.current.keyCode == KeyCode.Return))
+                                if (Event.current.isKey && Event.current.type == EventType.keyDown &&
+                                    (Event.current.keyCode == MySettings.ConsoleOpenCloseKey || Event.current.keyCode == KeyCode.Escape))
                                 {
-                                    AddMessage(_currentCommand, MyLoggerLevel.Info);
-                                    MyCommands.Instance.ExecuteRaw(_currentCommand);
-                                    _currentCommand = string.Empty;
+                                    _enabled = false;
+                                }
+
+                                GUI.SetNextControlName("command_input");
+                                _currentCommand = GUILayout.TextField(_currentCommand, _styleField, GUILayout.Width(screenW - 95.0f), GUILayout.Height(20.0f));
+
+                                GUILayout.Space(5.0f);
+
+                                if (GUILayout.Button("ok", _styleBox, GUILayout.Width(75.0f), GUILayout.Height(20.0f)) || (Event.current.isKey && Event.current.keyCode == KeyCode.Return))
+                                {
+                                    if (!string.IsNullOrEmpty(_currentCommand))
+                                    {
+                                        AddMessage(_currentCommand, MyLoggerLevel.Info);
+                                        MyCommands.Instance.ExecuteRaw(_currentCommand);
+                                        _currentCommand = string.Empty;
+                                    }
                                 }
                             }
                             GUILayout.EndHorizontal();

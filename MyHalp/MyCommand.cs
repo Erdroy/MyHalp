@@ -146,7 +146,7 @@ namespace MyHalp
 
             if (commands.Length == 0)
             {
-                MyLogger.Add("'" + commandName +"' command not found." + parameters.Length, MyLoggerLevel.Error);
+                MyLogger.Add("'" + commandName +"' command not found.", MyLoggerLevel.Error);
                 return;
             }
 
