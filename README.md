@@ -4,13 +4,15 @@ Unity 5 helper library, contains some useful methods for better and smooth devel
 Currently under reconstruction, see 'Contribution' for current progress and tasks.
 
 # Main Features:
+ - MyComponent - Custom Unity behaviour class.
+ - MyConsole - Console window for fast development or even ready projects.
+ - MyCommands - Class for registering commands and executing by string(eg.: 'volume master 0.2') or name and object array as parameters. 
+ - MyLogger - MyLogger.Add("Wouw, LOGS! MUCH logs. Love logs.");
  - MyInput - Custom Input class that supports binding, FixedUpdate(via .FixedGet) and more.
+ - MyObjectPool - Pooled objects, request 'new' gameobject without performace hit at any time.
  - MyJob - Threaded jobs.
  - MyJobQueue - Queued jobs with progress.
- - MyObjectPool - Pooled objects, request 'new' gameobject without performace hit at any time.
  - MyDispatcher - Call any method/deleate from any thread in the main thread - Wow! What a great thing.
- - MyComponent - Custom Unity behaviour class.
- - MyLogger - MyLogger.Add("Wouw, LOGS! MUCH logs. Love logs.");
  - MyInstancer - Creates new instance of given component, and assings it to a gameobject.
  - Math - MyVector2/3/4, MyQuaternion, MyMatrix/3x3/4x4 and much more(using SharpDX.Mathematics).
 
