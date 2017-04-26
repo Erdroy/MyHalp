@@ -3,6 +3,8 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Reflection;
+using System.Runtime.InteropServices;
 using UnityEngine;
 
 namespace MyHalp
@@ -21,10 +23,12 @@ namespace MyHalp
             public string Name { get; set; }
             public string Description { get; set; }
             public string Group { get; set; }
-            public Type[] Parameters { get; set; }
-            public Action<object[]> Callback { get; set; }
+            public ParameterInfo[] Parameters { get; set; }
+            public object Instance { get; set; }
+            public MethodInfo Method { get; set; }
         }
 
+        // private
         private readonly List<Command> _commands = new List<Command>();
 
         /// <summary>
@@ -35,9 +39,72 @@ namespace MyHalp
         /// <param name="commandName">The command name.</param>
         /// <param name="onExecute">Called when command is being executed.</param>
         /// <param name="description">(optional)The command description.</param>
-        public void RegisterCommand(string commandGroup, string commandName, Action<object[]> onExecute, string description = "No description.")
+        public void RegisterCommand(string commandGroup, string commandName, Action onExecute,
+            string description = "No description.")
         {
-            var parameters = onExecute.Method.GetGenericArguments();
+            RegisterCommandInternal(commandGroup, commandName, onExecute.Target, onExecute.Method, description);
+        }
+
+        /// <summary>
+        /// Registers command with specified name and execution method in given command group.
+        /// </summary>
+        /// <param name="commandGroup">The command group, easly unregister batch of commands by one call.
+        /// Use this of eg.: level dependent commands, only 'when playing' command etc. </param>
+        /// <param name="commandName">The command name.</param>
+        /// <param name="onExecute">Called when command is being executed.</param>
+        /// <param name="description">(optional)The command description.</param>
+        public void RegisterCommand<T1>(string commandGroup, string commandName, Action<T1> onExecute,
+            string description = "No description.")
+        {
+            RegisterCommandInternal(commandGroup, commandName, onExecute.Target, onExecute.Method, description);
+        }
+
+        /// <summary>
+        /// Registers command with specified name and execution method in given command group.
+        /// </summary>
+        /// <param name="commandGroup">The command group, easly unregister batch of commands by one call.
+        /// Use this of eg.: level dependent commands, only 'when playing' command etc. </param>
+        /// <param name="commandName">The command name.</param>
+        /// <param name="onExecute">Called when command is being executed.</param>
+        /// <param name="description">(optional)The command description.</param>
+        public void RegisterCommand<T1, T2>(string commandGroup, string commandName, Action<T1, T2> onExecute,
+            string description = "No description.")
+        {
+            RegisterCommandInternal(commandGroup, commandName, onExecute.Target, onExecute.Method, description);
+        }
+
+        /// <summary>
+        /// Registers command with specified name and execution method in given command group.
+        /// </summary>
+        /// <param name="commandGroup">The command group, easly unregister batch of commands by one call.
+        /// Use this of eg.: level dependent commands, only 'when playing' command etc. </param>
+        /// <param name="commandName">The command name.</param>
+        /// <param name="onExecute">Called when command is being executed.</param>
+        /// <param name="description">(optional)The command description.</param>
+        public void RegisterCommand<T1, T2, T3>(string commandGroup, string commandName, Action<T1, T2, T3> onExecute,
+            string description = "No description.")
+        {
+            RegisterCommandInternal(commandGroup, commandName, onExecute.Target, onExecute.Method, description);
+        }
+
+        /// <summary>
+        /// Registers command with specified name and execution method in given command group.
+        /// </summary>
+        /// <param name="commandGroup">The command group, easly unregister batch of commands by one call.
+        /// Use this of eg.: level dependent commands, only 'when playing' command etc. </param>
+        /// <param name="commandName">The command name.</param>
+        /// <param name="onExecute">Called when command is being executed.</param>
+        /// <param name="description">(optional)The command description.</param>
+        public void RegisterCommand<T1, T2, T3, T4>(string commandGroup, string commandName, Action<T1, T2, T3, T4> onExecute,
+            string description = "No description.")
+        {
+            RegisterCommandInternal(commandGroup, commandName, onExecute.Target, onExecute.Method, description);
+        }
+        
+        // internal
+        internal void RegisterCommandInternal(string commandGroup, string commandName, object instance, MethodInfo method, string description)
+        {
+            var parameters = method.GetParameters();
 
             // check commands, do not allow duplicates!
             var commands = _commands.Where(x => x.Name == commandName && x.Parameters.Length == parameters.Length).ToArray();
@@ -54,7 +121,8 @@ namespace MyHalp
                 Description = description,
                 Group = commandGroup,
                 Parameters = parameters,
-                Callback = onExecute
+                Instance = instance,
+                Method = method
             });
         }
 
@@ -92,7 +160,9 @@ namespace MyHalp
             var command = new Command();
             foreach (var cmd in commands)
             {
-                if (cmd.Parameters.Length != parameters.Length) continue;
+                if (cmd.Parameters.Length != parameters.Length)
+                    continue;
+
                 found = true;
                 command = cmd;
                 break;
@@ -106,11 +176,57 @@ namespace MyHalp
 
             // parse
             var cmdParams = command.Parameters;
+            var paramIndex = 0;
+            var parseParams = new object[parameters.Length];
 
+            foreach (var parameter in parameters)
+            {
+                var cmdParameter = cmdParams[paramIndex];
 
-
+                switch (cmdParameter.ParameterType.Name.ToLower())
+                {
+                    case "string":
+                        // string does not need any type check
+                        parseParams[paramIndex] = parameter;
+                        break;
+                    case "int32":
+                        int resultInt;
+                        if (int.TryParse(parameter, out resultInt))
+                        {
+                            parseParams[paramIndex] = resultInt;
+                        }
+                        break;
+                    case "single":
+                        float resultSingle;
+                        if (float.TryParse(parameter, out resultSingle))
+                        {
+                            parseParams[paramIndex] = resultSingle;
+                        }
+                        break;
+                    case "double":
+                        double resultDouble;
+                        if (double.TryParse(parameter, out resultDouble))
+                        {
+                            parseParams[paramIndex] = resultDouble;
+                        }
+                        break;
+                    case "boolean":
+                        bool resultBoolean;
+                        if (bool.TryParse(parameter, out resultBoolean))
+                        {
+                            parseParams[paramIndex] = resultBoolean;
+                        }
+                        break;
+                    default:
+                        MyLogger.Add("Command target method has invalid type in parameters!", MyLoggerLevel.Error);
+                        return;
+                }
+                
+                paramIndex++;
+            }
+            
             // execute!
-            command.Callback(null);
+            command.Method.Invoke(command.Instance, parseParams);
         }
 
         /// <summary>
@@ -150,10 +266,8 @@ namespace MyHalp
             // create instance
             Instance = new MyCommands();
 
-            Instance.RegisterCommand("", "clear", parameters =>
-            {
-                MyConsole.Clear();
-            });
+            // register default commands
+            Instance.RegisterCommand("", "clear", MyConsole.Clear);
         }
 
         /// <summary>
