@@ -22,6 +22,7 @@ namespace MyHalp
             public string Description { get; set; }
             public string Group { get; set; }
             public Type[] Parameters { get; set; }
+            public Action<object[]> Callback { get; set; }
         }
 
         private readonly List<Command> _commands = new List<Command>();
@@ -52,7 +53,8 @@ namespace MyHalp
                 Name = commandName,
                 Description = description,
                 Group = commandGroup,
-                Parameters = parameters
+                Parameters = parameters,
+                Callback = onExecute
             });
         }
 
@@ -77,13 +79,38 @@ namespace MyHalp
         /// <param name="parameters">The command parameters, typeless, checking and parsing will be done.</param>
         public void Execute(string commandName, params string[] parameters)
         {
-            var commands = _commands.Where(x => x.Name == commandName && x.Parameters.Length == parameters.Length).ToArray();
+            // check
+            var commands = _commands.Where(x => x.Name == commandName).ToArray();
+
             if (commands.Length == 0)
             {
-                MyLogger.Add("Command with this name(" + commandName + ") and the given parameters count does not exist!", MyLoggerLevel.Error);
+                MyLogger.Add("'" + commandName +"' command not found." + parameters.Length, MyLoggerLevel.Error);
                 return;
             }
 
+            var found = false;
+            var command = new Command();
+            foreach (var cmd in commands)
+            {
+                if (cmd.Parameters.Length != parameters.Length) continue;
+                found = true;
+                command = cmd;
+                break;
+            }
+
+            if (!found)
+            {
+                MyLogger.Add("'" + commandName + "' command exists, but invalid parameters were given." + parameters.Length, MyLoggerLevel.Error);
+                return;
+            }
+
+            // parse
+            var cmdParams = command.Parameters;
+
+
+
+            // execute!
+            command.Callback(null);
         }
 
         /// <summary>
@@ -93,7 +120,11 @@ namespace MyHalp
         public void ExecuteRaw(string command)
         {
             // parse
-
+            string name;
+            var parameters = ParseCommand(command, out name);
+            
+            // execute
+            Execute(name, parameters.ToArray());
         }
 
         /// <summary>
@@ -116,8 +147,76 @@ namespace MyHalp
                 return;
             }
 
+            // create instance
             Instance = new MyCommands();
+
+            Instance.RegisterCommand("", "clear", parameters =>
+            {
+                MyConsole.Clear();
+            });
+        }
+
+        /// <summary>
+        /// Parse command to get name and parameters.
+        /// Strings are supported! eg.: 'test "Hello, World!"'
+        /// </summary>
+        /// <param name="command"></param>
+        /// <param name="name"></param>
+        /// <returns></returns>
+        public static List<string> ParseCommand(string command, out string name)
+        {
+            // trim
+            command = command.Trim();
+
+            name = "";
+
+            var parameters = new List<string>();
+            var parameter = "";
+            var stringRead = false;
+
+            foreach (var ch in command)
+            {
+                if (ch == ' ' && !stringRead)
+                {
+                    // next param
+
+                    if (!string.IsNullOrEmpty(parameter))
+                        parameters.Add(parameter);
+
+                    parameter = string.Empty;
+                }
+                else if (ch == '"')
+                {
+                    // start or stop string param   
+                    if (stringRead)
+                    {
+                        stringRead = false;
+                        continue;
+                    }
+
+                    stringRead = true;
+                }
+                else
+                {
+                    // add to current.
+                    parameter += ch;
+                }
+            }
+
+            // add last parameter
+            if (!string.IsNullOrEmpty(parameter))
+            {
+                parameters.Add(parameter);
+            }
+
+            // set name
+            if (string.IsNullOrEmpty(name) && parameters.Count > 0)
+            {
+                name = parameters[0];
+                parameters.RemoveAt(0);
+            }
             
+            return parameters;
         }
 
         /// <summary>

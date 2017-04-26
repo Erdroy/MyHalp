@@ -77,6 +77,12 @@ namespace MyHalp
                 // bind logger
                 MyLogger.OnMessage += AddMessage;
             }
+
+            // internal
+            internal void ClearInternal()
+            {
+                _messages.Clear();
+            }
             
             // private
             private void OnGUI()
@@ -130,9 +136,8 @@ namespace MyHalp
                                     (Event.current.isKey && Event.current.keyCode == KeyCode.Return))
                                 {
                                     AddMessage(_currentCommand, MyLoggerLevel.Info);
-                                    _currentCommand = string.Empty;
-
                                     MyCommands.Instance.ExecuteRaw(_currentCommand);
+                                    _currentCommand = string.Empty;
                                 }
                             }
                             GUILayout.EndHorizontal();
@@ -178,6 +183,14 @@ namespace MyHalp
                 // bind logger if not disabled.
                 _consoleWindow.BindLogger();
             }
+        }
+
+        /// <summary>
+        /// Clears all console messages.
+        /// </summary>
+        public static void Clear()
+        {
+            _consoleWindow.ClearInternal();
         }
 
         /// <summary>
