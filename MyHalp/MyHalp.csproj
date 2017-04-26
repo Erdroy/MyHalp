@@ -42,6 +42,7 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="MyConsole.cs" />
     <Compile Include="MyMath\MyAngleSingle.cs" />
     <Compile Include="MyComponent.cs" />
     <Compile Include="MyDispatcher.cs" />

@@ -2,6 +2,7 @@
 
 using System;
 using System.Threading;
+using UnityEngine;
 
 namespace MyHalp
 {
@@ -61,6 +62,16 @@ namespace MyHalp
         /// </summary>
         [Obsolete("Logger will use thread anyway, this setting is obslete and will be removed in future release.")]
         public static bool LoggerThread = true;
+
+        /// <summary>
+        /// The key to open/close console window.
+        /// </summary>
+        public static KeyCode ConsoleOpenCloseKey = KeyCode.BackQuote;
+
+        /// <summary>
+        /// The amount of available console messages.
+        /// </summary>
+        public static int MaxConsoleMessages = 256;
 
         /// <summary>
         /// Gets or sets the maximum number of threads used by MyJob.
