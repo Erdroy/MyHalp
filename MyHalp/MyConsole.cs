@@ -117,22 +117,26 @@ namespace MyHalp
                         }
                         GUILayout.EndVertical();
 
-                        // view the input field and ok button
-                        GUILayout.BeginHorizontal("box");
+                        // view the input field and ok button 
+                        // only when commands are initialized
+                        if (MyCommands.Instance != null)
                         {
-                            GUI.SetNextControlName("command_input");
-                            _currentCommand = GUILayout.TextField(_currentCommand, GUILayout.Width(screenW - 110.0f));
-
-                            if (GUILayout.Button("ok", GUILayout.Width(90.0f)) ||
-                                (Event.current.isKey && Event.current.keyCode == KeyCode.Return))
+                            GUILayout.BeginHorizontal("box");
                             {
-                                AddMessage(_currentCommand, MyLoggerLevel.Info);
-                                _currentCommand = string.Empty;
+                                GUI.SetNextControlName("command_input");
+                                _currentCommand = GUILayout.TextField(_currentCommand, GUILayout.Width(screenW - 110.0f));
 
-                                // TODO: execute command
+                                if (GUILayout.Button("ok", GUILayout.Width(90.0f)) ||
+                                    (Event.current.isKey && Event.current.keyCode == KeyCode.Return))
+                                {
+                                    AddMessage(_currentCommand, MyLoggerLevel.Info);
+                                    _currentCommand = string.Empty;
+
+                                    MyCommands.Instance.ExecuteRaw(_currentCommand);
+                                }
                             }
+                            GUILayout.EndHorizontal();
                         }
-                        GUILayout.EndHorizontal();
                     }
                     GUILayout.EndVertical();
                 }
