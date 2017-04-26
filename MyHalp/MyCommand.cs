@@ -4,7 +4,6 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
-using System.Runtime.InteropServices;
 using UnityEngine;
 
 namespace MyHalp
@@ -24,7 +23,7 @@ namespace MyHalp
             public string Description { get; set; }
             public string Group { get; set; }
             public ParameterInfo[] Parameters { get; set; }
-            public object Instance { get; set; }
+            public object MethodTarget { get; set; }
             public MethodInfo Method { get; set; }
         }
 
@@ -39,8 +38,7 @@ namespace MyHalp
         /// <param name="commandName">The command name.</param>
         /// <param name="onExecute">Called when command is being executed.</param>
         /// <param name="description">(optional)The command description.</param>
-        public void RegisterCommand(string commandGroup, string commandName, Action onExecute,
-            string description = "No description.")
+        public void RegisterCommand(string commandGroup, string commandName, Action onExecute, string description = "No description.")
         {
             RegisterCommandInternal(commandGroup, commandName, onExecute.Target, onExecute.Method, description);
         }
@@ -53,8 +51,7 @@ namespace MyHalp
         /// <param name="commandName">The command name.</param>
         /// <param name="onExecute">Called when command is being executed.</param>
         /// <param name="description">(optional)The command description.</param>
-        public void RegisterCommand<T1>(string commandGroup, string commandName, Action<T1> onExecute,
-            string description = "No description.")
+        public void RegisterCommand<T1>(string commandGroup, string commandName, Action<T1> onExecute, string description = "No description.")
         {
             RegisterCommandInternal(commandGroup, commandName, onExecute.Target, onExecute.Method, description);
         }
@@ -67,8 +64,7 @@ namespace MyHalp
         /// <param name="commandName">The command name.</param>
         /// <param name="onExecute">Called when command is being executed.</param>
         /// <param name="description">(optional)The command description.</param>
-        public void RegisterCommand<T1, T2>(string commandGroup, string commandName, Action<T1, T2> onExecute,
-            string description = "No description.")
+        public void RegisterCommand<T1, T2>(string commandGroup, string commandName, Action<T1, T2> onExecute, string description = "No description.")
         {
             RegisterCommandInternal(commandGroup, commandName, onExecute.Target, onExecute.Method, description);
         }
@@ -81,8 +77,7 @@ namespace MyHalp
         /// <param name="commandName">The command name.</param>
         /// <param name="onExecute">Called when command is being executed.</param>
         /// <param name="description">(optional)The command description.</param>
-        public void RegisterCommand<T1, T2, T3>(string commandGroup, string commandName, Action<T1, T2, T3> onExecute,
-            string description = "No description.")
+        public void RegisterCommand<T1, T2, T3>(string commandGroup, string commandName, Action<T1, T2, T3> onExecute, string description = "No description.")
         {
             RegisterCommandInternal(commandGroup, commandName, onExecute.Target, onExecute.Method, description);
         }
@@ -95,8 +90,7 @@ namespace MyHalp
         /// <param name="commandName">The command name.</param>
         /// <param name="onExecute">Called when command is being executed.</param>
         /// <param name="description">(optional)The command description.</param>
-        public void RegisterCommand<T1, T2, T3, T4>(string commandGroup, string commandName, Action<T1, T2, T3, T4> onExecute,
-            string description = "No description.")
+        public void RegisterCommand<T1, T2, T3, T4>(string commandGroup, string commandName, Action<T1, T2, T3, T4> onExecute, string description = "No description.")
         {
             RegisterCommandInternal(commandGroup, commandName, onExecute.Target, onExecute.Method, description);
         }
@@ -121,7 +115,7 @@ namespace MyHalp
                 Description = description,
                 Group = commandGroup,
                 Parameters = parameters,
-                Instance = instance,
+                MethodTarget = instance,
                 Method = method
             });
         }
@@ -226,7 +220,7 @@ namespace MyHalp
             }
             
             // execute!
-            command.Method.Invoke(command.Instance, parseParams);
+            command.Method.Invoke(command.MethodTarget, parseParams);
         }
 
         /// <summary>
