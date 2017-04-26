@@ -189,12 +189,22 @@ namespace MyHalp
                         {
                             parseParams[paramIndex] = resultInt;
                         }
+                        else
+                        {
+                            MyLogger.Add("invalid parameter type were given for '" + parameter + "'", MyLoggerLevel.Error);
+                            return;
+                        }
                         break;
                     case "single":
                         float resultSingle;
                         if (float.TryParse(parameter, out resultSingle))
                         {
                             parseParams[paramIndex] = resultSingle;
+                        }
+                        else
+                        {
+                            MyLogger.Add("invalid parameter type were given for '" + parameter + "'", MyLoggerLevel.Error);
+                            return;
                         }
                         break;
                     case "double":
@@ -203,6 +213,11 @@ namespace MyHalp
                         {
                             parseParams[paramIndex] = resultDouble;
                         }
+                        else
+                        {
+                            MyLogger.Add("invalid parameter type were given for '" + parameter + "'", MyLoggerLevel.Error);
+                            return;
+                        }
                         break;
                     case "boolean":
                         bool resultBoolean;
@@ -210,9 +225,14 @@ namespace MyHalp
                         {
                             parseParams[paramIndex] = resultBoolean;
                         }
+                        else
+                        {
+                            MyLogger.Add("invalid parameter type were given for '" + parameter + "'", MyLoggerLevel.Error);
+                            return;
+                        }
                         break;
                     default:
-                        MyLogger.Add("Command target method has invalid type in parameters!", MyLoggerLevel.Error);
+                        MyLogger.Add("command target method has invalid type in parameters!", MyLoggerLevel.Error);
                         return;
                 }
                 
