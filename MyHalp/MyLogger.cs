@@ -9,7 +9,7 @@ using UnityEngine;
 
 namespace MyHalp
 {
-    public delegate void MyMessageHandler(string message);
+    public delegate void MyMessageHandler(string message, MyLoggerLevel level);
 
     /// <summary>
     /// Log level enum
@@ -104,7 +104,7 @@ namespace MyHalp
                     {
                         // try call OnMessage
                         if (OnMessage != null)
-                            OnMessage(message);
+                            OnMessage(message, log.Level);
                     }
 
                     // flush
@@ -188,7 +188,7 @@ namespace MyHalp
             {
                 // try call OnMessage
                 if (OnMessage != null)
-                    OnMessage(ConstructMessage(log));
+                    OnMessage(ConstructMessage(log), log.Level);
             }
         }
 
