@@ -2,6 +2,7 @@
 
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using JetBrains.Annotations;
 using UnityEngine;
 
@@ -18,6 +19,8 @@ namespace MyHalp
         {
             private readonly List<string> _messages = new List<string>();
             private readonly List<string> _drawmessages = new List<string>();
+            private readonly List<string> _commands = new List<string>();
+            private int _backCommand;
             private bool _enabled;
             private bool _forceFocus;
             private string _currentCommand = "";
@@ -187,6 +190,9 @@ namespace MyHalp
                                     _enabled = false;
                                 }
 
+                                // update the hints
+                                UpdateHints();
+
                                 GUI.SetNextControlName("command_input");
                                 _currentCommand = GUILayout.TextField(_currentCommand, _styleField, GUILayout.Width(screenW - 95.0f), GUILayout.Height(20.0f));
 
@@ -196,6 +202,8 @@ namespace MyHalp
                                 {
                                     if (!string.IsNullOrEmpty(_currentCommand))
                                     {
+                                        _commands.Add(_currentCommand);
+                                        _backCommand = _commands.Count;
                                         AddMessage(_currentCommand, MyLoggerLevel.Info);
                                         MyCommands.Instance.ExecuteRaw(_currentCommand);
                                         _currentCommand = string.Empty;
@@ -203,6 +211,9 @@ namespace MyHalp
                                 }
                             }
                             GUILayout.EndHorizontal();
+
+                            // draw hints
+                            DrawHints();
                         }
                     }
                     GUILayout.EndVertical();
@@ -214,6 +225,81 @@ namespace MyHalp
                     // focus `command_input` text field if the console was opened in this frame
                     GUI.FocusControl("command_input");
                     _forceFocus = false;
+                }
+            }
+
+            private void DrawHints()
+            {
+                if (_currentCommand.Length > 0)
+                {
+                    // find and show similar commands
+                    GUILayout.BeginArea(new Rect(5.0f, Screen.height - 200.0f, Screen.width - 200.0f, 175.0f), _styleBox);
+                    {
+                        // find and show similar commands
+                        var commands = MyCommands.Instance.GetAllCommands();
+                        var hints = commands.Where(x => x.Name.StartsWith(_currentCommand));
+
+                        foreach (var hint in hints)
+                        {
+                            var parameters = "";
+
+                            foreach (var parameter in hint.Parameters)
+                            {
+                                parameters += " " + parameter.Name;
+                                switch (parameter.ParameterType.Name.ToLower())
+                                {
+                                    case "string":
+                                        parameters += "[string]";
+                                        break;
+                                    case "int32":
+                                        parameters += "[integer]";
+                                        break;
+                                    case "single":
+                                    case "double":
+                                        parameters += "[float]";
+                                        break;
+                                    case "boolean":
+                                        parameters += "[boolean]";
+                                        break;
+                                }
+                            }
+
+                            GUILayout.Label(hint.Name + " " + parameters + " - " + hint.Description);
+                        }
+                    }
+                    GUILayout.EndArea();
+                }
+            }
+
+            // private
+            private void UpdateHints()
+            {
+                if (_currentCommand?.Length > 0)
+                {
+                    if (Event.current.isKey && Event.current.type == EventType.keyDown && Event.current.keyCode == KeyCode.Tab)
+                    {
+                        var commands = MyCommands.Instance.GetAllCommands();
+                        var command = commands.FirstOrDefault(x => x.Name.StartsWith(_currentCommand));
+
+                        if(!string.IsNullOrEmpty(command.Name))
+                            _currentCommand = command.Name;
+                    }
+                }
+
+                if (_commands.Count > 0)
+                {
+                    if (Event.current.isKey && Event.current.type == EventType.keyDown && Event.current.keyCode == KeyCode.UpArrow)
+                    {
+                        _backCommand--;
+                        _backCommand = Mathf.Clamp(_backCommand, 0, _commands.Count - 1);
+                        _currentCommand = _commands[_backCommand];
+                    }
+                    if (Event.current.isKey && Event.current.type == EventType.keyDown && Event.current.keyCode == KeyCode.DownArrow)
+                    {
+                        _backCommand++;
+                        _backCommand = Mathf.Clamp(_backCommand, 0, _commands.Count - 1);
+                        _currentCommand = _commands[_backCommand];
+                    }
                 }
             }
         }

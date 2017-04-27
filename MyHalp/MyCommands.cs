@@ -279,9 +279,42 @@ namespace MyHalp
 
             // create instance
             Instance = new MyCommands();
-
+            
             // register default commands
-            Instance.RegisterCommand("", "clear", MyConsole.Clear);
+            Instance.RegisterCommand("", "clear", MyConsole.Clear, "Clears all console messages.");
+
+            Instance.RegisterCommand("", "list", delegate
+            {
+                var commands = Instance.GetAllCommands();
+
+                foreach (var command in commands)
+                {
+                    var parameters = "";
+
+                    foreach (var parameter in command.Parameters)
+                    {
+                        parameters += " " + parameter.Name;
+                        switch (parameter.ParameterType.Name.ToLower())
+                        {
+                            case "string":
+                                parameters += "[string]";
+                                break;
+                            case "int32":
+                                parameters += "[integer]";
+                                break;
+                            case "single":
+                            case "double":
+                                parameters += "[float]";
+                                break;
+                            case "boolean":
+                                parameters += "[boolean]";
+                                break;
+                        }
+                    }
+
+                    MyConsole.Write(command.Name + " " + parameters + " - " + command.Description);
+                }
+            }, "Lists all commands.");
         }
 
         /// <summary>
