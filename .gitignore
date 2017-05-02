@@ -4,3 +4,4 @@ _Build/
 MyHalp.sln.DotSettings.user
 *.pdb
 build/MyHalp.dll
+MyHalp.Editor/obj/
