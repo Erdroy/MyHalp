@@ -215,11 +215,11 @@ namespace MyHalp.Editor.MyCooker
                 GUILayout.EndVertical();
                 if (GUILayout.Button("BUILD(ALT+B)", GUILayout.Height(30.0f)))
                 {
-                    
+                    Build();
                 }
                 if (GUILayout.Button("BUILD SCRIPTS(ALT+SHIFT+B)", GUILayout.Height(30.0f)))
                 {
-
+                    BuildScripts();
                 }
                 GUILayout.Space(10.0f);
             }

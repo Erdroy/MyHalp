@@ -113,11 +113,28 @@ namespace MyHalp.Editor.MyCooker
 
                     // use has some hacks, so we can use .exe for all platforms
                     // it will be changed by the build pipeline
-                    var outputPathName = Application.dataPath.Replace("Assets",
-                        "build/" + target.OutputName + "/" + target.ExecutableName + ".exe");
+                    var outputPath = Application.dataPath.Replace("Assets", "build/" + target.OutputName);
+                    var outputPathName = outputPath + "/" + target.ExecutableName + ".exe";
 
                     if (scriptsOnly)
+                    {
                         options |= BuildOptions.BuildScriptsOnly;
+
+                        if (!File.Exists(outputPathName))
+                        {
+                            Debug.Log("Failed to build target: " + target.Name + " error: there is no prebuilt application.");
+                            continue;
+                        }
+                    }
+                    else
+                    {
+                        // delete the output directory if exists
+                        if (File.Exists(outputPathName))
+                        {
+                            // delete the directory
+                            Directory.Delete(outputPath, true);
+                        }
+                    }
 
                     // increase build number TODO: build counting
                     //target.BuildNumber++;
@@ -235,3 +252,4 @@ namespace MyHalp.Editor.MyCooker
         }
     }
 }
+
