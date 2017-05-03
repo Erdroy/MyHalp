@@ -108,50 +108,28 @@ namespace MyHalp.Editor.MyCooker
             {
                 try
                 {
-                    var defines = string.Join(";", DefineSymbolsForTarget(target));
-                    var options = OptionsForTarget(target);
-
-                    // use has some hacks, so we can use .exe for all platforms
-                    // it will be changed by the build pipeline
-                    var outputPath = Application.dataPath.Replace("Assets", "build/" + target.OutputName);
-                    var outputPathName = outputPath + "/" + target.ExecutableName + ".exe";
-
                     if (scriptsOnly)
                     {
-                        options |= BuildOptions.BuildScriptsOnly;
-
-                        if (!File.Exists(outputPathName))
+                        if (target.BuildTarget != BuildTarget.StandaloneWindows
+                            && target.BuildTarget != BuildTarget.StandaloneWindows64
+                            && target.BuildTarget != BuildTarget.StandaloneLinux
+                            && target.BuildTarget != BuildTarget.StandaloneLinux64
+                            && target.BuildTarget != BuildTarget.StandaloneLinuxUniversal)
                         {
-                            Debug.Log("Failed to build target: " + target.Name + " error: there is no prebuilt application.");
+                            Debug.LogError("Failed to build target: " + target.Name + " error: scripts only build is supported only for windows and linux.");
                             continue;
                         }
+
+                        BuildScripts(target);
                     }
                     else
                     {
-                        // delete the output directory if exists
-                        if (File.Exists(outputPathName))
-                        {
-                            // delete the directory
-                            Directory.Delete(outputPath, true);
-                        }
+                        Build(scenes, target);
                     }
-
-                    // increase build number TODO: build counting
-                    //target.BuildNumber++;
-                    //Save();
-
-                    // TODO: use separate CLI nogfx/headless unity through console/terminal with parameters 
-                    // to build the game(do not block the current unity instance)
-
-                    // set defines
-                    PlayerSettings.SetScriptingDefineSymbolsForGroup(BuildTargetGroup.Standalone, defines);
-
-                    // build!
-                    BuildPipeline.BuildPlayer(scenes.ToArray(), outputPathName, target.BuildTarget, options);
                 }
                 catch (Exception ex)
                 {
-                    Debug.Log("Failed to build target: " + target.Name + " error: " + ex);
+                    Debug.LogError("Failed to build target: " + target.Name + " error: " + ex);
                 }
             }
 
@@ -159,6 +137,44 @@ namespace MyHalp.Editor.MyCooker
             PlayerSettings.SetScriptingDefineSymbolsForGroup(BuildTargetGroup.Standalone, lastDirectives);
 
             // TODO: auto start option(warning: use proper working dir!)
+        }
+
+        // private
+        private static void BuildScripts(MyCookerPreset.Target target)
+        {
+            
+        }
+
+        // private
+        private static void Build(string[] scenes, MyCookerPreset.Target target)
+        {
+            var defines = string.Join(";", DefineSymbolsForTarget(target));
+            var options = OptionsForTarget(target);
+
+            // use has some hacks, so we can use .exe for all platforms
+            // it will be changed by the build pipeline
+            var outputPath = Application.dataPath.Replace("Assets", "build/" + target.OutputName);
+            var outputPathName = outputPath + "/" + target.ExecutableName + ".exe";
+
+            // delete the output directory if exists
+            if (File.Exists(outputPathName))
+            {
+                // delete the directory
+                Directory.Delete(outputPath, true);
+            }
+
+            // increase build number TODO: build counting
+            //target.BuildNumber++;
+            //Save();
+
+            // TODO: use separate CLI nogfx/headless unity through console/terminal with parameters 
+            // to build the game(do not block the current unity instance)
+
+            // set defines
+            PlayerSettings.SetScriptingDefineSymbolsForGroup(BuildTargetGroup.Standalone, defines);
+
+            // build!
+            BuildPipeline.BuildPlayer(scenes.ToArray(), outputPathName, target.BuildTarget, options);
         }
 
         // private
@@ -252,4 +268,6 @@ namespace MyHalp.Editor.MyCooker
         }
     }
 }
+
+
 
