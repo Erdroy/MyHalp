@@ -5,7 +5,8 @@ namespace MyHalp.Editor.MyPreloader
     [System.Serializable]
     internal class MyPreloaderSettings
     {
-        public struct Asset
+        [System.Serializable]
+        public class Asset
         {
             public enum Type
             {
@@ -22,8 +23,9 @@ namespace MyHalp.Editor.MyPreloader
             }
 
             public Type AssetType { get; set; }
+            public string Define { get; set; }
             public string AssetPath { get; set; }
-            public string ResourcePath { get; set; }
+            public string[] ResourcePath { get; set; }
             public string FriendlyName { get; set; }
         }
 

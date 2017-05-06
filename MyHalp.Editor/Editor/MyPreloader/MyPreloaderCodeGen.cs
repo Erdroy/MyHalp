@@ -1,9 +1,7 @@
 ﻿// MyHalp © 2016-2017 Damian 'Erdroy' Korczowski
 
-using System.Collections;
 using System.IO;
 using System.Text;
-using UnityEngine;
 
 namespace MyHalp.Editor.MyPreloader
 {
@@ -31,11 +29,18 @@ namespace MyHalp.Editor.MyPreloader
             // add all assets variables
             foreach (var asset in assets)
             {
+                if (!string.IsNullOrEmpty(asset.Define))
+                    builder.Append($"#if {asset.Define}" + newLine);
+
                 var type = asset.AssetType.ToString().Split('.');
                 var typeName = type[type.Length - 1];
+                var arrayd = asset.IsArray ? "[]" : "";
 
-                var assetstring = $"\t\tpublic static {typeName} {asset.FriendlyName} {getset} {newLine}" ;
+                var assetstring = $"\t\tpublic static {typeName}{arrayd} {asset.FriendlyName} {getset} {newLine}" ;
                 builder.Append(assetstring);
+
+                if (!string.IsNullOrEmpty(asset.Define))
+                    builder.Append("#endif" + newLine);
             }
             
             // add preloading method
@@ -57,10 +62,13 @@ namespace MyHalp.Editor.MyPreloader
             builder.Append("\t\t\tResourceRequest request;" + newLine);
             foreach (var asset in assets)
             {
+                if (!string.IsNullOrEmpty(asset.Define))
+                    builder.Append($"#if {asset.Define}" + newLine);
+
                 var type = asset.AssetType.ToString().Split('.');
                 var typeName = type[type.Length - 1];
-
-                var assetstring = $"\t\t\trequest = Resources.LoadAsync<{typeName}>(\"{asset.ResourcePath}\");" + newLine;
+                
+                var assetstring = $"\t\t\trequest = Resources.LoadAsync<{typeName}>(\"{asset.ResourcePath[0]}\");" + newLine;
 
                 builder.Append(newLine);
                 builder.Append(assetstring);
@@ -68,6 +76,9 @@ namespace MyHalp.Editor.MyPreloader
                 builder.Append("\t\t\tyield return request;" + newLine);
                 builder.Append($"\t\t\tif(request.asset == null) onError(\"Failed to load asset: {asset.FriendlyName}\"); " + newLine);
                 builder.Append($"\t\t\t{asset.FriendlyName} = request.asset as {typeName};" + newLine);
+
+                if (!string.IsNullOrEmpty(asset.Define))
+                    builder.Append("#endif" + newLine);
             }
             builder.Append(newLine);
             builder.Append("\t\t\tIsLoaded = true;" + newLine);
