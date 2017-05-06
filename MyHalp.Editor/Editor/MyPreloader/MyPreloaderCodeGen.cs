@@ -19,6 +19,7 @@ namespace MyHalp.Editor.MyPreloader
 
             var builder =  new StringBuilder();
             builder.Append("using UnityEngine;" + newLine +
+                           "using UnityEngine.Audio;" + newLine +
                            "using System;" + newLine +
                            "using System.Collections;" + newLine +
                            newLine +
@@ -67,15 +68,37 @@ namespace MyHalp.Editor.MyPreloader
 
                 var type = asset.AssetType.ToString().Split('.');
                 var typeName = type[type.Length - 1];
-                
-                var assetstring = $"\t\t\trequest = Resources.LoadAsync<{typeName}>(\"{asset.ResourcePath[0]}\");" + newLine;
 
-                builder.Append(newLine);
-                builder.Append(assetstring);
+                if (asset.IsArray)
+                {
+                    builder.Append(newLine);
+                    builder.Append($"\t\t\t{asset.FriendlyName} = new {typeName}[{asset.ResourcePath.Length}];" + newLine);
 
-                builder.Append("\t\t\tyield return request;" + newLine);
-                builder.Append($"\t\t\tif(request.asset == null) onError(\"Failed to load asset: {asset.FriendlyName}\"); " + newLine);
-                builder.Append($"\t\t\t{asset.FriendlyName} = request.asset as {typeName};" + newLine);
+                    var i = 0;
+                    foreach (var path in asset.ResourcePath)
+                    {
+                        var assetstring = $"\t\t\trequest = Resources.LoadAsync<{typeName}>(\"{path}\");" + newLine;
+
+                        builder.Append(newLine);
+                        builder.Append(assetstring);
+
+                        builder.Append("\t\t\tyield return request;" + newLine);
+                        builder.Append($"\t\t\tif(request.asset == null) onError(\"Failed to load asset: {asset.FriendlyName}\"); " + newLine);
+                        builder.Append($"\t\t\t{asset.FriendlyName}[{i}] = request.asset as {typeName};" + newLine);
+                        i++;
+                    }
+                }
+                else
+                {
+                    var assetstring = $"\t\t\trequest = Resources.LoadAsync<{typeName}>(\"{asset.ResourcePath[0]}\");" + newLine;
+
+                    builder.Append(newLine);
+                    builder.Append(assetstring);
+
+                    builder.Append("\t\t\tyield return request;" + newLine);
+                    builder.Append($"\t\t\tif(request.asset == null) onError(\"Failed to load asset: {asset.FriendlyName}\"); " + newLine);
+                    builder.Append($"\t\t\t{asset.FriendlyName} = request.asset as {typeName};" + newLine);
+                }
 
                 if (!string.IsNullOrEmpty(asset.Define))
                     builder.Append("#endif" + newLine);

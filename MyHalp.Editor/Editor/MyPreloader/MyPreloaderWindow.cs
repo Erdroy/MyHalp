@@ -19,6 +19,8 @@ namespace MyHalp.Editor.MyPreloader
         private bool _loaded;
         private Object _select;
         private string _friendlyName = "FriendlyName";
+        private string _define = "";
+        private bool _array = false;
 
         // private
         private void Init()
@@ -67,7 +69,7 @@ namespace MyHalp.Editor.MyPreloader
             MyPreloaderCodeGen.GenerateFor(_settings.Assets, "Assets/MyAssets.cs"); // TODO: change the path, to be under MyHalp.dll file
 
             // force recompile
-            ScriptsReloader.ForceReload();
+            AssetDatabase.ImportAsset("Assets/MyAssets.cs");
         }
 
         // private
@@ -141,10 +143,29 @@ namespace MyHalp.Editor.MyPreloader
             resourcesStart += "Resources/".Length;
             path = path.Substring(resourcesStart, path.Length - resourcesStart);
 
-            var ext = path.LastIndexOf(".", StringComparison.Ordinal);
+            var ext = path.LastIndexOf(_array ? "/" : ".", StringComparison.Ordinal);
             path = path.Substring(0, ext);
 
-            Debug.Log(path);
+            var paths = new List<string>();
+            if (_array)
+            {
+                var allAssets = AssetDatabase.FindAssets("t:"+assetType, new []{ Path.GetDirectoryName(assetpath) });
+
+                foreach (var asset in allAssets)
+                {
+                    path = AssetDatabase.GUIDToAssetPath(asset);
+                    
+                    resourcesStart = path.IndexOf("Resources", StringComparison.Ordinal);
+
+                    resourcesStart += "Resources/".Length;
+                    path = path.Substring(resourcesStart, path.Length - resourcesStart);
+
+                    ext = path.LastIndexOf(".", StringComparison.Ordinal);
+                    path = path.Substring(0, ext);
+
+                    paths.Add(path);
+                }
+            }
 
             // add
             var assets = new List<MyPreloaderSettings.Asset>(_settings.Assets)
@@ -153,7 +174,9 @@ namespace MyHalp.Editor.MyPreloader
                 {
                     AssetType = assetType,
                     AssetPath = assetpath,
-                    ResourcePath = path,
+                    ResourcePath = _array ? paths.ToArray() : new [] {path},
+                    IsArray= _array,
+                    Define =  _define,
                     FriendlyName = _friendlyName
                 }
             };
@@ -234,8 +257,15 @@ namespace MyHalp.Editor.MyPreloader
 
                             GUILayout.BeginHorizontal("box");
                             {
+                                asset.IsArray = GUILayout.Toggle(asset.IsArray, "Array ", GUILayout.Width(60.0f));
+
+                                GUILayout.Label("Object ", GUILayout.Width(60.0f));
                                 _assetCache[asset.AssetPath] = EditorGUILayout.ObjectField(cachedAsset, typeof(Object), true);
 
+                                GUILayout.Label("Define ", GUILayout.Width(60.0f));
+                                asset.Define = GUILayout.TextField(asset.Define, GUILayout.Width(250.0f));
+
+                                GUILayout.Label("Friendly name ", GUILayout.Width(90.0f));
                                 asset.FriendlyName = GUILayout.TextField(asset.FriendlyName, GUILayout.Width(250.0f));
 
                                 if (GUILayout.Button("x", GUILayout.Width(25.0f)))
@@ -251,11 +281,21 @@ namespace MyHalp.Editor.MyPreloader
                             GUILayout.EndHorizontal();
                         }
 
+                        EditorGUILayout.Space();
+                        GUILayout.Label("Add new ", GUILayout.Width(60.0f));
+
                         GUILayout.BeginHorizontal();
                         {
+                            _array = GUILayout.Toggle(_array, "Array ", GUILayout.Width(60.0f));
+
+                            GUILayout.Label("Object ", GUILayout.Width(60.0f));
                             _select = EditorGUILayout.ObjectField(_select, typeof(Object), true);
 
-                            _friendlyName = GUILayout.TextField(_friendlyName, GUILayout.Width(250.0f));
+                            GUILayout.Label("Define ", GUILayout.Width(60.0f));
+                            _define = EditorGUILayout.TextField(_define, GUILayout.Width(250.0f));
+
+                            GUILayout.Label("Friendly name ", GUILayout.Width(90.0f));
+                            _friendlyName = EditorGUILayout.TextField(_friendlyName, GUILayout.Width(250.0f));
 
                             if (GUILayout.Button("Add", GUILayout.Width(60.0f)))
                             {
@@ -264,6 +304,7 @@ namespace MyHalp.Editor.MyPreloader
                             }
                         }
                         GUILayout.EndHorizontal();
+                        EditorGUILayout.Space();
                     }
                     GUILayout.EndScrollView();
                 }
