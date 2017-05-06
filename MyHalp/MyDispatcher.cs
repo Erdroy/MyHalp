@@ -3,6 +3,7 @@
 using System;
 using System.Collections.Generic;
 using System.Threading;
+using UnityEngine;
 
 namespace MyHalp
 {
@@ -12,7 +13,6 @@ namespace MyHalp
     public sealed class MyDispatcher
     {
         private static readonly List<WaitCallback> DispatchQueue = new List<WaitCallback>();
-        private static MyDispatcherHandle _handle;
         
         // ReSharper disable once ClassNeverInstantiated.Local
         private sealed class MyDispatcherHandle : MyComponent
@@ -43,17 +43,17 @@ namespace MyHalp
         {
             get
             {
-                return _handle != null;
+                return Handle != null;
             }
         }
-        
+
         /// <summary>
         /// Initialize the dispatcher.
         /// </summary>
         public static void Init()
         {
-            if (_handle == null)
-                _handle = MyInstancer.Create<MyDispatcherHandle>();
+            if (Handle == null)
+                Handle = MyInstancer.Create<MyDispatcherHandle>();
         }
         
         /// <summary>
@@ -68,5 +68,10 @@ namespace MyHalp
                 DispatchQueue.Add(callback);
             }
         }
+
+        /// <summary>
+        /// The dispatcher handle, used for asset loading etc.
+        /// </summary>
+        public static MonoBehaviour Handle { get; private set; }
     }
 }

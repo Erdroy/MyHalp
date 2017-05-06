@@ -101,7 +101,8 @@ namespace MyHalp.Editor.MyCooker
         // private
         private void Build(bool scriptsOnly)
         {
-            var lastDirectives = PlayerSettings.GetScriptingDefineSymbolsForGroup(BuildTargetGroup.Standalone); // TODO: this may be invalid for some platforms
+            // BUG: this may be invalid for some platforms
+            var lastDirectives = PlayerSettings.GetScriptingDefineSymbolsForGroup(BuildTargetGroup.Standalone);
             
             foreach (var target in SelectedPreset.Targets)
             {
@@ -109,7 +110,7 @@ namespace MyHalp.Editor.MyCooker
                 {
                     if (scriptsOnly)
                     {
-                        BuildPipelineHelper.BuildScripts(target);
+                        BuildPipelineHelper.QueueBuildScripts(target);
                     }
                     else
                     {
@@ -122,10 +123,25 @@ namespace MyHalp.Editor.MyCooker
                 }
             }
 
-            // reset the directives
-            PlayerSettings.SetScriptingDefineSymbolsForGroup(BuildTargetGroup.Standalone, lastDirectives);
+            if (!scriptsOnly)
+            {
+                // reset the directives
+                PlayerSettings.SetScriptingDefineSymbolsForGroup(BuildTargetGroup.Standalone, lastDirectives);
 
-            // TODO: auto start option(warning: use proper working dir!)
+                // TODO: auto start option(warning: use proper working dir!)
+            }
+            else
+            {
+                try
+                {
+                    Debug.Log("Building scripts only...");
+                    BuildPipelineHelper.BuildScripts();
+                }
+                catch (Exception ex)
+                {
+                    Debug.LogError("Failed to script only build error: " + ex);
+                }
+            }
         }
     }
 }

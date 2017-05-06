@@ -5,6 +5,7 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using UnityEditor;
+using UnityEditor.Callbacks;
 using UnityEngine;
 
 namespace MyHalp.Editor.MyCooker
@@ -15,11 +16,13 @@ namespace MyHalp.Editor.MyCooker
     internal static class BuildPipelineHelper
     {
         /// <summary>
-        /// Builds scripts only target.
+        /// Queues target to scripts only build.
         /// </summary>
         /// <param name="target">The target.</param>
-        public static void BuildScripts(MyCookerPreset.Target target)
+        public static void QueueBuildScripts(MyCookerPreset.Target target)
         {
+            // TODO: if first, clear Temp/Cooker directory, this will fix some issues that would exist
+
             // check support
             if (target.BuildTarget != BuildTarget.StandaloneWindows
                             && target.BuildTarget != BuildTarget.StandaloneWindows64
@@ -29,7 +32,27 @@ namespace MyHalp.Editor.MyCooker
             {
                 throw new Exception("Failed to build target: " + target.Name + " error: scripts only build is supported only for windows and linux.");
             }
-            
+
+            // TODO: create directory in Temp/Cooker/QueuedTargets(if doesn't exist)
+            // TODO: add json file with the contents of `target`
+
+            //ToBuild.Add(target);
+        }
+
+        /// <summary>
+        /// Builds scripts only queued targets.
+        /// </summary>
+        public static void BuildScripts()
+        {
+            EditorPrefs.SetBool("ScriptsOnlyBuild", true);
+
+            // TODO: load and delete first file in Temp/Cooker/QueuedTargets
+
+            //StartBuildTarget(ToBuild[0]);
+        }
+
+        private static void StartBuildTarget(MyCookerPreset.Target target)
+        {
             var defines = string.Join(";", DefineSymbolsForTarget(target));
 
             // use has some hacks, so we can use .exe for all platforms
@@ -42,11 +65,47 @@ namespace MyHalp.Editor.MyCooker
                 throw new Exception("Failed to build target: " + target.Name + " error: no prebuilt application found.");
             }
 
+            // set define symbols and refresh
             PlayerSettings.SetScriptingDefineSymbolsForGroup(BuildTargetGroup.Standalone, defines);
+            AssetDatabase.Refresh();
 
-            // wait for editor to recompile the scripts
-            // copy assembiles
-            // done!
+            // force recompile
+            ScriptsReloader.ForceReload();
+        }
+
+        [DidReloadScripts]
+        private static void OnScriptsReloaded()
+        {
+           /* if (EditorPrefs.GetBool("ScriptsOnlyBuild"))
+            {
+                try
+                {
+                    var target = ToBuild[0];
+                    Debug.Log("Recompiled " + target.Name);
+
+                    // TODO: copy assembiles
+                    // TODO: delete the current file
+                    // TODO: load and run first file in Temp/Cooker/QueuedTargets
+
+                    ToBuild.RemoveAt(0);
+                    if (ToBuild.Count > 0)
+                    {
+                        StartBuildTarget(ToBuild[0]);
+                    }
+                    else
+                    {
+                        Debug.Log("Scripts only build done. All targets has been built.");
+
+                        // finished building
+                        EditorPrefs.SetBool("ScriptsOnlyBuild", false);
+                    }
+                }
+                catch (Exception ex)
+                {
+                    Debug.Log("Failed to build: " + ex);
+                    EditorPrefs.SetBool("ScriptsOnlyBuild", false);
+                }
+            }*/
         }
 
         /// <summary>
@@ -78,8 +137,9 @@ namespace MyHalp.Editor.MyCooker
             // TODO: use separate CLI nogfx/headless unity through console/terminal with parameters 
             // to build the game(do not block the current unity instance)
 
-            // set defines
+            // set define symbols and refresh
             PlayerSettings.SetScriptingDefineSymbolsForGroup(BuildTargetGroup.Standalone, defines);
+            AssetDatabase.Refresh();
 
             // build!
             BuildPipeline.BuildPlayer(scenes.ToArray(), outputPathName, target.BuildTarget, options);
@@ -107,6 +167,8 @@ namespace MyHalp.Editor.MyCooker
                 default:
                     throw new ArgumentOutOfRangeException();
             }
+
+            defines.AddRange(target.DefineSymbols);
 
             switch (target.BuildTarget)
             {

@@ -57,6 +57,10 @@
     <Compile Include="Editor\MyCooker\MyCookerNameReader.cs" />
     <Compile Include="Editor\MyCooker\MyCookerPreset.cs" />
     <Compile Include="Editor\MyCooker\MyCookerWindow.cs" />
+    <Compile Include="Editor\MyPreloader\MyPreloaderCodeGen.cs" />
+    <Compile Include="Editor\MyPreloader\MyPreloaderSettings.cs" />
+    <Compile Include="Editor\MyPreloader\MyPreloaderWindow.cs" />
+    <Compile Include="Editor\ScriptsReloader.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
