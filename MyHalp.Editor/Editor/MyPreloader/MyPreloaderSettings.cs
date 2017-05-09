@@ -19,7 +19,8 @@ namespace MyHalp.Editor.MyPreloader
                 Shader,
                 Mesh,
                 AudioMixer,
-                ScriptableObject
+                ScriptableObject,
+                RuntimeAnimatorController
             }
 
             public Type AssetType { get; set; }

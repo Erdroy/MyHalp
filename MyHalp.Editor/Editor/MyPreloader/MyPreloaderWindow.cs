@@ -107,6 +107,9 @@ namespace MyHalp.Editor.MyPreloader
             else if (_select is ScriptableObject)
                 assetType = MyPreloaderSettings.Asset.Type.ScriptableObject;
 
+            if (_select is RuntimeAnimatorController)
+                assetType = MyPreloaderSettings.Asset.Type.RuntimeAnimatorController;
+
             if (assetType == MyPreloaderSettings.Asset.Type.Unsupported)
             {
                 Debug.LogError("MyPreloader: Cannot add new object for preloading, unsupported type.");
