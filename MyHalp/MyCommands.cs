@@ -12,7 +12,7 @@ namespace MyHalp
     /// Generic class used by MyConsole and MyRCon.
     /// Allows to register commands.
     /// </summary>
-    public class MyCommands
+    public sealed class MyCommands
     {
         /// <summary>
         /// Structure for command data.
