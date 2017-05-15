@@ -5,7 +5,7 @@ Currently under reconstruction, see 'Contribution' for current progress and task
 
 # Main Features:
  - MyCooker - Under developement, editor extension which helps building applications in specific configurations at once(eg.: game and server with define symbols).
- - MyPreloader - Editor extension that generates `MyAssets` class, with all given assets to preload, call MyAssets.Init() to load them at once async.
+ - MyPreloader - Editor extension that generates `MyAssets` class, with all given assets to preload, call MyAssets.Init() to load all of  once - using async loading
  - MyConsole - Console window for fast development or even ready projects.
  - MyCommands - Class for registering commands and executing by string(eg.: 'volume master 0.2') or name and object array as parameters. 
  - MyLogger - `MyLogger.Add("Wouw, LOGS! MUCH logs. Love logs.")`;
