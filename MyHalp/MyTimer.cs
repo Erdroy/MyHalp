@@ -67,13 +67,21 @@ namespace MyHalp
             switch (precision)
             {
                 case MyTimerPrecision.Low:
-                    _instance.StartCoroutine(SwitchT1(method, time, _id));
+                    _instance.StartCoroutine(Delay(method, time, _id));
                     break;
                 case MyTimerPrecision.High:
                     MyJob.Run(delegate
                     {
                         MyJob.Wait(time);
-                        method();
+
+                        lock (Actions)
+                        {
+                            if (!Actions.Contains(_id))
+                                return;
+
+                            method();
+                            Actions.Remove(_id);
+                        }
                     });
                     break;
                 default:
@@ -84,7 +92,57 @@ namespace MyHalp
         }
 
         /// <summary>
-        /// Cancel delayed method call by id.
+        /// Runs method in interval.
+        /// </summary>
+        /// <param name="interval">How much time MyTimmer must wait before calling the method.</param>
+        /// <param name="method">The method to be called after a delay.</param>
+        /// <param name="precision">Interval time precision.</param>
+        /// <returns>The id of current timer action, can be used to cancel delay.</returns>
+        public static uint Interval(float interval, Action method, MyTimerPrecision precision = MyTimerPrecision.Low)
+        {
+            if (method == null)
+            {
+                Debug.LogError("Cannot delay method with no method!");
+                return 0;
+            }
+
+            _id++;
+
+            lock (Actions)
+                Actions.Add(_id);
+
+            switch (precision)
+            {
+                case MyTimerPrecision.Low:
+                    _instance.StartCoroutine(Interval(method, interval, _id));
+                    break;
+                case MyTimerPrecision.High:
+                    MyJob.Run(delegate
+                    {
+                        while (true)
+                        {
+                            MyJob.Wait(interval);
+
+                            lock (Actions)
+                                if (!Actions.Contains(_id))
+                                    return;
+
+                            method();
+
+                            lock (Actions)
+                                Actions.Remove(_id);
+                        }
+                    });
+                    break;
+                default:
+                    throw new ArgumentOutOfRangeException(nameof(precision), precision, null);
+            }
+
+            return _id;
+        }
+        
+        /// <summary>
+        /// Cancel delayed/interval method call by id.
         /// </summary>
         /// <param name="id">The delayed method call.</param>
         public static void Cancel(uint id)
@@ -99,17 +157,35 @@ namespace MyHalp
         }
 
         // private
-        private static IEnumerator SwitchT1(Action onDone, float time, uint id)
+        private static IEnumerator Delay(Action onDone, float time, uint id)
         {
             yield return new WaitForSeconds(time);
 
             lock (Actions)
-            {
                 if (!Actions.Contains(id)) // if the action was canceled
                     yield break;
 
-                onDone?.Invoke();
+            onDone?.Invoke();
+
+            lock (Actions)
                 Actions.Remove(id);
+        }
+
+        // private
+        private static IEnumerator Interval(Action onDone, float time, uint id)
+        {
+            while (true)
+            {
+                yield return new WaitForSeconds(time);
+
+                lock (Actions)
+                    if (!Actions.Contains(id)) // if the action was canceled
+                        yield break;
+
+                onDone?.Invoke();
+
+                lock (Actions)
+                    Actions.Remove(id);
             }
         }
     }
