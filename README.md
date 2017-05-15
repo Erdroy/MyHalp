@@ -4,23 +4,23 @@ Unity 5 helper library, contains some useful methods for better and smooth devel
 Currently under reconstruction, see 'Contribution' for current progress and tasks.
 
 # Main Features:
- - **MyPreloader** - Editor extension that generates `MyAssets` class, with all given assets to preload, call MyAssets.Init() to load all of  once - using async loading
+ - **MyPreloader** - Editor extension that generates `MyAssets` class, with all given assets to preload, call MyAssets.Init() to load all of them at once - using async loading.
  - **MyConsole** - Console window for fast development or even ready projects.
  - **MyCommands** - Class for registering commands and executing by string(eg.: 'volume master 0.2') or name and object array as parameters.
  - **MyLogger** - `MyLogger.Add("Wouw, LOGS! MUCH logs. Love logs.")`;
- - **MyComponent** - Custom Unity behaviour class.
- - **MyInput** - Custom Input class that supports binding, FixedUpdate(via .FixedGet) and more.
- - **MyObjectPool** - Pooled objects, request 'new' gameobject without performace hit at any time.
+ - **MyTimer** - Allows to run methods with delay or interval, wub wub wub wub, error.
  - **MyJob** - Threaded jobs.
  - **MyJobQueue** - Queued jobs with progress.
  - **MyDispatcher** - Call any method/deleate from any thread in the main thread - Wow! What a great thing.
+ - **MyComponent** - Custom Unity behaviour class.
+ - **MyInput** - Custom Input class that supports binding, FixedUpdate(via .FixedGet) and more.
+ - **MyObjectPool** - Pooled objects, request 'new' gameobject without performace hit at any time.
  - **MyInstancer** - Creates new instance of given component, and assings it to a gameobject.
  - **MyMath** - MyVector2/3/4, MyQuaternion, MyMatrix/3x3/4x4 and much more(using SharpDX.Mathematics).
 
 # Incoming Features(under developement):
  - **MyCooker** - Editor extension which helps building applications in specific configurations at once(eg.: game and server with define symbols). 
  - **MyProfiler** - Runtime profiling tool.
- - **MyTimer** - Allow to run methods with delay or interval.
  
 # Planned Features:
  - **MyFade** - Smooth fading between scenes and cameras.
