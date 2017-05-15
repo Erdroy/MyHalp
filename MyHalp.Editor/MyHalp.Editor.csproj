@@ -57,11 +57,24 @@
     <Compile Include="Editor\MyCooker\MyCookerNameReader.cs" />
     <Compile Include="Editor\MyCooker\MyCookerPreset.cs" />
     <Compile Include="Editor\MyCooker\MyCookerWindow.cs" />
-    <Compile Include="Editor\MyPreloader\MyPreloaderCodeGen.cs" />
+    <Compile Include="Editor\MyPreloader\MyAssetsGenerator.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>MyAssetsGenerator.tt</DependentUpon>
+    </Compile>
     <Compile Include="Editor\MyPreloader\MyPreloaderSettings.cs" />
     <Compile Include="Editor\MyPreloader\MyPreloaderWindow.cs" />
     <Compile Include="Editor\ScriptsReloader.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <Service Include="{508349B6-6B84-4DF5-91F0-309BEEBAD82D}" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Editor\MyPreloader\MyAssetsGenerator.tt">
+      <Generator>TextTemplatingFilePreprocessor</Generator>
+      <LastGenOutput>MyAssetsGenerator.cs</LastGenOutput>
+    </Content>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

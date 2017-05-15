@@ -65,9 +65,18 @@ namespace MyHalp.Editor.MyPreloader
         // private
         private void Generate()
         {
-            // generate code for resources loading
-            MyPreloaderCodeGen.GenerateFor(_settings.Assets, "Assets/MyAssets.cs"); // TODO: change the path, to be under MyHalp.dll file
+            var rr = new MyAssetsGenerator
+            {
+                Session = new Dictionary<string, object>
+                {
+                    { "Assets", _settings.Assets }
+                }
+            };
+            rr.Initialize();
 
+            var code = rr.TransformText();
+            File.WriteAllText("Assets/MyAssets.cs", code);  // TODO: change the path, to be under MyHalp.dll file
+            
             // force recompile
             AssetDatabase.ImportAsset("Assets/MyAssets.cs");
         }

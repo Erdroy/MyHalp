@@ -1,0 +1,74 @@
+﻿<#@ template language="C#" #>
+<#@ assembly name="MyHalp.Editor.MyPreloader" #>
+<#@ import namespace="UnityEngine.Audio" #>
+<#@ import namespace="System" #>
+<#@ import namespace="System.Collections" #>
+<#@ import namespace="System.Linq" #>
+
+<#@ parameter name="Assets" type="MyHalp.Editor.MyPreloader.MyPreloaderSettings.Asset[]" #>
+
+using UnityEngine;
+using UnityEngine.Audio;
+using System;
+using System.Collections;
+
+namespace MyHalp 
+{
+	public class MyAssets 
+	{
+<# foreach(var asset in Assets) { #>
+<# if(!string.IsNullOrEmpty(asset.Define)) { Write("#if " + asset.Define + "\n"); } #>
+		public static <#= asset.AssetType.ToString().Split('.').Last() #><#= asset.IsArray ? "[]" : ""#> <#=asset.FriendlyName #> { get; set; }
+<# if(!string.IsNullOrEmpty(asset.Define)) { Write("#endif\n"); } #>
+<# } #>
+
+		/// <summary>
+		/// Preloads all assets, this should be called only once, unless you call Unload.
+		/// </summary>
+		public static void Init(Action onLoad = null, Action<string> onError = null) {
+			IsLoaded = false;
+
+			// run loader
+			MyDispatcher.Handle.StartCoroutine(Loader(onLoad, onError));
+		}
+
+		// private
+		private static IEnumerator Loader(Action onLoad, Action<string> onError) {
+			ResourceRequest request;
+			
+			// fix when there is no any assets added
+			yield return new WaitForEndOfFrame();
+
+<# foreach(var asset in Assets) { #>
+<# if(!string.IsNullOrEmpty(asset.Define)) { Write("#if " + asset.Define + "\n"); } #>
+<# if(asset.IsArray) { #>
+			<#=asset.FriendlyName#> = new <#=asset.AssetType.ToString().Split('.').Last()#>[<#=asset.ResourcePath.Length#>];
+
+<# var i = 0; #>
+<# foreach(var path in asset.ResourcePath) { #>
+			request = Resources.LoadAsync<<#= asset.AssetType.ToString().Split('.').Last()#>>("<#=path#>");
+			yield return request;
+			if(request.asset == null) 
+				onError("Failed to load asset: <#=asset.FriendlyName#>");
+			<#=asset.FriendlyName#>[<#=i#>] = request.asset as <#=asset.AssetType.ToString().Split('.').Last()#>;
+<# i++; #>
+<# } #>
+<# } else { #>
+			request = Resources.LoadAsync<<#= asset.AssetType.ToString().Split('.').Last()#>>("<#=asset.ResourcePath[0]#>");
+			yield return request;
+			if(request.asset == null) 
+				onError("Failed to load asset: <#=asset.FriendlyName#>");
+			<#=asset.FriendlyName#> = request.asset as <#=asset.AssetType.ToString().Split('.').Last()#>;
+<# } #>
+<# if(!string.IsNullOrEmpty(asset.Define)) { Write("#endif\n"); } #>
+<# } #>
+			if (onLoad != null)
+                onLoad();
+		}
+
+		/// <summary>
+		/// Are the assets loaded?
+		/// </summary>
+		public static bool IsLoaded { get; private set; }
+	}
+}
