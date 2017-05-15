@@ -83,6 +83,7 @@
     <Compile Include="MyMath\MyViewport.cs" />
     <Compile Include="MyMath\MyViewportF.cs" />
     <Compile Include="MyObjectPool.cs" />
+    <Compile Include="MyProfiler.cs" />
     <Compile Include="MySettings.cs" />
     <Compile Include="MyLogger.cs" />
     <Compile Include="MyUnityExtensions.Math.cs" />
