@@ -25,12 +25,13 @@ namespace MyHalp.Editor.MyCooker
 
             // check support
             if (target.BuildTarget != BuildTarget.StandaloneWindows
-                            && target.BuildTarget != BuildTarget.StandaloneWindows64
-                            && target.BuildTarget != BuildTarget.StandaloneLinux
-                            && target.BuildTarget != BuildTarget.StandaloneLinux64
-                            && target.BuildTarget != BuildTarget.StandaloneLinuxUniversal)
+                && target.BuildTarget != BuildTarget.StandaloneWindows64
+                && target.BuildTarget != BuildTarget.StandaloneLinux
+                && target.BuildTarget != BuildTarget.StandaloneLinux64
+                && target.BuildTarget != BuildTarget.StandaloneLinuxUniversal)
             {
-                throw new Exception("Failed to build target: " + target.Name + " error: scripts only build is supported only for windows and linux.");
+                Debug.LogError("Failed to queue target: " + target.Name + " error: scripts only build is supported only for windows and linux.");
+                return;
             }
 
             // TODO: create directory in Temp/Cooker/QueuedTargets(if doesn't exist)
@@ -62,7 +63,8 @@ namespace MyHalp.Editor.MyCooker
 
             if (!File.Exists(outputPathName))
             {
-                throw new Exception("Failed to build target: " + target.Name + " error: no prebuilt application found.");
+                Debug.LogError("Failed to build target: " + target.Name + " error: no prebuilt application found.");
+                return;
             }
 
             // set define symbols and refresh

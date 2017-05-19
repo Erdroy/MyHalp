@@ -25,7 +25,8 @@ namespace MyHalp
         {
             if (_executing)
             {
-                throw new UnityException("JobQueue is already began to execute already, cannot queue new callback.");
+                Debug.LogError("JobQueue is already began to execute already, cannot queue new callback.");
+                return;
             }
             
             // TODO: Maybe weights of the callbacks?
