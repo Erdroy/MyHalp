@@ -215,7 +215,7 @@ namespace MyHalp
         }
 
         /// <summary>
-        /// Produce stack point in the log file.
+        /// Produce stack point in the log output.
         /// Something like: "MyNameSpace.MyClass::MyMethod at 160"
         /// </summary>
         public static void Point()
@@ -230,6 +230,15 @@ namespace MyHalp
 
             callstackString = callstackString.Replace(".", MySettings.PointSeparator);
             Instance.Write(callstackString, null, MyLoggerLevel.Debug);
+        }
+
+        /// <summary>
+        /// Produce stack trace in the log output.
+        /// </summary>
+        public static void Trace()
+        {
+            var trace = new StackTrace();
+            Add(trace.ToString(), MyLoggerLevel.Debug);
         }
 
         /// <summary>
