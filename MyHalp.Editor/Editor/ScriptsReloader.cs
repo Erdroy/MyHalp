@@ -7,20 +7,11 @@ namespace MyHalp.Editor
     {
         public static void ForceReload()
         {
-            // source: https://forum.unity3d.com/threads/force-script-recompilation.176572/
-            AssetDatabase.StartAssetEditing();
-            var allAssetPaths = AssetDatabase.GetAllAssetPaths();
-            foreach (var assetPath in allAssetPaths)
-            {
-                if (assetPath.ToLower().Contains("unity"))
-                    continue;
+            // reimport MyHalp.Editor.dll to force refresh
 
-                var script = AssetDatabase.LoadAssetAtPath(assetPath, typeof(MonoScript)) as MonoScript;
-                if (script != null)
-                {
-                    AssetDatabase.ImportAsset(assetPath);
-                }
-            }
+            AssetDatabase.StartAssetEditing();
+            var asset = AssetDatabase.FindAssets("MyHalp.Editor.dll");
+            AssetDatabase.ImportAsset(AssetDatabase.GUIDToAssetPath(asset[0]));
             AssetDatabase.StopAssetEditing();
         }
     }
