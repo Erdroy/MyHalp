@@ -4,6 +4,8 @@ using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using JetBrains.Annotations;
+using Newtonsoft.Json;
 using UnityEditor;
 using UnityEditor.Callbacks;
 using UnityEngine;
@@ -15,6 +17,56 @@ namespace MyHalp.Editor.MyCooker
     /// </summary>
     internal static class BuildPipelineHelper
     {
+        // private
+        private static string CookerTemp => Application.dataPath.Replace("Assets", "Temp/MyCooker/");
+
+        // private
+        private static string BuildPath => Application.dataPath.Replace("Assets", "build/");
+
+        // private
+        private static string AssembliesPath => Application.dataPath.Replace("Assets", "Library/ScriptAssemblies/");
+
+        /// <summary>
+        /// Builds target.
+        /// </summary>
+        /// <param name="target">The target.</param>
+        public static void Build(MyCookerPreset.Target target)
+        {
+            var scenes = EditorBuildSettings.scenes.Select(scene => scene.path).ToArray();
+            var defines = string.Join(";", DefineSymbolsForTarget(target));
+            var options = OptionsForTarget(target);
+
+            // use has some hacks, so we can use .exe for all platforms
+            // it will be changed by the build pipeline
+            var outputPath = BuildPath + target.OutputName;
+            var outputPathName = outputPath + "/" + target.ExecutableName + ".exe";
+
+            // delete the output directory if exists
+            if (File.Exists(outputPathName))
+            {
+                // delete the directory
+                Directory.Delete(outputPath, true);
+            }
+
+            // TODO: use separate CLI nogfx/headless unity through console/terminal with parameters 
+            // to build the game(do not block the current unity instance)
+
+            // set define symbols and refresh
+            PlayerSettings.SetScriptingDefineSymbolsForGroup(BuildTargetGroup.Standalone, defines);
+            AssetDatabase.Refresh();
+
+            // build!
+            BuildPipeline.BuildPlayer(scenes.ToArray(), outputPathName, target.BuildTarget, options);
+        }
+
+        /// <summary>
+        /// Builds scripts only queued targets.
+        /// </summary>
+        public static void BuildScripts()
+        {
+            StartScriptOnlyBuild(GetCurrentTarget());
+        }
+
         /// <summary>
         /// Queues target to scripts only build.
         /// </summary>
@@ -34,38 +86,33 @@ namespace MyHalp.Editor.MyCooker
                 return;
             }
 
-            // TODO: create directory in Temp/Cooker/QueuedTargets(if doesn't exist)
-            // TODO: add json file with the contents of `target`
+            if (!Directory.Exists(CookerTemp))
+                Directory.CreateDirectory(CookerTemp);
 
-            //ToBuild.Add(target);
+            var targetCount = GetTargetCount();
+
+            // add json file with the contents of `target`
+            var json = JsonConvert.SerializeObject(target);
+            File.WriteAllText(CookerTemp + "target_" + targetCount + ".json", json);
         }
 
-        /// <summary>
-        /// Builds scripts only queued targets.
-        /// </summary>
-        public static void BuildScripts()
-        {
-            EditorPrefs.SetBool("ScriptsOnlyBuild", true);
-
-            // TODO: load and delete first file in Temp/Cooker/QueuedTargets
-
-            //StartBuildTarget(ToBuild[0]);
-        }
-
-        private static void StartBuildTarget(MyCookerPreset.Target target)
+        // private
+        private static void StartScriptOnlyBuild(MyCookerPreset.Target target)
         {
             var defines = string.Join(";", DefineSymbolsForTarget(target));
 
             // use has some hacks, so we can use .exe for all platforms
             // it will be changed by the build pipeline
-            var outputPath = Application.dataPath.Replace("Assets", "build/" + target.OutputName);
-            var outputPathName = outputPath + "/" + target.ExecutableName + ".exe";
+            var outputPathName = BuildPath + target.OutputName + "/" + target.ExecutableName + ".exe";
 
             if (!File.Exists(outputPathName))
             {
                 Debug.LogError("Failed to build target: " + target.Name + " error: no prebuilt application found.");
                 return;
             }
+
+            // say that we are building the script only way
+            EditorPrefs.SetBool("ScriptsOnlyBuild", true);
 
             // set define symbols and refresh
             PlayerSettings.SetScriptingDefineSymbolsForGroup(BuildTargetGroup.Standalone, defines);
@@ -75,76 +122,135 @@ namespace MyHalp.Editor.MyCooker
             ScriptsReloader.ForceReload();
         }
 
-        [DidReloadScripts]
+        // private
+        [DidReloadScripts, UsedImplicitly]
         private static void OnScriptsReloaded()
         {
-           /* if (EditorPrefs.GetBool("ScriptsOnlyBuild"))
+            if (EditorPrefs.GetBool("ScriptsOnlyBuild"))
             {
+                EditorPrefs.SetBool("ScriptsOnlyBuild", false);
+                
                 try
                 {
-                    var target = ToBuild[0];
+                    if (GetTargetCount() == 0)
+                        return;
+
+                    // TODO: fix issues when editor is closed in unexpected way or any build fails. Do:
+                    // - check if this is expected build
+                    // - check if there is no any errors (check last and current assembly version?)
+                    // then everything should be good
+
+                    // read first target file
+                    var target = GetCurrentTarget();
+                    
+                    // say that we have done building
                     Debug.Log("Recompiled " + target.Name);
 
-                    // TODO: copy assembiles
-                    // TODO: delete the current file
-                    // TODO: load and run first file in Temp/Cooker/QueuedTargets
+                    // copy assembiles
+                    CopyAssemblies();
 
-                    ToBuild.RemoveAt(0);
-                    if (ToBuild.Count > 0)
+                    // delete the current file
+                    DeleteCurrentTarget();
+
+                    // check if there is any other target left for building
+                    if (GetTargetCount() > 0)
                     {
-                        StartBuildTarget(ToBuild[0]);
+                        // load and run first file in cooker temp dir
+                        StartScriptOnlyBuild(GetCurrentTarget());
                     }
                     else
                     {
+                        // finished building
                         Debug.Log("Scripts only build done. All targets has been built.");
 
-                        // finished building
-                        EditorPrefs.SetBool("ScriptsOnlyBuild", false);
+                        // clean temp dir
+                        CleanTempDir();
                     }
                 }
                 catch (Exception ex)
                 {
                     Debug.Log("Failed to build: " + ex);
-                    EditorPrefs.SetBool("ScriptsOnlyBuild", false);
                 }
-            }*/
+            }
         }
 
-        /// <summary>
-        /// Builds target.
-        /// </summary>
-        /// <param name="target">The target.</param>
-        public static void Build(MyCookerPreset.Target target)
+        // private
+        private static MyCookerPreset.Target GetCurrentTarget()
         {
-            var scenes = EditorBuildSettings.scenes.Select(scene => scene.path).ToArray();
-            var defines = string.Join(";", DefineSymbolsForTarget(target));
-            var options = OptionsForTarget(target);
+            var files = Directory.GetFiles(CookerTemp).ToList();
 
-            // use has some hacks, so we can use .exe for all platforms
-            // it will be changed by the build pipeline
-            var outputPath = Application.dataPath.Replace("Assets", "build/" + target.OutputName);
-            var outputPathName = outputPath + "/" + target.ExecutableName + ".exe";
+            files.Sort();
+            files.Reverse();
 
-            // delete the output directory if exists
-            if (File.Exists(outputPathName))
+            foreach (var file in files)
             {
-                // delete the directory
-                Directory.Delete(outputPath, true);
+                if (file.Contains("target_"))
+                {
+                    return JsonConvert.DeserializeObject<MyCookerPreset.Target>(File.ReadAllText(file));
+                }
             }
 
-            // increase build number TODO: build counting
-            //target.BuildNumber++;
-            //Save();
+            return new MyCookerPreset.Target(); // ??
+        }
 
-            // TODO: use separate CLI nogfx/headless unity through console/terminal with parameters 
-            // to build the game(do not block the current unity instance)
+        // private
+        private static int GetTargetCount()
+        {
+            var targetCount = 0;
 
-            // set define symbols and refresh
-            PlayerSettings.SetScriptingDefineSymbolsForGroup(BuildTargetGroup.Standalone, defines);
-            AssetDatabase.Refresh();
+            var files = Directory.GetFiles(CookerTemp);
+            foreach (var file in files)
+            {
+                if (file.Contains("target_"))
+                    targetCount++;
+            }
 
-            // build!
-            BuildPipeline.BuildPlayer(scenes.ToArray(), outputPathName, target.BuildTarget, options);
+            return targetCount;
+        }
+
+        // private
+        private static void DeleteCurrentTarget()
+        {
+            var files = Directory.GetFiles(CookerTemp).ToList();
+
+            files.Sort();
+            files.Reverse();
+
+            foreach (var file in files)
+            {
+                if (file.Contains("target_"))
+                {
+                    File.Delete(file);
+                    return;
+                }
+            }
+        }
+
+        // private
+        private static void CopyAssemblies()
+        {
+            var path = AssembliesPath;
+            var assembiles = Directory.GetFiles(path, "*.dll");
+
+            var target = GetCurrentTarget();
+            var outputPath = BuildPath + target.OutputName + "/" + target.OutputName + "_Data/" + "Managed/";
+
+            foreach (var asm in assembiles)
+            {
+                var fileInfo = new FileInfo(asm);
+
+                // copy file
+                File.Copy(asm, outputPath + fileInfo.Name, true);
+
+                Debug.Log(outputPath + fileInfo.Name);
+            }
+        }
+
+        // private
+        private static void CleanTempDir()
+        {
+            if (Directory.Exists(CookerTemp))
+                Directory.Delete(CookerTemp);
         }
 
         // private
@@ -240,3 +346,4 @@ namespace MyHalp.Editor.MyCooker
         }
     }
 }
+

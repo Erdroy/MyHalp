@@ -142,6 +142,8 @@ namespace MyHalp.Editor.MyCooker
                     Debug.LogError("Failed to script only build error: " + ex);
                 }
             }
+
+            // increase build number TODO: build counting
         }
     }
 }
