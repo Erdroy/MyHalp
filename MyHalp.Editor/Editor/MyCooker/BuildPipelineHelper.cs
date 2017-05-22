@@ -64,6 +64,7 @@ namespace MyHalp.Editor.MyCooker
         /// </summary>
         public static void BuildScripts()
         {
+            EditorUtility.DisplayProgressBar("Building scripts...", "Building game scripts", 0.5f);
             StartScriptOnlyBuild(GetCurrentTarget());
         }
 
@@ -109,6 +110,7 @@ namespace MyHalp.Editor.MyCooker
             {
                 EditorPrefs.SetBool("ScriptsOnlyBuild", false);
                 Debug.LogError("Failed to build target: " + target.Name + " error: no prebuilt application found.");
+                EditorUtility.ClearProgressBar();
                 return;
             }
 
@@ -163,6 +165,7 @@ namespace MyHalp.Editor.MyCooker
                     {
                         // finished building
                         Debug.Log("Scripts only build done. All targets has been built.");
+                        EditorUtility.ClearProgressBar();
 
                         // clean temp dir
                         CleanTempDir();
@@ -172,6 +175,7 @@ namespace MyHalp.Editor.MyCooker
                 {
                     EditorPrefs.SetBool("ScriptsOnlyBuild", false);
                     Debug.LogError("Failed to build: " + ex);
+                    EditorUtility.ClearProgressBar();
                 }
             }
         }
