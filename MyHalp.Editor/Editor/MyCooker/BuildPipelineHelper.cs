@@ -171,7 +171,7 @@ namespace MyHalp.Editor.MyCooker
                 catch (Exception ex)
                 {
                     EditorPrefs.SetBool("ScriptsOnlyBuild", false);
-                    Debug.Log("Failed to build: " + ex);
+                    Debug.LogError("Failed to build: " + ex);
                 }
             }
         }
@@ -243,8 +243,6 @@ namespace MyHalp.Editor.MyCooker
 
                 // copy file
                 File.Copy(asm, outputPath + fileInfo.Name, true);
-
-                Debug.Log(outputPath + fileInfo.Name);
             }
         }
 
