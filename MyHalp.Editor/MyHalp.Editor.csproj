@@ -64,7 +64,7 @@
     </Compile>
     <Compile Include="Editor\MyPreloader\MyPreloaderSettings.cs" />
     <Compile Include="Editor\MyPreloader\MyPreloaderWindow.cs" />
-    <Compile Include="Editor\ScriptsReloader.cs" />
+    <Compile Include="Editor\MyCooker\ScriptsReloader.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
