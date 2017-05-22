@@ -103,10 +103,11 @@ namespace MyHalp.Editor.MyCooker
 
             // use has some hacks, so we can use .exe for all platforms
             // it will be changed by the build pipeline
-            var outputPathName = BuildPath + target.OutputName + "/" + target.ExecutableName + ".exe";
+            var outputPathName = BuildPath + target.OutputName + "/" + target.ExecutableName + ".exe"; // TODO: proper file check (extension is invalid for non-windows targets)
 
             if (!File.Exists(outputPathName))
             {
+                EditorPrefs.SetBool("ScriptsOnlyBuild", false);
                 Debug.LogError("Failed to build target: " + target.Name + " error: no prebuilt application found.");
                 return;
             }
@@ -169,6 +170,7 @@ namespace MyHalp.Editor.MyCooker
                 }
                 catch (Exception ex)
                 {
+                    EditorPrefs.SetBool("ScriptsOnlyBuild", false);
                     Debug.Log("Failed to build: " + ex);
                 }
             }
@@ -233,7 +235,7 @@ namespace MyHalp.Editor.MyCooker
             var assembiles = Directory.GetFiles(path, "*.dll");
 
             var target = GetCurrentTarget();
-            var outputPath = BuildPath + target.OutputName + "/" + target.OutputName + "_Data/" + "Managed/";
+            var outputPath = BuildPath + target.OutputName + "/" + target.ExecutableName + "_Data/" + "Managed/";
 
             foreach (var asm in assembiles)
             {
