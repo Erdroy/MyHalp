@@ -1,5 +1,5 @@
 # MyHalp - Unity 5 helper library
-Unity 5 helper library, contains some useful stuff for better and easier developement.
+Unity 5 helper library, contains some useful stuff for better and easier development.
 
 ## Main Features:
  - **MyPreloader** - Editor extension that generates `MyAssets` class, with all given assets to preload, call MyAssets.Init() to load all of them at once - using async loading.
