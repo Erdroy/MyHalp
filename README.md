@@ -28,7 +28,7 @@ Unity 5 helper library, contains some useful stuff for better and easier develop
  - **MyBundle** - Editor extension that helps creating asset bundles and loading them during runtime.
 
 ## You are using MyHalp? [Let us know!](https://github.com/Erdroy/MyHalp/issues) 
-You can add an attachment logo of size 180x80 pixels.
+You can add an logo attachment of size 180x80 pixels, also don't forget about short description.
 
 ## Support/Contact
 If you have found an **issue** or you have some **suggestions**, send it in the **[Issues](https://github.com/Erdroy/MyHalp/issues)** section.
