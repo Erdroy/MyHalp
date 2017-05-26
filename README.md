@@ -16,7 +16,7 @@ Unity 5 helper library, contains some useful stuff for better and easier develop
  - **MyInstancer** - Creates new instance of given component, and assings it to a gameobject.
  - **MyMath** - MyVector2/3/4, MyQuaternion, MyMatrix/3x3/4x4 and much more (using SharpDX.Mathematics).
 
-## Incoming Features (under developement):
+## Incoming Features (under development):
  - **MyCooker** - Editor extension which helps building applications in specific configurations at once (eg.: game and server with define symbols). 
  - **MyProfiler** - Runtime profiling tool.
  
