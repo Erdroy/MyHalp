@@ -27,11 +27,19 @@ Unity 5 helper library, contains some useful stuff for better and easier develop
  - **MyLightProbeGenerator** - Editor extension that helps placing (procedurally) light probes.
  - **MyBundle** - Editor extension that helps creating asset bundles and loading them during runtime.
 
-## Contact
-Contact, you want to talk with me? Join my [Discord](https://discord.gg/ybJaGtb) server.
+## You are using MyHalp? [Let us know!](https://github.com/Erdroy/MyHalp/issues) 
+You can add an attachment logo of size 180x80 pixels.
+
+## Support/Contact
+If you have found an **issue** or you have some **suggestions**, send it in the **[Issues](https://github.com/Erdroy/MyHalp/issues)** section.
+Also, You can join my **[Discord server](https://discord.gg/ybJaGtb)** to get real-time support.
 
 ## [Examples](https://github.com/Erdroy/MyHalpExamples)
 
 ## [Trello](https://trello.com/b/2FMBpoOG/myhalp)
 
+## Who is using MyHalp?
+[MurderShadow](http://store.steampowered.com/app/506690) - online fast-paced shooter on Steam.
+
+<br><br><br>
 MyHalp (c) 2016-2017 Damian 'Erdroy' Korczowski
