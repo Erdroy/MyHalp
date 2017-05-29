@@ -1,5 +1,5 @@
 # MyHalp - Unity 5 helper library
-Unity 5 helper library, contains some useful stuff for better and easier developement.
+Unity 5 helper library, contains some useful stuff for better and easier development.
 
 ## Main Features:
  - **MyPreloader** - Editor extension that generates `MyAssets` class, with all given assets to preload, call MyAssets.Init() to load all of them at once - using async loading.
@@ -16,7 +16,7 @@ Unity 5 helper library, contains some useful stuff for better and easier develop
  - **MyInstancer** - Creates new instance of given component, and assings it to a gameobject.
  - **MyMath** - MyVector2/3/4, MyQuaternion, MyMatrix/3x3/4x4 and much more (using SharpDX.Mathematics).
 
-## Incoming Features (under developement):
+## Incoming Features (under development):
  - **MyCooker** - Editor extension which helps building applications in specific configurations at once (eg.: game and server with define symbols). 
  - **MyProfiler** - Runtime profiling tool.
  
@@ -27,11 +27,21 @@ Unity 5 helper library, contains some useful stuff for better and easier develop
  - **MyLightProbeGenerator** - Editor extension that helps placing (procedurally) light probes.
  - **MyBundle** - Editor extension that helps creating asset bundles and loading them during runtime.
 
-## Contact
-Contact, you want to talk with me? Join my [Discord](https://discord.gg/ybJaGtb) server.
+## You are using MyHalp? [Let us know!](https://github.com/Erdroy/MyHalp/issues) 
+You can add an logo attachment of size 180x80 pixels, also don't forget about short description.
+
+## Support/Contact
+If you have found an **issue** or you have some **suggestions**, send it in the **[Issues](https://github.com/Erdroy/MyHalp/issues)** section.
+Also, You can join my **[Discord server](https://discord.gg/ybJaGtb)** to get real-time support.
+Use as template: [MurderShadow is using MyHalp!](https://github.com/Erdroy/MyHalp/issues/2)
 
 ## [Examples](https://github.com/Erdroy/MyHalpExamples)
 
 ## [Trello](https://trello.com/b/2FMBpoOG/myhalp)
 
+## Who is using MyHalp?
+[MurderShadow](http://store.steampowered.com/app/506690) - online fast-paced shooter on Steam. <br>
+![logo](https://cloud.githubusercontent.com/assets/7634316/26507479/cbf91cd4-4250-11e7-8bfc-9ff427489e72.png)
+
+<br><br><br>
 MyHalp (c) 2016-2017 Damian 'Erdroy' Korczowski
