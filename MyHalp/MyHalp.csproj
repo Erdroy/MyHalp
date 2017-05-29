@@ -44,6 +44,7 @@
   <ItemGroup>
     <Compile Include="MyCommands.cs" />
     <Compile Include="MyConsole.cs" />
+    <Compile Include="MyCursor.cs" />
     <Compile Include="MyMath\MyAngleSingle.cs" />
     <Compile Include="MyComponent.cs" />
     <Compile Include="MyDispatcher.cs" />
