@@ -255,17 +255,68 @@ namespace MyHalp
         }
 
         /// <summary>
-        /// Add new message with sender object.
+        /// Add new message.
         /// </summary>
         /// <param name="message">The message</param>
-        /// <param name="sender">The sender</param>
+        /// <param name="p1">{0}</param>
         /// <param name="logLevel">The log level.</param>
-        public static void Add(string message, object sender, MyLoggerLevel logLevel = MyLoggerLevel.Info)
+        public static void Add(string message, object p1, MyLoggerLevel logLevel = MyLoggerLevel.Info)
         {
-            if (!MySettings.ProduceLogFile)
-                return;
+            Add(string.Format(message, p1), logLevel);
+        }
 
-            Instance.Write(message, sender, logLevel);
+        /// <summary>
+        /// Add new message.
+        /// </summary>
+        /// <param name="message">The message</param>
+        /// <param name="p1">{0}</param>
+        /// <param name="p2">{1}</param>
+        /// <param name="logLevel">The log level.</param>
+        public static void Add(string message, object p1, object p2, MyLoggerLevel logLevel = MyLoggerLevel.Info)
+        {
+            Add(string.Format(message, p1, p2), logLevel);
+        }
+
+        /// <summary>
+        /// Add new message.
+        /// </summary>
+        /// <param name="message">The message</param>
+        /// <param name="p1">{0}</param>
+        /// <param name="p2">{1}</param>
+        /// <param name="p3">{2}</param>
+        /// <param name="logLevel">The log level.</param>
+        public static void Add(string message, object p1, object p2, object p3, MyLoggerLevel logLevel = MyLoggerLevel.Info)
+        {
+            Add(string.Format(message, p1, p2, p3), logLevel);
+        }
+
+        /// <summary>
+        /// Add new message.
+        /// </summary>
+        /// <param name="message">The message</param>
+        /// <param name="p1">{0}</param>
+        /// <param name="p2">{1}</param>
+        /// <param name="p3">{2}</param>
+        /// <param name="p4">{3}</param>
+        /// <param name="logLevel">The log level.</param>
+        public static void Add(string message, object p1, object p2, object p3, object p4, MyLoggerLevel logLevel = MyLoggerLevel.Info)
+        {
+            Add(string.Format(message, p1, p2, p3, p4), logLevel);
+        }
+
+        /// <summary>
+        /// Add new message.
+        /// </summary>
+        /// <param name="message">The message</param>
+        /// <param name="p1">{0}</param>
+        /// <param name="p2">{1}</param>
+        /// <param name="p3">{2}</param>
+        /// <param name="p4">{3}</param>
+        /// <param name="p5">{4}</param>
+        /// <param name="logLevel">The log level.</param>
+        public static void Add(string message, object p1, object p2, object p3, object p4, object p5, MyLoggerLevel logLevel = MyLoggerLevel.Info)
+        {
+            Add(string.Format(message, p1, p2, p3, p4, p5), logLevel);
         }
 
         /// <summary>
