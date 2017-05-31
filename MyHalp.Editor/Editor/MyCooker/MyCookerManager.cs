@@ -109,7 +109,10 @@ namespace MyHalp.Editor.MyCooker
                 {
                     if (scriptsOnly)
                     {
-                        //BuildPipelineHelper.QueueBuildScripts(target);
+                        // TODO: monodevelop support
+                        // TODO: xcode support
+
+                        MicrosoftBuild.CompileSolution(FindSolution(), target.DefineSymbols);
                     }
                     else
                     {
@@ -143,6 +146,12 @@ namespace MyHalp.Editor.MyCooker
             }
 
             // increase build number TODO: build counting
+        }
+
+        // private
+        private string FindSolution()
+        {
+
         }
     }
 }

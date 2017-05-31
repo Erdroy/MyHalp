@@ -53,6 +53,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Editor\MyCooker\BuildPipelineHelper.cs" />
+    <Compile Include="Editor\MyCooker\MicrosoftBuild.cs" />
     <Compile Include="Editor\MyCooker\MyCookerManager.cs" />
     <Compile Include="Editor\MyCooker\MyCookerNameReader.cs" />
     <Compile Include="Editor\MyCooker\MyCookerPreset.cs" />
