@@ -109,7 +109,7 @@ namespace MyHalp.Editor.MyCooker
                 {
                     if (scriptsOnly)
                     {
-                        BuildPipelineHelper.QueueBuildScripts(target);
+                        //BuildPipelineHelper.QueueBuildScripts(target);
                     }
                     else
                     {
@@ -134,7 +134,7 @@ namespace MyHalp.Editor.MyCooker
                 try
                 {
                     Debug.Log("Building scripts only...");
-                    BuildPipelineHelper.BuildScripts();
+                    //BuildPipelineHelper.BuildScripts();
                 }
                 catch (Exception ex)
                 {
