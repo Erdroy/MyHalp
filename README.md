@@ -7,6 +7,7 @@ Unity 5 helper library, contains some useful stuff for better and easier develop
  - **MyCommands** - Class for registering commands and executing by string (eg.: 'volume master 0.2') or name and object array as parameters.
  - **MyLogger** - `MyLogger.Add("Wouw, LOGS! MUCH logs. Love logs.")`;
  - **MyTimer** - Allows to run methods with delay or interval, wub wub wub wub, error.
+ - **MyCursor** - Easy cursor management class. `MyCursor.Push(MyCursorState.Hide);`
  - **MyJob** - Threaded jobs.
  - **MyJobQueue** - Queued jobs with progress.
  - **MyDispatcher** - Call any method/deleate from any thread in the main thread - Wow! What a great thing.
@@ -17,7 +18,7 @@ Unity 5 helper library, contains some useful stuff for better and easier develop
  - **MyMath** - MyVector2/3/4, MyQuaternion, MyMatrix/3x3/4x4 and much more (using SharpDX.Mathematics).
 
 ## Incoming Features (under development):
- - **MyCooker** - Editor extension which helps building applications in specific configurations at once (eg.: game and server with define symbols). 
+ - **MyCooker** - Editor extension which helps building applications in specific configurations.
  - **MyProfiler** - Runtime profiling tool.
  
 ## Planned Features:
