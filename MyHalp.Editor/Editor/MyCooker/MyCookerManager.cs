@@ -102,7 +102,9 @@ namespace MyHalp.Editor.MyCooker
         {
             // BUG: this may be invalid for some platforms
             var lastDirectives = PlayerSettings.GetScriptingDefineSymbolsForGroup(BuildTargetGroup.Standalone);
-            
+
+            // TODO: auto start option(warning: use proper working dir!)
+
             foreach (var target in SelectedPreset.Targets)
             {
                 try
@@ -129,8 +131,6 @@ namespace MyHalp.Editor.MyCooker
             {
                 // reset the directives
                 PlayerSettings.SetScriptingDefineSymbolsForGroup(BuildTargetGroup.Standalone, lastDirectives);
-
-                // TODO: auto start option(warning: use proper working dir!)
             }
             else
             {
@@ -151,7 +151,7 @@ namespace MyHalp.Editor.MyCooker
         // private
         private string FindSolution()
         {
-
+            return "";
         }
     }
 }

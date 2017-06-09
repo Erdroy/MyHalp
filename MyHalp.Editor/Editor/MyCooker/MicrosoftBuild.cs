@@ -9,6 +9,8 @@ namespace MyHalp.Editor.MyCooker
     {
         public static void CompileSolution(string solution, string[] defines)
         {
+            Debug.Log("Building solution file: " + solution);
+
             // find msbuild
             const string msbuildBase = @"C:\Program Files (x86)\MSBuild";
 
@@ -29,9 +31,15 @@ namespace MyHalp.Editor.MyCooker
             var msbuildPath = string.Empty;
 
             if (use14)
+            {
                 msbuildPath = msbuild14;
+                Debug.Log("Using MSBuild 14.0");
+            }
             else if (use12)
+            {
                 msbuildPath = msbuild12;
+                Debug.Log("Using MSBuild 12.0");
+            }
 
             if (string.IsNullOrEmpty(msbuildPath))
             {

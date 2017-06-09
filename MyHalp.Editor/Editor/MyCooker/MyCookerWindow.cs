@@ -217,10 +217,10 @@ namespace MyHalp.Editor.MyCooker
                 {
                     Build();
                 }
-                /*if (GUILayout.Button("BUILD SCRIPTS(ALT+SHIFT+B)", GUILayout.Height(30.0f)))
+                if (GUILayout.Button("BUILD SCRIPTS(ALT+SHIFT+B)", GUILayout.Height(30.0f)))
                 {
                     BuildScripts();
-                }*/
+                }
                 GUILayout.Space(10.0f);
             }
             GUILayout.EndArea();
@@ -370,7 +370,7 @@ namespace MyHalp.Editor.MyCooker
             cookerManager.Build();
         }
 
-        /*/// <summary>
+        /// <summary>
         /// Stats preset scripts only build
         /// </summary>
         [MenuItem("Window/MyCooker/Build Scripts only &#B")]
@@ -380,6 +380,6 @@ namespace MyHalp.Editor.MyCooker
             cookerManager.Load();
 
             cookerManager.BuildScripts();
-        }*/
+        }
     }
 }
