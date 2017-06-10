@@ -79,7 +79,14 @@ namespace MyHalp
                             if (!Actions.Contains(_id))
                                 return;
 
-                            method();
+                            try
+                            {
+                                method();
+                            }
+                            catch (Exception ex)
+                            {
+                                MyLogger.Add("MyTimer: " + ex, MyLoggerLevel.Error);
+                            }
                             Actions.Remove(_id);
                         }
                     });
@@ -164,8 +171,14 @@ namespace MyHalp
             lock (Actions)
                 if (!Actions.Contains(id)) // if the action was canceled
                     yield break;
-
-            onDone?.Invoke();
+            try
+            {
+                onDone?.Invoke();
+            }
+            catch (Exception ex)
+            {
+                MyLogger.Add("MyTimer: " + ex, MyLoggerLevel.Error);
+            }
 
             lock (Actions)
                 Actions.Remove(id);
@@ -182,7 +195,14 @@ namespace MyHalp
                     if (!Actions.Contains(id)) // if the action was canceled
                         yield break;
 
-                onDone?.Invoke();
+                try
+                {
+                    onDone?.Invoke();
+                }
+                catch (Exception ex)
+                {
+                    MyLogger.Add("MyTimer: " + ex, MyLoggerLevel.Error);
+                }
 
                 lock (Actions)
                     Actions.Remove(id);
