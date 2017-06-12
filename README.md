@@ -32,7 +32,7 @@ Unity 5 helper library, contains some useful stuff for better and easier develop
 You can add an logo attachment of size 180x80 pixels, also don't forget about short description.
 
 ## Support/Contact
-If you have found an **issue** or you have some **suggestions**, send it in the **[Issues](https://github.com/Erdroy/MyHalp/issues)** section.
+If you have found an **issue** or you have any **suggestions**, you can send those in the **[Issues](https://github.com/Erdroy/MyHalp/issues)** section.
 Also, You can join my **[Discord server](https://discord.gg/ybJaGtb)** to get real-time support.
 Use as template: [MurderShadow is using MyHalp!](https://github.com/Erdroy/MyHalp/issues/2)
 
