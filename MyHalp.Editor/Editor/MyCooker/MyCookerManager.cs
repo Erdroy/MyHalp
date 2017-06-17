@@ -97,6 +97,14 @@ namespace MyHalp.Editor.MyCooker
             Build(true);
         }
 
+        /// <summary>
+        /// Resets defines.
+        /// </summary>
+        public void ResetDefines()
+        {
+            BuildPipelineHelper.SetDefines(Presets.ToArray());
+        }
+
         // private
         private void Build(bool scriptsOnly)
         {
@@ -114,7 +122,7 @@ namespace MyHalp.Editor.MyCooker
                         // TODO: monodevelop support
                         // TODO: xcode support
 
-                        MicrosoftBuild.CompileSolution(FindSolution(), target.DefineSymbols);
+                        MicrosoftBuild.CompileSolution(target.DefineSymbols);
                     }
                     else
                     {
@@ -146,12 +154,6 @@ namespace MyHalp.Editor.MyCooker
             }
 
             // increase build number TODO: build counting
-        }
-
-        // private
-        private string FindSolution()
-        {
-            return "";
         }
     }
 }

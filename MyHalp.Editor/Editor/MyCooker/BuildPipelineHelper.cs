@@ -16,7 +16,7 @@ namespace MyHalp.Editor.MyCooker
     {
         // private
         private static string BuildPath => Application.dataPath.Replace("Assets", "build/");
-        
+
         /// <summary>
         /// Builds target.
         /// </summary>
@@ -50,6 +50,30 @@ namespace MyHalp.Editor.MyCooker
             BuildPipeline.BuildPlayer(scenes.ToArray(), outputPathName, target.BuildTarget, options);
         }
         
+        /// <summary>
+        /// Sets defines for all presets.
+        /// </summary>
+        public static void SetDefines(MyCookerPreset[] presets)
+        {
+            var defines = new List<string>();
+
+            foreach (var preset in presets)
+            {
+                foreach (var target in preset.Targets)
+                {
+                    var defs = DefineSymbolsForTarget(target);
+
+                    foreach (var define in defs)
+                    {
+                        if (!defines.Contains(define))
+                            defines.Add(define);
+                    }
+                }
+            }
+
+            PlayerSettings.SetScriptingDefineSymbolsForGroup(BuildTargetGroup.Standalone, string.Join(";", defines.ToArray()));
+        }
+
         // private
         private static string[] DefineSymbolsForTarget(MyCookerPreset.Target target)
         {

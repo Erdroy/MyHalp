@@ -221,6 +221,10 @@ namespace MyHalp.Editor.MyCooker
                 {
                     BuildScripts();
                 }
+                if (GUILayout.Button("RESET DEFINES", GUILayout.Height(30.0f)))
+                {
+                    ResetDefines();
+                }
                 GUILayout.Space(10.0f);
             }
             GUILayout.EndArea();
@@ -376,10 +380,19 @@ namespace MyHalp.Editor.MyCooker
         [MenuItem("Window/MyCooker/Build Scripts only &#B")]
         public static void BuildScripts()
         {
+            /*var cookerManager = new MyCookerManager();
+            cookerManager.Load();
+
+            cookerManager.BuildScripts();*/
+        }
+
+        [MenuItem("Window/MyCooker/Reset Defines &R")]
+        public static void ResetDefines()
+        {
             var cookerManager = new MyCookerManager();
             cookerManager.Load();
 
-            cookerManager.BuildScripts();
+            cookerManager.ResetDefines();
         }
     }
 }
