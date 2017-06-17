@@ -35,6 +35,10 @@ namespace MyHalp.Editor.MyCooker
 
             public string[] DefineSymbols { get; set; }
 
+            public string PreBuildAction { get; set; }
+
+            public string PostBuildAction { get; set; }
+
             internal int BuildNumber { get; set; }
         }
 

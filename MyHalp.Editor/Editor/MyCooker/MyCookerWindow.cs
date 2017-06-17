@@ -294,6 +294,16 @@ namespace MyHalp.Editor.MyCooker
                 target.BuildTarget = (BuildTarget)EditorGUILayout.EnumPopup("Build target", target.BuildTarget);
 
 
+                // build actions directives
+                EditorGUILayout.Space();
+                EditorGUILayout.Space();
+
+                GUILayout.Label("Pre build action");
+                target.PreBuildAction = EditorGUILayout.TextArea(target.PreBuildAction, GUILayout.Height(50));
+
+                GUILayout.Label("Post build action");
+                target.PostBuildAction = EditorGUILayout.TextArea(target.PostBuildAction, GUILayout.Height(50));
+
                 // build directives
                 EditorGUILayout.Space();
                 EditorGUILayout.Space();

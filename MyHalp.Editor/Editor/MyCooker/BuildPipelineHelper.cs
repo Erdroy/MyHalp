@@ -23,6 +23,9 @@ namespace MyHalp.Editor.MyCooker
         /// <param name="target">The target.</param>
         public static void Build(MyCookerPreset.Target target)
         {
+            if (!string.IsNullOrEmpty(target.PreBuildAction))
+                CallBuildEvent(target.PreBuildAction);
+
             var scenes = EditorBuildSettings.scenes.Select(scene => scene.path).ToArray();
             var defines = string.Join(";", DefineSymbolsForTarget(target));
             var options = OptionsForTarget(target);
@@ -48,8 +51,11 @@ namespace MyHalp.Editor.MyCooker
 
             // build!
             BuildPipeline.BuildPlayer(scenes.ToArray(), outputPathName, target.BuildTarget, options);
+
+            if(!string.IsNullOrEmpty(target.PostBuildAction))
+                CallBuildEvent(target.PostBuildAction);
         }
-        
+
         /// <summary>
         /// Sets defines for all presets.
         /// </summary>
@@ -72,6 +78,27 @@ namespace MyHalp.Editor.MyCooker
             }
 
             PlayerSettings.SetScriptingDefineSymbolsForGroup(BuildTargetGroup.Standalone, string.Join(";", defines.ToArray()));
+        }
+
+        // private
+        private static void CallBuildEvent(string commands)
+        {
+            var process = new System.Diagnostics.Process();
+            var startInfo = new System.Diagnostics.ProcessStartInfo
+            {
+                WindowStyle = System.Diagnostics.ProcessWindowStyle.Hidden,
+                FileName = "cmd.exe",
+                Arguments = "/C \" " + commands + "\"",
+                UseShellExecute = false,
+                RedirectStandardOutput = true
+            };
+            process.StartInfo = startInfo;
+            process.Start();
+            var output = process.StandardOutput.ReadToEnd();
+            process.WaitForExit();
+
+            if (!string.IsNullOrEmpty(output))
+                Debug.Log(output);
         }
 
         // private
