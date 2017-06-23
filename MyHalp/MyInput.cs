@@ -10,10 +10,10 @@ namespace MyHalp
     /// </summary>
     public enum MyInputState : byte
     {
+        None = 0,
         Down,
         Up,
-        Held,
-        None
+        Held
     }
     
     /// <summary>
