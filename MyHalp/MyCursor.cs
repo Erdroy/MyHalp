@@ -2,6 +2,7 @@
 
 using System;
 using System.Collections.Generic;
+using UnityEngine;
 
 namespace MyHalp
 {
@@ -30,6 +31,26 @@ namespace MyHalp
         public static void SetDefault(MyCursorState defaultState = MyCursorState.Show)
         {
             _defaultState = defaultState;
+        }
+
+        /// <summary>
+        /// Ticks MyCursor.
+        /// </summary>
+        public static void Tick()
+        {
+            // update lock mode
+
+            CursorLockMode mode;
+            if (Stack.Count > 0)
+            {
+                mode = Stack.Peek() == MyCursorState.Hide ? CursorLockMode.Locked : CursorLockMode.None;
+            }
+            else
+            {
+                mode = _defaultState == MyCursorState.Hide ? CursorLockMode.Locked : CursorLockMode.None;
+            }
+
+            Cursor.lockState = mode;
         }
 
         /// <summary>
@@ -67,15 +88,15 @@ namespace MyHalp
             switch (state)
             {
                 case MyCursorState.Show:
-                    UnityEngine.Cursor.lockState = UnityEngine.CursorLockMode.None;
-                    UnityEngine.Cursor.visible = true;
+                    Cursor.lockState = CursorLockMode.None;
+                    Cursor.visible = true;
                     break;
                 case MyCursorState.Hide:
-                    UnityEngine.Cursor.lockState = UnityEngine.CursorLockMode.Locked;
-                    UnityEngine.Cursor.visible = false;
+                    Cursor.lockState = CursorLockMode.Locked;
+                    Cursor.visible = false;
                     break;
                 default:
-                    throw new ArgumentOutOfRangeException(nameof(state), state, null);
+                    throw new ArgumentOutOfRangeException("state", state, null);
             }
         }
     }
