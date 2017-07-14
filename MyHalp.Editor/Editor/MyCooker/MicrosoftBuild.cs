@@ -1,15 +1,42 @@
 ﻿// MyHalp © 2016-2017 Damian 'Erdroy' Korczowski
 
 using System.IO;
+using System.Linq;
+using System.Text.RegularExpressions;
 using UnityEngine;
 
 namespace MyHalp.Editor.MyCooker
 {
     public static class MicrosoftBuild
     {
-        public static void CompileSolution(string solution, string[] defines)
+        // private
+        private static string FindMicrosoftSolution()
         {
-            Debug.Log("Building solution file: " + solution);
+            var rootPath = Application.dataPath.Replace("Assets", "");
+            var dir = new DirectoryInfo(rootPath);
+            var solutionFiles = dir.GetFiles("*.csproj");
+
+            if (solutionFiles.Length == 0)
+            {
+                Debug.LogError("C# Project file not found!");
+                return "";
+            }
+            // TODO: better csproj file search
+            return solutionFiles[0].FullName;
+        }
+
+        /// <summary>
+        /// Compiles C# Project with specified defines.
+        /// </summary>
+        /// <param name="defines">The defines to be used.</param>
+        public static void CompileSolution(string[] defines)
+        {
+            var solution = FindMicrosoftSolution();
+
+            if (string.IsNullOrEmpty(solution))
+                return;
+
+            Debug.Log("Building C# Project file: " + solution);
 
             // find msbuild
             const string msbuildBase = @"C:\Program Files (x86)\MSBuild";
@@ -43,16 +70,30 @@ namespace MyHalp.Editor.MyCooker
 
             if (string.IsNullOrEmpty(msbuildPath))
             {
-                Debug.Log("Any suitable MSBuild version (12.0/14.0) not found! Cannot script-only compile.");
+                Debug.Log("Any suitable MSBuild version (12.0 or 14.0) not found! Cannot script-only compile.");
                 return;
             }
 
-            // TODO: Backup csproj
-            // TODO: Change csproj defines
+            msbuildPath += @"\Bin\MSBuild.exe";
 
-            // TODO: Compile
+            // https://msdn.microsoft.com/en-us/library/dd393573.aspx
+            // msbuild buildapp.csproj /t:HelloWorld  
 
-            // TODO: Resore csproj
+            // backup csproj
+            File.Copy(solution, solution + ".backup");
+
+            // read solution
+            var contents = File.ReadAllText(solution);
+
+            // TODO: change csproj defines
+
+            File.WriteAllText(solution + ".test", contents);
+
+            // TODO: compile
+
+            // resore csproj
+            File.Delete(solution);
+            File.Move(solution + ".backup", solution);
         }
     }
 }
