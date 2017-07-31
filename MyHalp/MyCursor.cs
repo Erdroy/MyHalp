@@ -32,25 +32,13 @@ namespace MyHalp
         {
             _defaultState = defaultState;
         }
-
+        
         /// <summary>
-        /// Ticks MyCursor.
+        /// Should be called when the game window gained focus (use OnApplicationFocus(bool)).
         /// </summary>
-        public static void Tick()
+        public static void OnFocus()
         {
-            // update lock mode
-
-            CursorLockMode mode;
-            if (Stack.Count > 0)
-            {
-                mode = Stack.Peek() == MyCursorState.Hide ? CursorLockMode.Locked : CursorLockMode.None;
-            }
-            else
-            {
-                mode = _defaultState == MyCursorState.Hide ? CursorLockMode.Locked : CursorLockMode.None;
-            }
-
-            Cursor.lockState = mode;
+            Use(Stack.Count > 0 ? Stack.Peek() : _defaultState);
         }
 
         /// <summary>
@@ -80,6 +68,9 @@ namespace MyHalp
         public static void Clear()
         {
             Stack.Clear();
+
+            // use default
+            Use(_defaultState);
         }
 
         // private
