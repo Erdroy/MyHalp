@@ -2,6 +2,7 @@
 
 using System;
 using System.Collections.Generic;
+using JetBrains.Annotations;
 using UnityEngine;
 
 namespace MyHalp
@@ -21,9 +22,27 @@ namespace MyHalp
     /// </summary>
     public static class MyCursor
     {
+        [UsedImplicitly]
+        private class MyCursorHandler : Component
+        {
+            private void OnApplicationFocus(bool hasFocus)
+            {
+                if (hasFocus)
+                    OnFocus();
+            }
+        }
+
         private static readonly Stack<MyCursorState> Stack = new Stack<MyCursorState>();
         private static MyCursorState _defaultState;
-        
+
+        /// <summary>
+        /// Initializes MyCursor.
+        /// </summary>
+        public static void Init()
+        {
+            MyInstancer.Create<MyCursorHandler>();
+        }
+
         /// <summary>
         /// Sets the default state for cursor.
         /// </summary>
@@ -31,14 +50,6 @@ namespace MyHalp
         public static void SetDefault(MyCursorState defaultState = MyCursorState.Show)
         {
             _defaultState = defaultState;
-        }
-        
-        /// <summary>
-        /// Should be called when the game window gained focus (use OnApplicationFocus(bool)).
-        /// </summary>
-        public static void OnFocus()
-        {
-            Use(Stack.Count > 0 ? Stack.Peek() : _defaultState);
         }
 
         /// <summary>
@@ -71,6 +82,14 @@ namespace MyHalp
 
             // use default
             Use(_defaultState);
+        }
+
+        /// <summary>
+        /// Should be called when the game window gained focus (use OnApplicationFocus(bool)).
+        /// </summary>
+        private static void OnFocus()
+        {
+            Use(Stack.Count > 0 ? Stack.Peek() : _defaultState);
         }
 
         // private
