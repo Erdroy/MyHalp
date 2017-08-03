@@ -1,6 +1,7 @@
 ﻿// MyHalp © 2016-2017 Damian 'Erdroy' Korczowski
 // ReSharper disable UnusedMember.Local
 
+using System;
 using UnityEngine;
 
 namespace MyHalp
@@ -18,35 +19,50 @@ namespace MyHalp
         private void Start()
         {
             MyTransform = transform;
-            OnInit();
+            OnStart();
         }
 
         private void Update()
         {
-            OnTick();
+            OnUpdate();
         }
 
         private void FixedUpdate()
         {
-            OnPhysicsTick();
+            OnFixedUpdate();
         }
         
         #endregion
 
         #region Overrides
 
+        [Obsolete("Use OnStart instead")]
         protected virtual void OnInit()
         {
         }
 
+        [Obsolete("Use OnUpdate instead")]
         protected virtual void OnTick()
         {
         }
 
+        [Obsolete("Use OnFixedUpdate instead")]
         protected virtual void OnPhysicsTick()
         {
         }
-        
+
+        protected virtual void OnStart()
+        {
+        }
+
+        protected virtual void OnUpdate()
+        {
+        }
+
+        protected virtual void OnFixedUpdate()
+        {
+        }
+
         protected virtual void OnDestroy()
         {
         }
@@ -65,8 +81,7 @@ namespace MyHalp
         /// </summary>
         public void Disable()
         {
-            if (IsEnabled())
-                enabled = false;
+            enabled = false;
         }
 
         /// <summary>
@@ -74,8 +89,7 @@ namespace MyHalp
         /// </summary>
         public void Enable()
         {
-            if (!IsEnabled())
-                enabled = true;
+            enabled = true;
         }
 
         /// <summary>
