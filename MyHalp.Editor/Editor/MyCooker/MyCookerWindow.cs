@@ -274,6 +274,10 @@ namespace MyHalp.Editor.MyCooker
                            _nameReader = null;
                        });
                     }
+                    if (GUILayout.Button("use defines", GUILayout.Width(90.0f)))
+                    {
+                        BuildPipelineHelper.SetDefines(_cookerManager.SelectedTarget);
+                    }
                 }
                 GUILayout.EndHorizontal();
 

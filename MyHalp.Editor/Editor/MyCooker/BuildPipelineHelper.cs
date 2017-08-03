@@ -80,6 +80,14 @@ namespace MyHalp.Editor.MyCooker
             PlayerSettings.SetScriptingDefineSymbolsForGroup(BuildTargetGroup.Standalone, string.Join(";", defines.ToArray()));
         }
 
+        /// <summary>
+        /// Uses defines from given target.
+        /// </summary>
+        public static void SetDefines(MyCookerPreset.Target target)
+        {
+            PlayerSettings.SetScriptingDefineSymbolsForGroup(BuildTargetGroup.Standalone, string.Join(";", DefineSymbolsForTarget(target)));
+        }
+
         // private
         private static void CallBuildEvent(string commands)
         {
