@@ -33,7 +33,7 @@ namespace MyHalp
             private RectTransform _rect;
 
             // override `OnInit`
-            protected override void OnInit()
+            protected override void OnStart()
             {
                 _material = new Material(Shader.Find("Unlit/Color"));
 

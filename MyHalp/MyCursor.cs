@@ -23,7 +23,7 @@ namespace MyHalp
     public static class MyCursor
     {
         [UsedImplicitly]
-        private class MyCursorHandler : Component
+        private class MyCursorHandler : MonoBehaviour
         {
             private void OnApplicationFocus(bool hasFocus)
             {

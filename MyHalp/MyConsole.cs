@@ -31,7 +31,7 @@ namespace MyHalp
             private GUIStyle _styleField;
 
             // override `OnInit`
-            protected override void OnInit()
+            protected override void OnStart()
             {
                 // TODO: gui style
 
@@ -78,7 +78,7 @@ namespace MyHalp
             }
 
             // override `OnTick`
-            protected override void OnTick()
+            protected override void OnUpdate()
             {
                 // toggle enable
                 if (Input.GetKeyDown(MySettings.ConsoleOpenCloseKey))

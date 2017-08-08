@@ -17,7 +17,7 @@ namespace MyHalp
         // ReSharper disable once ClassNeverInstantiated.Local
         private sealed class MyDispatcherHandle : MyComponent
         {
-            protected override void OnTick()
+            protected override void OnUpdate()
             {
                 lock (DispatchQueue)
                 {
