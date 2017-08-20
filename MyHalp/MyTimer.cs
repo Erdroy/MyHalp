@@ -203,9 +203,6 @@ namespace MyHalp
                 {
                     MyLogger.Add("MyTimer: " + ex, MyLoggerLevel.Error);
                 }
-
-                lock (Actions)
-                    Actions.Remove(id);
             }
         }
     }
