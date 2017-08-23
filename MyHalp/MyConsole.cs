@@ -283,6 +283,9 @@ namespace MyHalp
 
                         if(!string.IsNullOrEmpty(command.Name))
                             _currentCommand = command.Name;
+
+                        var textEditor = (TextEditor)GUIUtility.GetStateObject(typeof(TextEditor), GUIUtility.keyboardControl);
+                        textEditor.MoveTextEnd();
                     }
                 }
 
@@ -293,12 +296,18 @@ namespace MyHalp
                         _backCommand--;
                         _backCommand = Mathf.Clamp(_backCommand, 0, _commands.Count - 1);
                         _currentCommand = _commands[_backCommand];
+
+                        var textEditor = (TextEditor)GUIUtility.GetStateObject(typeof(TextEditor), GUIUtility.keyboardControl);
+                        textEditor.MoveTextEnd();
                     }
                     if (Event.current.isKey && Event.current.type == EventType.keyDown && Event.current.keyCode == KeyCode.DownArrow)
                     {
                         _backCommand++;
                         _backCommand = Mathf.Clamp(_backCommand, 0, _commands.Count - 1);
                         _currentCommand = _commands[_backCommand];
+
+                        var textEditor = (TextEditor)GUIUtility.GetStateObject(typeof(TextEditor), GUIUtility.keyboardControl);
+                        textEditor.MoveTextEnd();
                     }
                 }
             }
