@@ -1,14 +1,13 @@
 ﻿// MyHalp © 2016-2017 Damian 'Erdroy' Korczowski
 // ReSharper disable UnusedMember.Local
 
-using System;
 using UnityEngine;
 
 namespace MyHalp
 {
     /// <summary>
     /// MyComponent class - custom Behaviour class,
-    /// derives from MonoBehaviour.
+    /// derives from MonoBehavior.
     /// </summary>
     public class MyComponent : MonoBehaviour
     {
@@ -27,6 +26,11 @@ namespace MyHalp
             OnUpdate();
         }
 
+        private void LateUpdate()
+        {
+            OnLateUpdate();
+        }
+
         private void FixedUpdate()
         {
             OnFixedUpdate();
@@ -35,45 +39,19 @@ namespace MyHalp
         #endregion
 
         #region Overrides
+        protected virtual void OnStart() { }
 
-        [Obsolete("Use OnStart instead")]
-        protected virtual void OnInit()
-        {
-        }
+        protected virtual void OnUpdate() { }
 
-        [Obsolete("Use OnUpdate instead")]
-        protected virtual void OnTick()
-        {
-        }
+        protected virtual void OnLateUpdate() { }
 
-        [Obsolete("Use OnFixedUpdate instead")]
-        protected virtual void OnPhysicsTick()
-        {
-        }
+        protected virtual void OnFixedUpdate() { }
 
-        protected virtual void OnStart()
-        {
-        }
+        protected virtual void OnDestroy() { }
 
-        protected virtual void OnUpdate()
-        {
-        }
+        protected virtual void OnEnable() { }
 
-        protected virtual void OnFixedUpdate()
-        {
-        }
-
-        protected virtual void OnDestroy()
-        {
-        }
-
-        protected virtual void OnEnable()
-        {
-        }
-
-        protected virtual void OnDisable()
-        {
-        }
+        protected virtual void OnDisable() { }
         #endregion
 
         /// <summary>
