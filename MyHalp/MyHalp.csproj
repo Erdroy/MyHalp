@@ -42,6 +42,7 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="MyAssert.cs" />
     <Compile Include="MyCommands.cs" />
     <Compile Include="MyConsole.cs" />
     <Compile Include="MyCursor.cs" />
