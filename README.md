@@ -2,6 +2,7 @@
 Unity 5 helper library, contains some useful stuff for better and easier development.
 
 ## Main Features:
+ - **MyCooker** - Editor extension which helps building applications in specific configurations.
  - **MyPreloader** - Editor extension that generates `MyAssets` class, with all given assets to preload, call MyAssets.Init() to load all of them at once - using async loading.
  - **MyConsole** - Console window for fast development or even ready projects.
  - **MyCommands** - Class for registering commands and executing by string (eg.: 'volume master 0.2') or name and object array as parameters.
@@ -12,13 +13,15 @@ Unity 5 helper library, contains some useful stuff for better and easier develop
  - **MyJobQueue** - Queued jobs with progress.
  - **MyDispatcher** - Call any method/deleate from any thread in the main thread - Wow! What a great thing.
  - **MyComponent** - Custom Unity behaviour class.
+ - **MyComponent.Singleton<T>** - Based on MyComponent singleton template, can be used to create easily accessible objects.
  - **MyInput** - Custom Input class that supports binding, FixedUpdate (via .FixedGet) and more.
  - **MyObjectPool** - Pooled objects, request 'new' gameobject without performace hit at any time.
  - **MyInstancer** - Creates new instance of given component, and assings it to a gameobject.
  - **MyMath** - MyVector2/3/4, MyQuaternion, MyMatrix/3x3/4x4 and much more (using SharpDX.Mathematics).
 
 ## Incoming Features (under development):
- - **MyCooker** - Editor extension which helps building applications in specific configurations.
+ - **MyCooker** - Script-only building.
+ - **MyAssert** - Runtime checks for debugging, as any other Assert functionality, but this uses MyLogger.
  - **MyProfiler** - Runtime profiling tool.
  
 ## Planned Features:
