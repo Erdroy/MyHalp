@@ -33,7 +33,7 @@ namespace MyHalp
         /// <summary>
         /// Registers command with specified name and execution method in given command group.
         /// </summary>
-        /// <param name="commandGroup">The command group, easly unregister batch of commands by one call.
+        /// <param name="commandGroup">The command group, easily unregister batch of commands by one call.
         /// Use this of eg.: level dependent commands, only 'when playing' command etc. </param>
         /// <param name="commandName">The command name.</param>
         /// <param name="onExecute">Called when command is being executed.</param>
@@ -46,7 +46,7 @@ namespace MyHalp
         /// <summary>
         /// Registers command with specified name and execution method in given command group.
         /// </summary>
-        /// <param name="commandGroup">The command group, easly unregister batch of commands by one call.
+        /// <param name="commandGroup">The command group, easily unregister batch of commands by one call.
         /// Use this of eg.: level dependent commands, only 'when playing' command etc. </param>
         /// <param name="commandName">The command name.</param>
         /// <param name="onExecute">Called when command is being executed.</param>
@@ -59,7 +59,7 @@ namespace MyHalp
         /// <summary>
         /// Registers command with specified name and execution method in given command group.
         /// </summary>
-        /// <param name="commandGroup">The command group, easly unregister batch of commands by one call.
+        /// <param name="commandGroup">The command group, easily unregister batch of commands by one call.
         /// Use this of eg.: level dependent commands, only 'when playing' command etc. </param>
         /// <param name="commandName">The command name.</param>
         /// <param name="onExecute">Called when command is being executed.</param>
@@ -72,7 +72,7 @@ namespace MyHalp
         /// <summary>
         /// Registers command with specified name and execution method in given command group.
         /// </summary>
-        /// <param name="commandGroup">The command group, easly unregister batch of commands by one call.
+        /// <param name="commandGroup">The command group, easily unregister batch of commands by one call.
         /// Use this of eg.: level dependent commands, only 'when playing' command etc. </param>
         /// <param name="commandName">The command name.</param>
         /// <param name="onExecute">Called when command is being executed.</param>
@@ -85,7 +85,7 @@ namespace MyHalp
         /// <summary>
         /// Registers command with specified name and execution method in given command group.
         /// </summary>
-        /// <param name="commandGroup">The command group, easly unregister batch of commands by one call.
+        /// <param name="commandGroup">The command group, easily unregister batch of commands by one call.
         /// Use this of eg.: level dependent commands, only 'when playing' command etc. </param>
         /// <param name="commandName">The command name.</param>
         /// <param name="onExecute">Called when command is being executed.</param>
@@ -279,42 +279,6 @@ namespace MyHalp
 
             // create instance
             Instance = new MyCommands();
-            
-            // register default commands
-            Instance.RegisterCommand("", "clear", MyConsole.Clear, "Clears all console messages.");
-
-            Instance.RegisterCommand("", "list", delegate
-            {
-                var commands = Instance.GetAllCommands();
-
-                foreach (var command in commands)
-                {
-                    var parameters = "";
-
-                    foreach (var parameter in command.Parameters)
-                    {
-                        parameters += " " + parameter.Name;
-                        switch (parameter.ParameterType.Name.ToLower())
-                        {
-                            case "string":
-                                parameters += "[string]";
-                                break;
-                            case "int32":
-                                parameters += "[integer]";
-                                break;
-                            case "single":
-                            case "double":
-                                parameters += "[float]";
-                                break;
-                            case "boolean":
-                                parameters += "[boolean]";
-                                break;
-                        }
-                    }
-
-                    MyConsole.Write(command.Name + " " + parameters + " - " + command.Description);
-                }
-            }, "Lists all commands.");
         }
 
         /// <summary>

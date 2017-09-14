@@ -120,7 +120,7 @@ namespace MyHalp
                 // add message
                 lock (_messages) _messages.Add(message);
 
-                // scroll to the down of scrollview
+                // scroll to the down of scroll view
                 _scrollPos.y = float.MaxValue;
             }
 
@@ -322,7 +322,7 @@ namespace MyHalp
         /// To use this you will need also enabled this settings: 
         /// MySettings.UseLogCallback = true; 
         /// and 
-        /// MySettings.UseDispathedLogCallback = true;
+        /// MySettings.UseDispatchedLogCallback = true;
         /// </param>
         public static void Init(bool bindLogger = true)
         {
@@ -340,6 +340,42 @@ namespace MyHalp
                 // bind logger if not disabled.
                 _consoleWindow.BindLogger();
             }
+
+            // register default commands
+            MyCommands.Instance.RegisterCommand("", "clear", MyConsole.Clear, "Clears all console messages.");
+
+            MyCommands.Instance.RegisterCommand("", "list", delegate
+            {
+                var commands = MyCommands.Instance.GetAllCommands();
+
+                foreach (var command in commands)
+                {
+                    var parameters = "";
+
+                    foreach (var parameter in command.Parameters)
+                    {
+                        parameters += " " + parameter.Name;
+                        switch (parameter.ParameterType.Name.ToLower())
+                        {
+                            case "string":
+                                parameters += "[string]";
+                                break;
+                            case "int32":
+                                parameters += "[integer]";
+                                break;
+                            case "single":
+                            case "double":
+                                parameters += "[float]";
+                                break;
+                            case "boolean":
+                                parameters += "[boolean]";
+                                break;
+                        }
+                    }
+
+                    Write(command.Name + " " + parameters + " - " + command.Description);
+                }
+            }, "Lists all commands.");
         }
 
         /// <summary>

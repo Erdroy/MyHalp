@@ -6,7 +6,7 @@ using UnityEngine;
 namespace MyHalp
 {
     /// <summary>
-    /// MyComponent class - custom Behaviour class,
+    /// MyComponent class - custom Behavior class,
     /// derives from MonoBehavior.
     /// </summary>
     public class MyComponent : MonoBehaviour
@@ -77,6 +77,27 @@ namespace MyHalp
         public bool IsEnabled()
         {
             return enabled;
+        }
+
+        /// <summary>
+        /// Creates instance when needed.
+        /// Can be used for managers and anything else which needs to be easily accessed.
+        /// </summary>
+        /// <typeparam name="T">The derived type of object.</typeparam>
+        public class Singleton<T> : MyComponent where T : MyComponent
+        {
+            private static T _instance;
+
+            /// <summary>
+            /// Destroys the instance.
+            /// </summary>
+            public static void Destroy()
+            {
+                Destroy(_instance);
+                _instance = null;
+            }
+
+            public static T Instance => _instance ?? (_instance = MyInstancer.Create<T>());
         }
     }
 }
