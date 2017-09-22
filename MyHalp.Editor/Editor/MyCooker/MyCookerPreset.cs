@@ -32,6 +32,12 @@ namespace MyHalp.Editor.MyCooker
             public BuildTarget BuildTarget { get; set; }
 
             public BuildType Type { get; set; }
+            
+            public bool BuildContent { get; set; }
+
+            public string ContentDirectoryName { get; set; }
+
+            public BuildAssetBundleOptions ContentBuildOptions { get; set; }
 
             public string[] DefineSymbols { get; set; }
 

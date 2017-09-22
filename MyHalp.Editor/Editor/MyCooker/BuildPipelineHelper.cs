@@ -51,8 +51,22 @@ namespace MyHalp.Editor.MyCooker
 
             // build!
             BuildPipeline.BuildPlayer(scenes.ToArray(), outputPathName, target.BuildTarget, options);
+            
+            if (target.BuildContent)
+            {
+                var assetBundleOutput = outputPath + "/" + target.ContentDirectoryName;
 
-            if(!string.IsNullOrEmpty(target.PostBuildAction))
+                // build clean content directory if needed
+                if (Directory.Exists(assetBundleOutput))
+                    Directory.Delete(assetBundleOutput, true);
+
+                Directory.CreateDirectory(assetBundleOutput);
+
+                // build content
+                BuildPipeline.BuildAssetBundles(assetBundleOutput, target.ContentBuildOptions, target.BuildTarget);
+            }
+
+            if (!string.IsNullOrEmpty(target.PostBuildAction))
                 CallBuildEvent(target.PostBuildAction);
         }
 

@@ -296,7 +296,13 @@ namespace MyHalp.Editor.MyCooker
                     target.Headless = EditorGUILayout.Toggle("Headless", target.Headless);
                 target.Type = (MyCookerPreset.Target.BuildType)EditorGUILayout.EnumPopup("Build type", target.Type);
                 target.BuildTarget = (BuildTarget)EditorGUILayout.EnumPopup("Build target", target.BuildTarget);
+                
+                // content building
+                EditorGUILayout.Space();
 
+                target.BuildContent = EditorGUILayout.Toggle("Build Content (asset bundles)", target.BuildContent);
+                target.ContentDirectoryName = EditorGUILayout.TextField("Content directory name", target.ContentDirectoryName);
+                target.ContentBuildOptions = (BuildAssetBundleOptions)EditorGUILayout.EnumMaskPopup("Content build options", target.ContentBuildOptions);
 
                 // build actions directives
                 EditorGUILayout.Space();
