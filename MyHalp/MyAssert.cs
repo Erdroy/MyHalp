@@ -1,5 +1,7 @@
 ﻿// MyHalp © 2016-2017 Damian 'Erdroy' Korczowski
 
+#define USE_MYLOGGER
+
 namespace MyHalp
 {
     /// <summary>
@@ -9,13 +11,21 @@ namespace MyHalp
     {
         /// <summary>
         /// Check `data` for null, if it's null it logs 'failMessage' as Error.
+        /// It returns true when it failed. Use like: if(MyAssert.Assert(gameObject, "Failed!"))
         /// </summary>
-        public static void Assert(UnityEngine.Object data, string failMessage, MyLoggerLevel logLevel = MyLoggerLevel.Warning)
+        public static bool Assert(UnityEngine.Object data, string failMessage, MyLoggerLevel logLevel = MyLoggerLevel.Warning)
         {
             if (data == null)
             {
+#if USE_MYLOGGER
                 MyLogger.Add(failMessage, logLevel);
+#else
+                UnityLog.Log(failMessage, logLevel);
+#endif
+                return true;
             }
+
+            return false;
         }
 
         // TODO: more implementations

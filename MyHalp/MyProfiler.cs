@@ -1,5 +1,7 @@
 ﻿// MyHalp © 2016-2017 Damian 'Erdroy' Korczowski
 
+#define USE_MYLOGGER
+
 using System;
 using System.Collections;
 using System.Collections.Generic;
@@ -195,7 +197,11 @@ namespace MyHalp
         {
             if (_handlerInstance)
             {
-                Debug.LogError("MyProfiler can be initialized only once!");
+#if USE_MYLOGGER
+                MyLogger.Add("MyProfiler can be initialized only once!", MyLoggerLevel.Error);
+#else
+                UnityLog.Log("MyProfiler can be initialized only once!", MyLoggerLevel.Error);
+#endif
                 return;
             }
 

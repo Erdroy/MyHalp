@@ -1,6 +1,5 @@
 ﻿// MyHalp © 2016-2017 Damian 'Erdroy' Korczowski
 
-using System;
 using System.Collections.Generic;
 using System.Threading;
 using UnityEngine;
@@ -8,7 +7,7 @@ using UnityEngine;
 namespace MyHalp
 {
     /// <summary>
-    /// MyDispatcher class, allows to dispatch calls from any thead on to the main thead.
+    /// MyDispatcher class, allows to dispatch calls from any thread on to the main thread.
     /// </summary>
     public sealed class MyDispatcher
     {
@@ -39,13 +38,7 @@ namespace MyHalp
         /// <summary>
         /// Returns true when a dispatcher was initialized.
         /// </summary>
-        public static bool IsInitialized
-        {
-            get
-            {
-                return Handle != null;
-            }
-        }
+        public static bool IsInitialized => Handle != null;
 
         /// <summary>
         /// Initialize the dispatcher.

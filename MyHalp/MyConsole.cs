@@ -1,5 +1,7 @@
 ﻿// MyHalp © 2016-2017 Damian 'Erdroy' Korczowski
 
+#define USE_MYLOGGER
+
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -127,8 +129,12 @@ namespace MyHalp
             // internal
             internal void BindLogger()
             {
+#if USE_MYLOGGER
                 // bind logger
                 MyLogger.OnMessage += AddMessage;
+#else
+                // TODO: Handle Unity logs in console without MyLogger
+#endif
             }
 
             // internal

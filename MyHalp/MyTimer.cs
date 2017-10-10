@@ -1,5 +1,7 @@
 ﻿// MyHalp © 2016-2017 Damian 'Erdroy' Korczowski
 
+#define USE_MYLOGGER
+
 using System;
 using System.Collections;
 using System.Collections.Generic;
@@ -55,7 +57,11 @@ namespace MyHalp
         {
             if (method == null)
             {
-                Debug.LogError("Cannot delay method with no method!");
+#if USE_MYLOGGER
+                MyLogger.Add("Cannot delay method with no method!", MyLoggerLevel.Error);
+#else
+                UnityLog.Log("Cannot delay method with no method!", MyLoggerLevel.Error);
+#endif
                 return 0;
             }
 
@@ -85,7 +91,11 @@ namespace MyHalp
                             }
                             catch (Exception ex)
                             {
+#if USE_MYLOGGER
                                 MyLogger.Add("MyTimer: " + ex, MyLoggerLevel.Error);
+#else
+                                UnityLog.Log("MyTimer: " + ex, MyLoggerLevel.Error);
+#endif
                             }
                             Actions.Remove(_id);
                         }
@@ -109,7 +119,11 @@ namespace MyHalp
         {
             if (method == null)
             {
-                Debug.LogError("Cannot delay method with no method!");
+#if USE_MYLOGGER
+                MyLogger.Add("Cannot delay method with no method!", MyLoggerLevel.Error);
+#else
+                UnityLog.Log("Cannot delay method with no method!", MyLoggerLevel.Error);
+#endif
                 return 0;
             }
 
@@ -177,7 +191,11 @@ namespace MyHalp
             }
             catch (Exception ex)
             {
+#if USE_MYLOGGER
                 MyLogger.Add("MyTimer: " + ex, MyLoggerLevel.Error);
+#else
+                UnityLog.Log("MyTimer: " + ex, MyLoggerLevel.Error);
+#endif
             }
 
             lock (Actions)
@@ -201,7 +219,11 @@ namespace MyHalp
                 }
                 catch (Exception ex)
                 {
+#if USE_MYLOGGER
                     MyLogger.Add("MyTimer: " + ex, MyLoggerLevel.Error);
+#else
+                    UnityLog.Log("MyTimer: " + ex, MyLoggerLevel.Error);
+#endif
                 }
             }
         }

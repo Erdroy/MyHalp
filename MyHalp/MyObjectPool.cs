@@ -1,5 +1,7 @@
 ﻿// MyHalp © 2016-2017 Damian 'Erdroy' Korczowski
 
+#define USE_MYLOGGER
+
 using UnityEngine;
 using Object = UnityEngine.Object;
 
@@ -72,8 +74,12 @@ namespace MyHalp
 
                     if (!obj.Object)
                     {
-                        // wut the developer is doin with my childs?
-                        Debug.LogWarning("Found destroyed MyObjectPool object, this should never happen!");
+                        // wut the developer is doin' with my children?
+#if USE_MYLOGGER
+                        MyLogger.Add("Found destroyed MyObjectPool object, this should never happen!", MyLoggerLevel.Error);
+#else
+                        UnityLog.Log("Found destroyed MyObjectPool object, this should never happen!", MyLoggerLevel.Error);
+#endif
                         continue;
                     }
 

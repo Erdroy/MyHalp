@@ -12,18 +12,6 @@ namespace MyHalp
     public delegate void MyMessageHandler(string message, MyLoggerLevel level);
 
     /// <summary>
-    /// Log level enum
-    /// </summary>
-    public enum MyLoggerLevel
-    {
-        Info,
-        Debug,
-        Warning,
-        Error,
-        Fatal
-    }
-       
-    /// <summary>
     /// MyLogger class - allows to produce log file.
     /// It can be used for some debugging etc.
     /// </summary>

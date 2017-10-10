@@ -1,5 +1,7 @@
 ﻿// MyHalp © 2016-2017 Damian 'Erdroy' Korczowski
 
+#define USE_MYLOGGER
+
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -104,7 +106,11 @@ namespace MyHalp
             var commands = _commands.Where(x => x.Name == commandName && x.Parameters.Length == parameters.Length).ToArray();
             if (commands.Length != 0)
             {
+#if USE_MYLOGGER
                 MyLogger.Add("Command with this name(" + commandName + ") and the same parameters count already exists.", MyLoggerLevel.Error);
+#else
+                UnityLog.Log("Command with this name(" + commandName + ") and the same parameters count already exists.", MyLoggerLevel.Error);
+#endif
                 return;
             }
 
@@ -146,7 +152,11 @@ namespace MyHalp
 
             if (commands.Length == 0)
             {
-                MyLogger.Add("'" + commandName +"' command not found.", MyLoggerLevel.Error);
+#if USE_MYLOGGER
+                MyLogger.Add("'" + commandName + "' command not found.", MyLoggerLevel.Error);
+#else
+                UnityLog.Log("'" + commandName +"' command not found.", MyLoggerLevel.Error);
+#endif
                 return;
             }
 
@@ -164,7 +174,11 @@ namespace MyHalp
 
             if (!found)
             {
+#if USE_MYLOGGER
                 MyLogger.Add("'" + commandName + "' command exists, but invalid parameters were given." + parameters.Length, MyLoggerLevel.Error);
+#else
+                UnityLog.Log("'" + commandName + "' command exists, but invalid parameters were given." + parameters.Length, MyLoggerLevel.Error);
+#endif
                 return;
             }
 
@@ -191,7 +205,11 @@ namespace MyHalp
                         }
                         else
                         {
+#if USE_MYLOGGER
                             MyLogger.Add("invalid parameter type were given for '" + parameter + "'", MyLoggerLevel.Error);
+#else
+                            UnityLog.Log("invalid parameter type were given for '" + parameter + "'", MyLoggerLevel.Error);
+#endif
                             return;
                         }
                         break;
@@ -203,7 +221,11 @@ namespace MyHalp
                         }
                         else
                         {
+#if USE_MYLOGGER
                             MyLogger.Add("invalid parameter type were given for '" + parameter + "'", MyLoggerLevel.Error);
+#else
+                            UnityLog.Log("invalid parameter type were given for '" + parameter + "'", MyLoggerLevel.Error);
+#endif
                             return;
                         }
                         break;
@@ -215,7 +237,11 @@ namespace MyHalp
                         }
                         else
                         {
+#if USE_MYLOGGER
                             MyLogger.Add("invalid parameter type were given for '" + parameter + "'", MyLoggerLevel.Error);
+#else
+                            UnityLog.Log("invalid parameter type were given for '" + parameter + "'", MyLoggerLevel.Error);
+#endif
                             return;
                         }
                         break;
@@ -227,12 +253,20 @@ namespace MyHalp
                         }
                         else
                         {
+#if USE_MYLOGGER
                             MyLogger.Add("invalid parameter type were given for '" + parameter + "'", MyLoggerLevel.Error);
+#else
+                            UnityLog.Log("invalid parameter type were given for '" + parameter + "'", MyLoggerLevel.Error);
+#endif
                             return;
                         }
                         break;
                     default:
+#if USE_MYLOGGER
                         MyLogger.Add("command target method has invalid type in parameters!", MyLoggerLevel.Error);
+#else
+                        UnityLog.Log("command target method has invalid type in parameters!", MyLoggerLevel.Error);
+#endif
                         return;
                 }
                 

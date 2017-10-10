@@ -46,6 +46,7 @@
     <Compile Include="MyCommands.cs" />
     <Compile Include="MyConsole.cs" />
     <Compile Include="MyCursor.cs" />
+    <Compile Include="MyLoggerLevel.cs" />
     <Compile Include="MyMath\MyAngleSingle.cs" />
     <Compile Include="MyComponent.cs" />
     <Compile Include="MyDispatcher.cs" />
@@ -92,6 +93,7 @@
     <Compile Include="MyUnityExtensions.Math.cs" />
     <Compile Include="MyUnityExtensions.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="UnityLog.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

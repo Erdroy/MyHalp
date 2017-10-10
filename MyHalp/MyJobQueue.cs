@@ -1,9 +1,10 @@
 ﻿// MyHalp © 2016-2017 Damian 'Erdroy' Korczowski
 
+#define USE_MYLOGGER
+
 using System;
 using System.Collections.Generic;
 using System.Threading;
-using UnityEngine;
 
 namespace MyHalp
 {
@@ -25,7 +26,11 @@ namespace MyHalp
         {
             if (_executing)
             {
-                Debug.LogError("JobQueue is already began to execute already, cannot queue new callback.");
+#if USE_MYLOGGER
+                MyLogger.Add("JobQueue is already began to execute already, cannot queue new callback.", MyLoggerLevel.Warning);
+#else
+                UnityLog.Log("JobQueue is already began to execute already, cannot queue new callback.", MyLoggerLevel.Warning);
+#endif
                 return;
             }
             
