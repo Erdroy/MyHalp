@@ -32,45 +32,36 @@ namespace MyHalp
         // private
         private readonly List<Command> _commands = new List<Command>();
 
-        /// <summary>
-        /// Registers command with specified name and execution method in given command group.
-        /// </summary>
-        /// <param name="commandGroup">The command group, easily unregister batch of commands by one call.
-        /// Use this of eg.: level dependent commands, only 'when playing' command etc. </param>
-        /// <param name="commandName">The command name.</param>
-        /// <param name="onExecute">Called when command is being executed.</param>
-        /// <param name="description">(optional)The command description.</param>
+        [Obsolete("Please use MyCommands.Register")]
         public void RegisterCommand(string commandGroup, string commandName, Action onExecute, string description = "No description.")
         {
             RegisterCommandInternal(commandGroup, commandName, onExecute.Target, onExecute.Method, description);
         }
 
-        /// <summary>
-        /// Registers command with specified name and execution method in given command group.
-        /// </summary>
-        /// <param name="commandGroup">The command group, easily unregister batch of commands by one call.
-        /// Use this of eg.: level dependent commands, only 'when playing' command etc. </param>
-        /// <param name="commandName">The command name.</param>
-        /// <param name="onExecute">Called when command is being executed.</param>
-        /// <param name="description">(optional)The command description.</param>
+        [Obsolete("Please use MyCommands.Register")]
         public void RegisterCommand<T1>(string commandGroup, string commandName, Action<T1> onExecute, string description = "No description.")
         {
             RegisterCommandInternal(commandGroup, commandName, onExecute.Target, onExecute.Method, description);
         }
 
-        /// <summary>
-        /// Registers command with specified name and execution method in given command group.
-        /// </summary>
-        /// <param name="commandGroup">The command group, easily unregister batch of commands by one call.
-        /// Use this of eg.: level dependent commands, only 'when playing' command etc. </param>
-        /// <param name="commandName">The command name.</param>
-        /// <param name="onExecute">Called when command is being executed.</param>
-        /// <param name="description">(optional)The command description.</param>
+        [Obsolete("Please use MyCommands.Register")]
         public void RegisterCommand<T1, T2>(string commandGroup, string commandName, Action<T1, T2> onExecute, string description = "No description.")
         {
             RegisterCommandInternal(commandGroup, commandName, onExecute.Target, onExecute.Method, description);
         }
 
+        [Obsolete("Please use MyCommands.Register")]
+        public void RegisterCommand<T1, T2, T3>(string commandGroup, string commandName, Action<T1, T2, T3> onExecute, string description = "No description.")
+        {
+            RegisterCommandInternal(commandGroup, commandName, onExecute.Target, onExecute.Method, description);
+        }
+
+        [Obsolete("Please use MyCommands.Register")]
+        public void RegisterCommand<T1, T2, T3, T4>(string commandGroup, string commandName, Action<T1, T2, T3, T4> onExecute, string description = "No description.")
+        {
+            RegisterCommandInternal(commandGroup, commandName, onExecute.Target, onExecute.Method, description);
+        }
+        
         /// <summary>
         /// Registers command with specified name and execution method in given command group.
         /// </summary>
@@ -79,9 +70,9 @@ namespace MyHalp
         /// <param name="commandName">The command name.</param>
         /// <param name="onExecute">Called when command is being executed.</param>
         /// <param name="description">(optional)The command description.</param>
-        public void RegisterCommand<T1, T2, T3>(string commandGroup, string commandName, Action<T1, T2, T3> onExecute, string description = "No description.")
+        public static void Register(string commandGroup, string commandName, Action onExecute, string description = "No description.")
         {
-            RegisterCommandInternal(commandGroup, commandName, onExecute.Target, onExecute.Method, description);
+            Instance.RegisterCommandInternal(commandGroup, commandName, onExecute.Target, onExecute.Method, description);
         }
 
         /// <summary>
@@ -92,9 +83,48 @@ namespace MyHalp
         /// <param name="commandName">The command name.</param>
         /// <param name="onExecute">Called when command is being executed.</param>
         /// <param name="description">(optional)The command description.</param>
-        public void RegisterCommand<T1, T2, T3, T4>(string commandGroup, string commandName, Action<T1, T2, T3, T4> onExecute, string description = "No description.")
+        public static void Register<T1>(string commandGroup, string commandName, Action<T1> onExecute, string description = "No description.")
         {
-            RegisterCommandInternal(commandGroup, commandName, onExecute.Target, onExecute.Method, description);
+            Instance.RegisterCommandInternal(commandGroup, commandName, onExecute.Target, onExecute.Method, description);
+        }
+
+        /// <summary>
+        /// Registers command with specified name and execution method in given command group.
+        /// </summary>
+        /// <param name="commandGroup">The command group, easily unregister batch of commands by one call.
+        /// Use this of eg.: level dependent commands, only 'when playing' command etc. </param>
+        /// <param name="commandName">The command name.</param>
+        /// <param name="onExecute">Called when command is being executed.</param>
+        /// <param name="description">(optional)The command description.</param>
+        public static void Register<T1, T2>(string commandGroup, string commandName, Action<T1, T2> onExecute, string description = "No description.")
+        {
+            Instance.RegisterCommandInternal(commandGroup, commandName, onExecute.Target, onExecute.Method, description);
+        }
+
+        /// <summary>
+        /// Registers command with specified name and execution method in given command group.
+        /// </summary>
+        /// <param name="commandGroup">The command group, easily unregister batch of commands by one call.
+        /// Use this of eg.: level dependent commands, only 'when playing' command etc. </param>
+        /// <param name="commandName">The command name.</param>
+        /// <param name="onExecute">Called when command is being executed.</param>
+        /// <param name="description">(optional)The command description.</param>
+        public static void Register<T1, T2, T3>(string commandGroup, string commandName, Action<T1, T2, T3> onExecute, string description = "No description.")
+        {
+            Instance.RegisterCommandInternal(commandGroup, commandName, onExecute.Target, onExecute.Method, description);
+        }
+
+        /// <summary>
+        /// Registers command with specified name and execution method in given command group.
+        /// </summary>
+        /// <param name="commandGroup">The command group, easily unregister batch of commands by one call.
+        /// Use this of eg.: level dependent commands, only 'when playing' command etc. </param>
+        /// <param name="commandName">The command name.</param>
+        /// <param name="onExecute">Called when command is being executed.</param>
+        /// <param name="description">(optional)The command description.</param>
+        public static void Register<T1, T2, T3, T4>(string commandGroup, string commandName, Action<T1, T2, T3, T4> onExecute, string description = "No description.")
+        {
+            Instance.RegisterCommandInternal(commandGroup, commandName, onExecute.Target, onExecute.Method, description);
         }
         
         // internal

@@ -348,9 +348,9 @@ namespace MyHalp
             }
 
             // register default commands
-            MyCommands.Instance.RegisterCommand("", "clear", MyConsole.Clear, "Clears all console messages.");
+            MyCommands.Register("", "clear", Clear, "Clears all console messages.");
 
-            MyCommands.Instance.RegisterCommand("", "list", delegate
+            MyCommands.Register("", "list", delegate
             {
                 var commands = MyCommands.Instance.GetAllCommands();
 
