@@ -15,11 +15,11 @@ namespace MyHalp
     public enum MyTimerPrecision
     {
         /// <summary>
-        /// Low precision, using Unity's coroutine, low resources consumption.
+        /// Low precision, using Unity's co-routine, low resources consumption.
         /// </summary>
         Low,
 
-        // TODO: Medium, some more precision but dispatched and less resouces-eating?
+        // TODO: Medium, some more precision but dispatched and less resource-eating?
 
         /// <summary>
         /// High precision, using MyJob, method isn't called from non-main thread, high resources consumption.
@@ -30,26 +30,23 @@ namespace MyHalp
     /// <summary>
     /// MyTimer class, allows to run methods with delay.
     /// </summary>
-    public class MyTimer : MyComponent
+    public class MyTimer : MyComponent.Singleton<MyTimer>
     {
-   
-        private static MyTimer _instance;
         private static uint _id;
-
         private static readonly List<uint> Actions = new List<uint>();
-        
+
         /// <summary>
         /// Initialize MyTimer component.
         /// </summary>
+        [Obsolete("Init call is no longer required")]
         public static void Init()
         {
-            _instance = MyInstancer.Create<MyTimer>();
         }
 
         /// <summary>
         /// Runs delayed method.
         /// </summary>
-        /// <param name="time">How much time MyTimmer must wait before calling the method.</param>
+        /// <param name="time">How much time MyTimer must wait before calling the method.</param>
         /// <param name="method">The method to be called after a delay.</param>
         /// <param name="precision">Delay time precision.</param>
         /// <returns>The id of current timer action, can be used to cancel delay.</returns>
@@ -73,7 +70,7 @@ namespace MyHalp
             switch (precision)
             {
                 case MyTimerPrecision.Low:
-                    _instance.StartCoroutine(Delay(method, time, _id));
+                    Instance.StartCoroutine(Instance.Delay(method, time, _id));
                     break;
                 case MyTimerPrecision.High:
                     MyJob.Run(delegate
@@ -135,7 +132,7 @@ namespace MyHalp
             switch (precision)
             {
                 case MyTimerPrecision.Low:
-                    _instance.StartCoroutine(Interval(method, interval, _id));
+                    Instance.StartCoroutine(Instance.Interval(method, interval, _id));
                     break;
                 case MyTimerPrecision.High:
                     MyJob.Run(delegate
@@ -178,13 +175,14 @@ namespace MyHalp
         }
 
         // private
-        private static IEnumerator Delay(Action onDone, float time, uint id)
+        private IEnumerator Delay(Action onDone, float time, uint id)
         {
             yield return new WaitForSeconds(time);
-
+            
             lock (Actions)
                 if (!Actions.Contains(id)) // if the action was canceled
                     yield break;
+
             try
             {
                 onDone?.Invoke();
@@ -203,7 +201,7 @@ namespace MyHalp
         }
 
         // private
-        private static IEnumerator Interval(Action onDone, float time, uint id)
+        private IEnumerator Interval(Action onDone, float time, uint id)
         {
             while (true)
             {
