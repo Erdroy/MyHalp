@@ -1,4 +1,4 @@
-﻿// MyHalp © 2016-2017 Damian 'Erdroy' Korczowski
+﻿// MyHalp © 2016-2018 Damian 'Erdroy' Korczowski
 
 using System;
 using System.Threading;

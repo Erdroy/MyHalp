@@ -1,4 +1,4 @@
-﻿// MyHalp © 2016-2017 Damian 'Erdroy' Korczowski
+﻿// MyHalp © 2016-2018 Damian 'Erdroy' Korczowski
 
 #define USE_MYLOGGER
 
@@ -28,7 +28,7 @@ namespace MyHalp
             public object MethodTarget { get; set; }
             public MethodInfo Method { get; set; }
         }
-
+        
         // private
         private readonly List<Command> _commands = new List<Command>();
 
