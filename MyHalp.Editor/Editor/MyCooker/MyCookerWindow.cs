@@ -388,10 +388,7 @@ namespace MyHalp.Editor.MyCooker
         [MenuItem("Window/MyCooker/Build &B")]
         public static void Build()
         {
-            var cookerManager = new MyCookerManager();
-            cookerManager.Load();
-
-            cookerManager.Build();
+            Build(-1);
         }
 
         /// <summary>
@@ -413,6 +410,17 @@ namespace MyHalp.Editor.MyCooker
             cookerManager.Load();
 
             cookerManager.ResetDefines();
+        }
+
+        public static void Build(int preset)
+        {
+            var cookerManager = new MyCookerManager();
+            cookerManager.Load();
+
+            if(preset >= 0)
+                cookerManager.SelectedPreset = cookerManager.Presets[preset];
+
+            cookerManager.Build();
         }
     }
 }
