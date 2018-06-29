@@ -1,7 +1,4 @@
+/packages/
 .vs/
-MyHalp/obj/
-_Build/
+obj/
 MyHalp.sln.DotSettings.user
-*.pdb
-build/MyHalp.dll
-MyHalp.Editor/obj/
