@@ -2,10 +2,12 @@
 
 using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.IO;
 using System.Linq;
 using UnityEditor;
 using UnityEngine;
+using Debug = UnityEngine.Debug;
 
 namespace MyHalp.Editor.MyCooker
 {
@@ -105,22 +107,50 @@ namespace MyHalp.Editor.MyCooker
         // private
         private static void CallBuildEvent(string commands)
         {
-            var process = new System.Diagnostics.Process();
-            var startInfo = new System.Diagnostics.ProcessStartInfo
+            commands = commands.Replace("\"", "\"\"");
+            commands = commands.Replace("\\\\", "/");
+
+            var process = new Process();
+
+            if (IsLinux)
             {
-                WindowStyle = System.Diagnostics.ProcessWindowStyle.Hidden,
-                FileName = "cmd.exe",
-                Arguments = "/C \" " + commands + "\"",
-                UseShellExecute = false,
-                RedirectStandardOutput = true
-            };
-            process.StartInfo = startInfo;
+                Debug.Log("Executing LINUX command '" + commands + "'");
+                
+                // source: https://stackoverflow.com/questions/23029218/run-bash-commands-from-mono-c-sharp
+                var startInfo = new ProcessStartInfo
+                {
+                    FileName = "/bin/bash",
+                    Arguments = "-c \"" + commands + "\"",
+                    UseShellExecute = false,
+                    RedirectStandardOutput = true,
+                    CreateNoWindow = true
+                };
+                process.StartInfo = startInfo;
+            }
+            else
+            {
+                Debug.Log("Executing WINDOWS command '" + commands + "'");
+
+                var startInfo = new ProcessStartInfo
+                {
+                    WindowStyle = ProcessWindowStyle.Hidden,
+                    FileName = "cmd.exe",
+                    Arguments = "/C \" " + commands + "\"",
+                    UseShellExecute = false,
+                    RedirectStandardOutput = true
+                };
+                process.StartInfo = startInfo;
+            }
+
             process.Start();
             var output = process.StandardOutput.ReadToEnd();
             process.WaitForExit();
 
             if (!string.IsNullOrEmpty(output))
-                Debug.Log(output);
+            {
+                Debug.LogError(output);
+                Environment.ExitCode = -1;
+            }
         }
 
         // private
@@ -150,11 +180,7 @@ namespace MyHalp.Editor.MyCooker
 
             switch (target.BuildTarget)
             {
-                case BuildTarget.StandaloneOSXIntel:
-                    defines.Add("OSX");
-                    break;
-                case BuildTarget.StandaloneOSXUniversal:
-                case BuildTarget.StandaloneOSXIntel64:
+                case BuildTarget.StandaloneOSX:
                     defines.Add("OSX");
                     defines.Add("OSX64");
                     break;
@@ -213,6 +239,15 @@ namespace MyHalp.Editor.MyCooker
             }
 
             return options;
+        }
+
+        public static bool IsLinux
+        {
+            get
+            {
+                int p = (int)Environment.OSVersion.Platform;
+                return (p == 4) || (p == 6) || (p == 128);
+            }
         }
     }
 }

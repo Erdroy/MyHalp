@@ -164,7 +164,7 @@ namespace MyHalp
                             _scrollPos = GUILayout.BeginScrollView(_scrollPos);
                             {
                                 // show all messages
-                                if (Event.current.type == EventType.layout)
+                                if (Event.current.type == EventType.Layout)
                                 {
                                     lock (_messages)
                                     {
@@ -190,7 +190,7 @@ namespace MyHalp
                             {
                                 GUILayout.Space(5.0f);
 
-                                if (Event.current.isKey && Event.current.type == EventType.keyDown &&
+                                if (Event.current.isKey && Event.current.type == EventType.KeyDown &&
                                     (Event.current.keyCode == MySettings.ConsoleOpenCloseKey || Event.current.keyCode == KeyCode.Escape))
                                 {
                                     _enabled = false;
@@ -282,7 +282,7 @@ namespace MyHalp
             {
                 if (_currentCommand?.Length > 0)
                 {
-                    if (Event.current.isKey && Event.current.type == EventType.keyDown && Event.current.keyCode == KeyCode.Tab)
+                    if (Event.current.isKey && Event.current.type == EventType.KeyDown && Event.current.keyCode == KeyCode.Tab)
                     {
                         var commands = MyCommands.Instance.GetAllCommands();
                         var command = commands.FirstOrDefault(x => x.Name.StartsWith(_currentCommand));
@@ -297,7 +297,7 @@ namespace MyHalp
 
                 if (_commands.Count > 0)
                 {
-                    if (Event.current.isKey && Event.current.type == EventType.keyDown && Event.current.keyCode == KeyCode.UpArrow)
+                    if (Event.current.isKey && Event.current.type == EventType.KeyDown && Event.current.keyCode == KeyCode.UpArrow)
                     {
                         _backCommand--;
                         _backCommand = Mathf.Clamp(_backCommand, 0, _commands.Count - 1);
@@ -306,7 +306,7 @@ namespace MyHalp
                         var textEditor = (TextEditor)GUIUtility.GetStateObject(typeof(TextEditor), GUIUtility.keyboardControl);
                         textEditor.MoveTextEnd();
                     }
-                    if (Event.current.isKey && Event.current.type == EventType.keyDown && Event.current.keyCode == KeyCode.DownArrow)
+                    if (Event.current.isKey && Event.current.type == EventType.KeyDown && Event.current.keyCode == KeyCode.DownArrow)
                     {
                         _backCommand++;
                         _backCommand = Mathf.Clamp(_backCommand, 0, _commands.Count - 1);

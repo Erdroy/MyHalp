@@ -32,7 +32,7 @@ namespace MyHalp.Editor.MyCooker
             if (_loaded)
             {
                 // skip repaint call to prevent error after window init
-                if (Event.current.type == EventType.repaint)
+                if (Event.current.type == EventType.Repaint)
                 {
                     _loaded = false;
                     return;
