@@ -3,7 +3,6 @@
 using System;
 using System.Collections.Generic;
 using System.IO;
-using Newtonsoft.Json;
 using UnityEditor;
 using UnityEngine;
 
@@ -47,7 +46,7 @@ namespace MyHalp.Editor.MyCooker
             };
             obj.SelectedPreset = obj.Presets.IndexOf(SelectedPreset);
 
-            var data = JsonConvert.SerializeObject(obj, Formatting.Indented);
+            var data = JsonUtility.ToJson(obj, true);
             File.WriteAllText("mycooker.json", data); // TODO: check if this wokrks on mac/linux
         }
 
@@ -61,7 +60,7 @@ namespace MyHalp.Editor.MyCooker
                 var data = File.ReadAllText("mycooker.json");
                 try
                 {
-                    var obj = JsonConvert.DeserializeObject<SaveObject>(data);
+                    var obj = JsonUtility.FromJson<SaveObject>(data);
 
                     Presets = obj.Presets;
 

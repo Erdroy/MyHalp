@@ -3,7 +3,6 @@
 using System;
 using System.Collections.Generic;
 using System.IO;
-using Newtonsoft.Json;
 using UnityEditor;
 using UnityEngine;
 using UnityEngine.Audio;
@@ -37,7 +36,7 @@ namespace MyHalp.Editor.MyPreloader
                 var data = File.ReadAllText("mypreloader.json");
                 try
                 {
-                    _settings = JsonConvert.DeserializeObject<MyPreloaderSettings>(data);
+                    _settings = JsonUtility.FromJson<MyPreloaderSettings>(data);
                 }
                 catch
                 {
@@ -58,7 +57,7 @@ namespace MyHalp.Editor.MyPreloader
         // private
         private void Save()
         {
-            var data = JsonConvert.SerializeObject(_settings, Formatting.Indented);
+            var data = JsonUtility.ToJson(_settings, true);
             File.WriteAllText("mypreloader.json", data); // TODO: check if this wokrks on mac/linux
         }
 
