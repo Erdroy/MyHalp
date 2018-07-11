@@ -31,9 +31,8 @@ namespace MyHalp
 
             private GUIStyle _styleBox;
             private GUIStyle _styleField;
-
-            // override `OnInit`
-            protected override void OnStart()
+            
+            private void Start()
             {
                 // TODO: gui style
 
@@ -78,9 +77,8 @@ namespace MyHalp
                 
                 _scrollPos = Vector2.zero;
             }
-
-            // override `OnTick`
-            protected override void OnUpdate()
+            
+            private void Update()
             {
                 // toggle enable
                 if (Input.GetKeyDown(MySettings.ConsoleOpenCloseKey))
