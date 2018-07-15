@@ -23,14 +23,14 @@ namespace MyHalp.Editor.MyPreloader
                 RuntimeAnimatorController
             }
 
-            public Type AssetType { get; set; }
-            public bool IsArray { get; set; }
-            public string Define { get; set; }
-            public string AssetPath { get; set; }
-            public string[] ResourcePath { get; set; }
-            public string FriendlyName { get; set; }
+            public Type AssetType;
+            public bool IsArray;
+            public string Define;
+            public string AssetPath;
+            public string[] ResourcePath;
+            public string FriendlyName;
         }
 
-        public Asset[] Assets { get; set; }
+        public Asset[] Assets;
     }
 }

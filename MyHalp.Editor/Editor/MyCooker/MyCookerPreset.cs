@@ -21,35 +21,35 @@ namespace MyHalp.Editor.MyCooker
                 Shipping
             }
 
-            public string Name { get; set; }
+            public string Name;
 
-            public string OutputName { get; set; }
+            public string OutputName;
 
-            public string ExecutableName { get; set; }
+            public string ExecutableName;
 
-            public bool Headless { get; set; }
+            public bool Headless;
 
-            public BuildTarget BuildTarget { get; set; }
+            public BuildTarget BuildTarget;
 
-            public BuildType Type { get; set; }
-            
-            public bool BuildContent { get; set; }
+            public BuildType Type;
 
-            public string ContentDirectoryName { get; set; }
+            public bool BuildContent;
 
-            public BuildAssetBundleOptions ContentBuildOptions { get; set; }
+            public string ContentDirectoryName;
 
-            public string[] DefineSymbols { get; set; }
+            public BuildAssetBundleOptions ContentBuildOptions;
 
-            public string PreBuildAction { get; set; }
+            public string[] DefineSymbols;
 
-            public string PostBuildAction { get; set; }
+            public string PreBuildAction;
 
-            internal int BuildNumber { get; set; }
+            public string PostBuildAction;
+
+            internal int BuildNumber;
         }
 
-        public string Name { get; set; }
+        public string Name;
 
-        public List<Target> Targets { get; set; }
+        public List<Target> Targets;
     }
 }

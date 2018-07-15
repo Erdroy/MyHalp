@@ -15,8 +15,8 @@ namespace MyHalp.Editor.MyCooker
     {
         private struct SaveObject
         {
-            public List<MyCookerPreset> Presets { get; set; }
-            public int SelectedPreset { get; set; }
+            public List<MyCookerPreset> Presets;
+            public int SelectedPreset;
         }
 
         /// <summary>
